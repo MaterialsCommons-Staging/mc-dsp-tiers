@@ -1,0 +1,16 @@
+# One local hook, guarding the docs build config: declaring any
+# markdown_extensions in zensical.toml REPLACES Zensical's defaults rather than
+# extending them, so dropping one silently switches an extension off with no
+# warning and no build failure.
+#
+#   pre-commit install
+repos:
+  - repo: local
+    hooks:
+      - id: markdown-extensions
+        name: check zensical.toml restates Zensical's default Markdown extensions
+        entry: make check-extensions
+        language: system
+        pass_filenames: false
+        files: ^(zensical\.toml|scripts/check_markdown_extensions\.py|Makefile)$
+        require_serial: true

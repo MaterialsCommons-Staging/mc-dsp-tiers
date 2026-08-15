@@ -1,0 +1,84 @@
+name: main
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+# Pin zensical (docs build) and the zensical fork of mike (versioning bridge)
+# for reproducible builds/deploys.
+env:
+  ZENSICAL_VERSION: "0.0.46"
+  MIKE_SPEC: "git+https://github.com/squidfunk/mike.git@2.2.0+zensical-0.1.0"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v6
+      # Declaring any markdown_extensions replaces Zensical's defaults rather than
+      # extending them, so an omission silently switches an extension off instead of
+      # failing the build. zensical.toml restates the defaults to keep the effective
+      # set visible; this checks that restatement against the pinned Zensical, so
+      # bumping ZENSICAL_VERSION cannot change the set unnoticed.
+      - name: Check the restated Markdown extensions match Zensical's defaults
+        run: uv run --with zensical==${{ env.ZENSICAL_VERSION }} scripts/check_markdown_extensions.py
+      - name: Build the docs
+        run: uvx zensical@${{ env.ZENSICAL_VERSION }} build --clean
+
+  # Publish the versioned docs to the `gh-pages` branch with mike (the zensical
+  # fork). GitHub Pages must serve from `gh-pages`
+  # (Settings > Pages > Source: Deploy from a branch > gh-pages).
+  # main -> the `dev` version; a `vX.Y.Z` tag -> version `X.Y.Z` with the
+  # `latest` alias (and root redirect via set-default).
+  deploy:
+    needs: validate
+    runs-on: ubuntu-latest
+    # Serialize ALL deploys on one group so concurrent runs never race to push
+    # gh-pages. A per-ref group let a main push (-> dev) and a tag push (-> release)
+    # deploy simultaneously, and one lost the fast-forward.
+    # Queue rather than cancel so no deploy is dropped.
+    concurrency:
+      group: pages-deploy
+      cancel-in-progress: false
+    permissions:
+      contents: write  # mike pushes to gh-pages
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v6
+      # mike commits the built site to gh-pages; GitHub runners have no default
+      # git identity, so `git commit` would fail without this.
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Build only (pull request)
+        if: github.event_name != 'push'
+        run: uvx zensical@${{ env.ZENSICAL_VERSION }} build --clean
+      - name: Publish dev (push to main)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: uvx --from "$MIKE_SPEC" mike deploy --push dev
+      - name: Publish release (tag vX.Y.Z)
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          ver="${GITHUB_REF_NAME#v}"   # full semver (e.g. 0.4.0) -> served at /0.4.0/
+          # --alias-type=copy so /latest/ is a real directory rather than a redirect.
+          MIKE="uvx --from $MIKE_SPEC mike"
+          case "$ver" in
+            *-*)
+              # Pre-release (semver has a hyphen, e.g. 1.0.0-rc.1): publish the versioned
+              # docs only. Do NOT move `latest` or the site default - those track the most
+              # recent STABLE release, so /latest/ never serves a release candidate.
+              $MIKE deploy --push "$ver" ;;
+            *)
+              # Stable release: publish and repoint `latest` + the site default.
+              $MIKE deploy --push --alias-type=copy --update-aliases "$ver" latest
+              $MIKE set-default --push latest ;;
+          esac
