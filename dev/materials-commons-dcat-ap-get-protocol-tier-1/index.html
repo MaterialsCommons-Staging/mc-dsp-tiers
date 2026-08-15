@@ -2031,7 +2031,7 @@ conform to all three targets.</p>
 and the
 <a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/#provider-requirements">DCAT-AP provider requirements</a>.</p>
 <p>The normative conformance identifier for this profile is:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>https://materialscommons.org/specifications/mc-dcat-ap/3.0.1/tier-1
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>&lt;TBD&gt;/mc-dcat-ap/prototype-tier1
 </span></code></pre></div>
 <p>The identifier names the conformance profile and does not prescribe a
 deployment URL.</p>
@@ -2131,11 +2131,11 @@ apply.</p>
 <tbody>
 <tr>
 <td>Tier 1 DCAT-AP profile</td>
-<td><code>https://materialscommons.org/specifications/mc-dcat-ap/3.0.1/tier-1</code></td>
+<td><code>&lt;TBD&gt;/mc-dcat-ap/prototype-tier1</code></td>
 </tr>
 <tr>
 <td>Tier 1 DSP profile</td>
-<td><code>https://materialscommons.org/specifications/dsp/2025-1/tier-1</code></td>
+<td><code>&lt;TBD&gt;/dsp/prototype-tier1</code></td>
 </tr>
 <tr>
 <td>DSP 2025-1 specification</td>
@@ -2284,7 +2284,7 @@ and MUST be ignored by clients that do not understand them.</p>
 </tbody>
 </table>
 <p>The exact <code>profile</code> value MUST be:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>https://materialscommons.org/specifications/mc-dcat-ap/3.0.1/tier-1
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>&lt;TBD&gt;/mc-dcat-ap/prototype-tier1
 </span></code></pre></div>
 <p><code>endpoint</code> MUST NOT contain user information, a query, or a fragment.
 <code>dspVersionDiscovery</code>, when present, MUST end in
@@ -2297,7 +2297,7 @@ Unknown entry members MAY be present and MUST be ignored by clients.</p>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">&quot;services&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="p">{</span>
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">      </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;3.0.1&quot;</span><span class="p">,</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">      </span><span class="nt">&quot;profile&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://materialscommons.org/specifications/mc-dcat-ap/3.0.1/tier-1&quot;</span><span class="p">,</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">      </span><span class="nt">&quot;profile&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;TBD&gt;/mc-dcat-ap/prototype-tier1&quot;</span><span class="p">,</span>
 </span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">      </span><span class="nt">&quot;endpoint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/mc-dcat-ap/3.0.1/&quot;</span><span class="p">,</span>
 </span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">      </span><span class="nt">&quot;catalogueId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/catalogues/public&quot;</span><span class="p">,</span>
 </span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">      </span><span class="nt">&quot;serviceId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/services/mc-dcat-ap&quot;</span><span class="p">,</span>
@@ -2336,7 +2336,7 @@ or prior DSP negotiation.</p>
 <p>The profile parameter is a DCAT-AP 3.0.1 conformance claim. A response that has
 not passed Section 12 validation MUST NOT use it.</p>
 <p>The response SHOULD also contain:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Link: &lt;https://materialscommons.org/specifications/mc-dcat-ap/3.0.1/tier-1&gt;; rel=&quot;profile&quot;
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Link: &lt;&lt;TBD&gt;/mc-dcat-ap/prototype-tier1&gt;; rel=&quot;profile&quot;
 </span></code></pre></div>
 <h3 id="73-request-headers-and-status-codes">7.3 Request headers and status codes<a class="headerlink" href="#73-request-headers-and-status-codes" title="Permanent link">&para;</a></h3>
 <p>A client SHOULD send <code>Accept: application/ld+json</code>. A Provider MAY return
@@ -2458,7 +2458,7 @@ specialize DCAT
 and DCAT-AP
 <a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/#Catalogue">Catalogue</a>.</p>
 <p><code>dct:conformsTo</code> MUST include:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>https://materialscommons.org/specifications/mc-dcat-ap/3.0.1/tier-1
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>&lt;TBD&gt;/mc-dcat-ap/prototype-tier1
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>https://semiceu.github.io/DCAT-AP/releases/3.0.1/
 </span></code></pre></div>
 <p>Each referenced conformance resource MUST be asserted as a <code>dct:Standard</code> in
@@ -2874,7 +2874,7 @@ series, catalogue records, and identifiers.</p>
 </span><span id="__span-9-39"><a id="__codelineno-9-39" name="__codelineno-9-39" href="#__codelineno-9-39"></a><span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Public datasets and services.&quot;</span><span class="p">,</span>
 </span><span id="__span-9-40"><a id="__codelineno-9-40" name="__codelineno-9-40" href="#__codelineno-9-40"></a><span class="w">  </span><span class="nt">&quot;conformsTo&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 </span><span id="__span-9-41"><a id="__codelineno-9-41" name="__codelineno-9-41" href="#__codelineno-9-41"></a><span class="w">    </span><span class="p">{</span>
-</span><span id="__span-9-42"><a id="__codelineno-9-42" name="__codelineno-9-42" href="#__codelineno-9-42"></a><span class="w">      </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://materialscommons.org/specifications/mc-dcat-ap/3.0.1/tier-1&quot;</span><span class="p">,</span>
+</span><span id="__span-9-42"><a id="__codelineno-9-42" name="__codelineno-9-42" href="#__codelineno-9-42"></a><span class="w">      </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;TBD&gt;/mc-dcat-ap/prototype-tier1&quot;</span><span class="p">,</span>
 </span><span id="__span-9-43"><a id="__codelineno-9-43" name="__codelineno-9-43" href="#__codelineno-9-43"></a><span class="w">      </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Standard&quot;</span>
 </span><span id="__span-9-44"><a id="__codelineno-9-44" name="__codelineno-9-44" href="#__codelineno-9-44"></a><span class="w">    </span><span class="p">},</span>
 </span><span id="__span-9-45"><a id="__codelineno-9-45" name="__codelineno-9-45" href="#__codelineno-9-45"></a><span class="w">    </span><span class="p">{</span>
@@ -2920,7 +2920,7 @@ series, catalogue records, and identifiers.</p>
 </span><span id="__span-9-85"><a id="__codelineno-9-85" name="__codelineno-9-85" href="#__codelineno-9-85"></a><span class="w">    </span><span class="nt">&quot;endpointURL&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/mc-dcat-ap/3.0.1/&quot;</span><span class="p">,</span>
 </span><span id="__span-9-86"><a id="__codelineno-9-86" name="__codelineno-9-86" href="#__codelineno-9-86"></a><span class="w">    </span><span class="nt">&quot;conformsTo&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 </span><span id="__span-9-87"><a id="__codelineno-9-87" name="__codelineno-9-87" href="#__codelineno-9-87"></a><span class="w">      </span><span class="p">{</span>
-</span><span id="__span-9-88"><a id="__codelineno-9-88" name="__codelineno-9-88" href="#__codelineno-9-88"></a><span class="w">        </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://materialscommons.org/specifications/mc-dcat-ap/3.0.1/tier-1&quot;</span><span class="p">,</span>
+</span><span id="__span-9-88"><a id="__codelineno-9-88" name="__codelineno-9-88" href="#__codelineno-9-88"></a><span class="w">        </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;TBD&gt;/mc-dcat-ap/prototype-tier1&quot;</span><span class="p">,</span>
 </span><span id="__span-9-89"><a id="__codelineno-9-89" name="__codelineno-9-89" href="#__codelineno-9-89"></a><span class="w">        </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Standard&quot;</span>
 </span><span id="__span-9-90"><a id="__codelineno-9-90" name="__codelineno-9-90" href="#__codelineno-9-90"></a><span class="w">      </span><span class="p">},</span>
 </span><span id="__span-9-91"><a id="__codelineno-9-91" name="__codelineno-9-91" href="#__codelineno-9-91"></a><span class="w">      </span><span class="p">{</span>
