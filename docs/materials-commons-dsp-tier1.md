@@ -100,11 +100,15 @@ including the official DSP JSON Schemas and protected JSON-LD context.
 The normative conformance identifier for this profile is:
 
 ```text
-<TBD>/dsp/prototype-tier-1
+tag:materialscommons.eu,2026:dsp/prototype-tier-1
 ```
 
 This IRI identifies the profile. It does not prescribe the deployment URL of a
 Provider.
+
+The `tag:` URIs in this specification are provisional prototype
+identifiers (RFC 4151), marked (TBD) where they appear in prose, pending
+a working-group decision.
 
 ### 1.4 Exact relationship to DCAT and DCAT-AP
 
@@ -257,9 +261,9 @@ For this specification:
 |---|---|
 | DSP context | `https://w3id.org/dspace/2025/1/context.jsonld` |
 | DSP 2025-1-err1 specification | `https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/` |
-| Tier 1 DSP profile | `<TBD>/dsp/prototype-tier-1` |
-| Tier 1 DCAT-AP companion profile | `<TBD>/mc-dcat-ap/prototype-tier-1` |
-| Negotiated DCAT-AP feature | `<TBD>/dsp/prototype-tier-1#dcat-ap-content-negotiation` |
+| Tier 1 DSP profile | (TBD) `tag:materialscommons.eu,2026:dsp/prototype-tier-1` |
+| Tier 1 DCAT-AP companion profile | (TBD) `tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1` |
+| Negotiated DCAT-AP feature | (TBD) `tag:materialscommons.eu,2026:dsp/prototype-tier-1#dcat-ap-content-negotiation` |
 | DCAT-AP 3.0.1 profile | `https://semiceu.github.io/DCAT-AP/releases/3.0.1/` |
 | `dcat` | `http://www.w3.org/ns/dcat#` |
 | `dct` | `http://purl.org/dc/terms/` |
@@ -766,7 +770,7 @@ The companion service advertisement MUST contain:
 `dct:conformsTo` MUST include both:
 
 ```text
-<TBD>/mc-dcat-ap/prototype-tier-1
+tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1
 https://semiceu.github.io/DCAT-AP/releases/3.0.1/
 ```
 
@@ -794,9 +798,9 @@ The DSP access service's `dct:conformsTo` array MUST contain typed Standard
 objects for at least these four identifiers:
 
 ```text
-<TBD>/dsp/prototype-tier-1
+tag:materialscommons.eu,2026:dsp/prototype-tier-1
 https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/
-<TBD>/dsp/prototype-tier-1#dcat-ap-content-negotiation
+tag:materialscommons.eu,2026:dsp/prototype-tier-1#dcat-ap-content-negotiation
 https://semiceu.github.io/DCAT-AP/releases/3.0.1/
 ```
 
@@ -856,7 +860,7 @@ Vary: Accept
 The response SHOULD also contain:
 
 ```http
-Link: <TBD>/mc-dcat-ap/prototype-tier-1>; rel="profile"
+Link: <tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1>; rel="profile"
 ```
 
 The response is an additional Materials Commons DCAT-AP representation, not a
@@ -918,7 +922,7 @@ The following is non-normative:
     "endpointURL": "https://provider.example/mc-dcat-ap/3.0.1/",
     "dct:conformsTo": [
       {
-        "@id": "<TBD>/mc-dcat-ap/prototype-tier-1",
+        "@id": "tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1",
         "@type": "dct:Standard"
       },
       {
@@ -937,7 +941,7 @@ The following is non-normative:
     "endpointURL": "https://provider.example/dsp/2025-1",
     "dct:conformsTo": [
       {
-        "@id": "<TBD>/dsp/prototype-tier-1",
+        "@id": "tag:materialscommons.eu,2026:dsp/prototype-tier-1",
         "@type": "dct:Standard"
       },
       {
@@ -945,7 +949,7 @@ The following is non-normative:
         "@type": "dct:Standard"
       },
       {
-        "@id": "<TBD>/dsp/prototype-tier-1#dcat-ap-content-negotiation",
+        "@id": "tag:materialscommons.eu,2026:dsp/prototype-tier-1#dcat-ap-content-negotiation",
         "@type": "dct:Standard"
       },
       {
@@ -1359,7 +1363,7 @@ Accept: application/json
       "endpointURL": "https://provider.example/dsp/2025-1",
       "dct:conformsTo": [
         {
-          "@id": "<TBD>/dsp/prototype-tier-1",
+          "@id": "tag:materialscommons.eu,2026:dsp/prototype-tier-1",
           "@type": "dct:Standard"
         },
         {

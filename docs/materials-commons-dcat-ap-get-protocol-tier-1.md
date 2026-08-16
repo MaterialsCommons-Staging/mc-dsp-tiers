@@ -72,11 +72,15 @@ and the
 The normative conformance identifier for this profile is:
 
 ```text
-<TBD>/mc-dcat-ap/prototype-tier1
+tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1
 ```
 
 The identifier names the conformance profile and does not prescribe a
 deployment URL.
+
+The `tag:` URIs in this specification are provisional prototype
+identifiers (RFC 4151), marked (TBD) where they appear in prose, pending
+a working-group decision.
 
 When this specification is published at a stable public location, the profile
 IRI SHOULD dereference to this document or to authoritative metadata linking
@@ -179,8 +183,8 @@ For this specification:
 
 | Prefix or name | IRI |
 |---|---|
-| Tier 1 DCAT-AP profile | `<TBD>/mc-dcat-ap/prototype-tier1` |
-| Tier 1 DSP profile | `<TBD>/dsp/prototype-tier1` |
+| Tier 1 DCAT-AP profile | (TBD) `tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1` |
+| Tier 1 DSP profile | (TBD) `tag:materialscommons.eu,2026:dsp/prototype-tier-1` |
 | DSP 2025-1 specification | `https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/` |
 | DCAT-AP 3.0.1 profile | `https://semiceu.github.io/DCAT-AP/releases/3.0.1/` |
 | `dcat` | `http://www.w3.org/ns/dcat#` |
@@ -279,7 +283,7 @@ Each service entry MUST contain:
 The exact `profile` value MUST be:
 
 ```text
-<TBD>/mc-dcat-ap/prototype-tier1
+tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1
 ```
 
 `endpoint` MUST NOT contain user information, a query, or a fragment.
@@ -297,7 +301,7 @@ Unknown entry members MAY be present and MUST be ignored by clients.
   "services": [
     {
       "version": "3.0.1",
-      "profile": "<TBD>/mc-dcat-ap/prototype-tier1",
+      "profile": "tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1",
       "endpoint": "https://provider.example/mc-dcat-ap/3.0.1/",
       "catalogueId": "https://provider.example/catalogues/public",
       "serviceId": "https://provider.example/services/mc-dcat-ap",
@@ -356,7 +360,7 @@ not passed Section 12 validation MUST NOT use it.
 The response SHOULD also contain:
 
 ```text
-Link: <<TBD>/mc-dcat-ap/prototype-tier1>; rel="profile"
+Link: <tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1>; rel="profile"
 ```
 
 ### 7.3 Request headers and status codes
@@ -440,7 +444,7 @@ and DCAT-AP
 `dct:conformsTo` MUST include:
 
 ```text
-<TBD>/mc-dcat-ap/prototype-tier1
+tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1
 https://semiceu.github.io/DCAT-AP/releases/3.0.1/
 ```
 
@@ -796,7 +800,7 @@ Extensions MUST NOT:
   "description": "Public datasets and services.",
   "conformsTo": [
     {
-      "@id": "<TBD>/mc-dcat-ap/prototype-tier1",
+      "@id": "tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1",
       "@type": "Standard"
     },
     {
@@ -842,7 +846,7 @@ Extensions MUST NOT:
     "endpointURL": "https://provider.example/mc-dcat-ap/3.0.1/",
     "conformsTo": [
       {
-        "@id": "<TBD>/mc-dcat-ap/prototype-tier1",
+        "@id": "tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1",
         "@type": "Standard"
       },
       {
