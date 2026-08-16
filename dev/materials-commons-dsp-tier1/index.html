@@ -2378,10 +2378,13 @@ machine-readable service advertisement defined in Section 9.</p>
 <a href="https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#conformance">DSP conformance section</a>,
 including the official DSP JSON Schemas and protected JSON-LD context.</p>
 <p>The normative conformance identifier for this profile is:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>&lt;TBD&gt;/dsp/prototype-tier-1
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>tag:materialscommons.eu,2026:dsp/prototype-tier-1
 </span></code></pre></div>
 <p>This IRI identifies the profile. It does not prescribe the deployment URL of a
 Provider.</p>
+<p>The <code>tag:</code> URIs in this specification are provisional prototype
+identifiers (RFC 4151), marked (TBD) where they appear in prose, pending
+a working-group decision.</p>
 <h3 id="14-exact-relationship-to-dcat-and-dcat-ap">1.4 Exact relationship to DCAT and DCAT-AP<a class="headerlink" href="#14-exact-relationship-to-dcat-and-dcat-ap" title="Permanent link">&para;</a></h3>
 <p>DSP 2025-1 deliberately reuses DCAT classes and properties through a
 restricted DSP profile. Its catalogue is therefore recognizably DCAT-shaped,
@@ -2532,15 +2535,15 @@ apply.</p>
 </tr>
 <tr>
 <td>Tier 1 DSP profile</td>
-<td><code>&lt;TBD&gt;/dsp/prototype-tier-1</code></td>
+<td>(TBD) <code>tag:materialscommons.eu,2026:dsp/prototype-tier-1</code></td>
 </tr>
 <tr>
 <td>Tier 1 DCAT-AP companion profile</td>
-<td><code>&lt;TBD&gt;/mc-dcat-ap/prototype-tier-1</code></td>
+<td>(TBD) <code>tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1</code></td>
 </tr>
 <tr>
 <td>Negotiated DCAT-AP feature</td>
-<td><code>&lt;TBD&gt;/dsp/prototype-tier-1#dcat-ap-content-negotiation</code></td>
+<td>(TBD) <code>tag:materialscommons.eu,2026:dsp/prototype-tier-1#dcat-ap-content-negotiation</code></td>
 </tr>
 <tr>
 <td>DCAT-AP 3.0.1 profile</td>
@@ -3192,7 +3195,7 @@ advertised unless the companion <code>GET</code> service is also present.</p>
 </tbody>
 </table>
 <p><code>dct:conformsTo</code> MUST include both:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>&lt;TBD&gt;/mc-dcat-ap/prototype-tier-1
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>https://semiceu.github.io/DCAT-AP/releases/3.0.1/
 </span></code></pre></div>
 <p>The exact Materials Commons profile IRI is the machine-readable discriminator.
@@ -3211,9 +3214,9 @@ advertised on the existing DSP access service from Section 8.6. A Provider
 MUST NOT invent a second distribution access service for this purpose.</p>
 <p>The DSP access service's <code>dct:conformsTo</code> array MUST contain typed Standard
 objects for at least these four identifiers:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>&lt;TBD&gt;/dsp/prototype-tier-1
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>tag:materialscommons.eu,2026:dsp/prototype-tier-1
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>&lt;TBD&gt;/dsp/prototype-tier-1#dcat-ap-content-negotiation
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>tag:materialscommons.eu,2026:dsp/prototype-tier-1#dcat-ap-content-negotiation
 </span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>https://semiceu.github.io/DCAT-AP/releases/3.0.1/
 </span></code></pre></div>
 <p>Each value MUST be an <code>@id</code> object with <code>@type</code> equal to <code>dct:Standard</code>. The
@@ -3260,7 +3263,7 @@ return <code>200 OK</code> with:</p>
 </span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="err">Vary: Accept</span>
 </span></code></pre></div>
 <p>The response SHOULD also contain:</p>
-<div class="language-http highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="err">Link: &lt;TBD&gt;/mc-dcat-ap/prototype-tier-1&gt;; rel=&quot;profile&quot;</span>
+<div class="language-http highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="err">Link: &lt;tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1&gt;; rel=&quot;profile&quot;</span>
 </span></code></pre></div>
 <p>The response is an additional Materials Commons DCAT-AP representation, not a
 DSP response message. Ordinary DSP catalogue requests and all DSP error
@@ -3309,7 +3312,7 @@ typed service-level <code>dct:conformsTo</code> statements above.</p>
 </span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">    </span><span class="nt">&quot;endpointURL&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/mc-dcat-ap/3.0.1/&quot;</span><span class="p">,</span>
 </span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">    </span><span class="nt">&quot;dct:conformsTo&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 </span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">      </span><span class="p">{</span>
-</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">        </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;TBD&gt;/mc-dcat-ap/prototype-tier-1&quot;</span><span class="p">,</span>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">        </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1&quot;</span><span class="p">,</span>
 </span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">        </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dct:Standard&quot;</span>
 </span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="w">      </span><span class="p">},</span>
 </span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="w">      </span><span class="p">{</span>
@@ -3328,7 +3331,7 @@ typed service-level <code>dct:conformsTo</code> statements above.</p>
 </span><span id="__span-16-25"><a id="__codelineno-16-25" name="__codelineno-16-25" href="#__codelineno-16-25"></a><span class="w">    </span><span class="nt">&quot;endpointURL&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/dsp/2025-1&quot;</span><span class="p">,</span>
 </span><span id="__span-16-26"><a id="__codelineno-16-26" name="__codelineno-16-26" href="#__codelineno-16-26"></a><span class="w">    </span><span class="nt">&quot;dct:conformsTo&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 </span><span id="__span-16-27"><a id="__codelineno-16-27" name="__codelineno-16-27" href="#__codelineno-16-27"></a><span class="w">      </span><span class="p">{</span>
-</span><span id="__span-16-28"><a id="__codelineno-16-28" name="__codelineno-16-28" href="#__codelineno-16-28"></a><span class="w">        </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;TBD&gt;/dsp/prototype-tier-1&quot;</span><span class="p">,</span>
+</span><span id="__span-16-28"><a id="__codelineno-16-28" name="__codelineno-16-28" href="#__codelineno-16-28"></a><span class="w">        </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tag:materialscommons.eu,2026:dsp/prototype-tier-1&quot;</span><span class="p">,</span>
 </span><span id="__span-16-29"><a id="__codelineno-16-29" name="__codelineno-16-29" href="#__codelineno-16-29"></a><span class="w">        </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dct:Standard&quot;</span>
 </span><span id="__span-16-30"><a id="__codelineno-16-30" name="__codelineno-16-30" href="#__codelineno-16-30"></a><span class="w">      </span><span class="p">},</span>
 </span><span id="__span-16-31"><a id="__codelineno-16-31" name="__codelineno-16-31" href="#__codelineno-16-31"></a><span class="w">      </span><span class="p">{</span>
@@ -3336,7 +3339,7 @@ typed service-level <code>dct:conformsTo</code> statements above.</p>
 </span><span id="__span-16-33"><a id="__codelineno-16-33" name="__codelineno-16-33" href="#__codelineno-16-33"></a><span class="w">        </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dct:Standard&quot;</span>
 </span><span id="__span-16-34"><a id="__codelineno-16-34" name="__codelineno-16-34" href="#__codelineno-16-34"></a><span class="w">      </span><span class="p">},</span>
 </span><span id="__span-16-35"><a id="__codelineno-16-35" name="__codelineno-16-35" href="#__codelineno-16-35"></a><span class="w">      </span><span class="p">{</span>
-</span><span id="__span-16-36"><a id="__codelineno-16-36" name="__codelineno-16-36" href="#__codelineno-16-36"></a><span class="w">        </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;TBD&gt;/dsp/prototype-tier-1#dcat-ap-content-negotiation&quot;</span><span class="p">,</span>
+</span><span id="__span-16-36"><a id="__codelineno-16-36" name="__codelineno-16-36" href="#__codelineno-16-36"></a><span class="w">        </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tag:materialscommons.eu,2026:dsp/prototype-tier-1#dcat-ap-content-negotiation&quot;</span><span class="p">,</span>
 </span><span id="__span-16-37"><a id="__codelineno-16-37" name="__codelineno-16-37" href="#__codelineno-16-37"></a><span class="w">        </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dct:Standard&quot;</span>
 </span><span id="__span-16-38"><a id="__codelineno-16-38" name="__codelineno-16-38" href="#__codelineno-16-38"></a><span class="w">      </span><span class="p">},</span>
 </span><span id="__span-16-39"><a id="__codelineno-16-39" name="__codelineno-16-39" href="#__codelineno-16-39"></a><span class="w">      </span><span class="p">{</span>
@@ -3741,7 +3744,7 @@ representation is supplied. Extension metadata MUST NOT:</p>
 </span><span id="__span-20-38"><a id="__codelineno-20-38" name="__codelineno-20-38" href="#__codelineno-20-38"></a><span class="w">      </span><span class="nt">&quot;endpointURL&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/dsp/2025-1&quot;</span><span class="p">,</span>
 </span><span id="__span-20-39"><a id="__codelineno-20-39" name="__codelineno-20-39" href="#__codelineno-20-39"></a><span class="w">      </span><span class="nt">&quot;dct:conformsTo&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 </span><span id="__span-20-40"><a id="__codelineno-20-40" name="__codelineno-20-40" href="#__codelineno-20-40"></a><span class="w">        </span><span class="p">{</span>
-</span><span id="__span-20-41"><a id="__codelineno-20-41" name="__codelineno-20-41" href="#__codelineno-20-41"></a><span class="w">          </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;TBD&gt;/dsp/prototype-tier-1&quot;</span><span class="p">,</span>
+</span><span id="__span-20-41"><a id="__codelineno-20-41" name="__codelineno-20-41" href="#__codelineno-20-41"></a><span class="w">          </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tag:materialscommons.eu,2026:dsp/prototype-tier-1&quot;</span><span class="p">,</span>
 </span><span id="__span-20-42"><a id="__codelineno-20-42" name="__codelineno-20-42" href="#__codelineno-20-42"></a><span class="w">          </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dct:Standard&quot;</span>
 </span><span id="__span-20-43"><a id="__codelineno-20-43" name="__codelineno-20-43" href="#__codelineno-20-43"></a><span class="w">        </span><span class="p">},</span>
 </span><span id="__span-20-44"><a id="__codelineno-20-44" name="__codelineno-20-44" href="#__codelineno-20-44"></a><span class="w">        </span><span class="p">{</span>
