@@ -25,23 +25,23 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="zensical-0.0.54">
+      <meta name="generator" content="zensical-0.0.59">
     
     
       
-        <title>PROTOTYPE DRAFT FOR DISCUSSION: Materials Commons DSP Tier 1 (Public Datasets and Services) - Materials Commons DSP Tiers</title>
+        <title>DSP Tier 1 - Materials Commons DSP Tiers</title>
       
     
     
       
         
       
-      <link rel="stylesheet" href="../assets/stylesheets/modern/main.20815dad.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/modern/main.5da3a30f.min.css">
       
         
           
         
-        <link rel="stylesheet" href="../assets/stylesheets/modern/palette.dfe2e883.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/modern/palette.812a03bb.min.css">
       
       
 
@@ -125,7 +125,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              PROTOTYPE DRAFT FOR DISCUSSION: Materials Commons DSP Tier 1 (Public Datasets and Services)
+              DSP Tier 1
             
           </span>
         </div>
@@ -1198,6 +1198,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#175-independent-consumer-interoperability-non-normative" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        17.5 Independent consumer interoperability (non-normative)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2169,6 +2180,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#175-independent-consumer-interoperability-non-normative" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        17.5 Independent consumer interoperability (non-normative)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2312,7 +2334,8 @@ requirement.</p>
 <p>The separately specified
 <a href="../materials-commons-dcat-ap-get-protocol-tier-1/">Materials Commons DCAT-AP GET Protocol Tier 1</a> provides an optional,
 strict DCAT-AP 3.0.1 representation of the same public catalogue. The two
-representations use the same JSON value except for <code>@context</code>; changing that
+representations use the same complete catalogue JSON value except for
+<code>@context</code>, after assembling pages when pagination is used; changing that
 context repairs the one unavoidable RDF literal-versus-IRI conflict imposed by
 DSP. Conformance to the companion protocol is not required for conformance to
 this document.</p>
@@ -2320,14 +2343,15 @@ this document.</p>
 <p>Materials Commons DSP Tier 1 defines a small, deterministic Dataspace
 Protocol provider profile for datasets and services that are already
 public. The profile aims to provide the minimum functionality needed
-to make such datasets accessible to conforming DSP consumers without
-requiring authentication or access control.</p>
+to make such datasets accessible to DSP consumers supporting this profile
+without requiring authentication or access control.</p>
 <p>It provides:</p>
 <ol>
 <li>unauthenticated DSP version discovery;</li>
-<li>unauthenticated DSP catalogue and individual-dataset discovery;</li>
-<li>one unconditional ODRL <code>use</code> offer and one public HTTPS-pull distribution
-   for each dataset;</li>
+<li>unauthenticated DSP catalogue and individual-dataset discovery, with
+   optional catalogue pagination;</li>
+<li>one unconditional ODRL <code>use</code> offer and one or more public HTTPS-pull
+   distributions for each dataset;</li>
 <li>the provider endpoints required for the selected DSP contract-negotiation
    and transfer-process flows;</li>
 <li>a direct, unauthenticated HTTPS data plane that is not protected by the DSP
@@ -2341,7 +2365,7 @@ requiring authentication or access control.</p>
 </ol>
 <p>Tier 1 deliberately excludes authentication, authorization, confidential or
 embargoed datasets, negotiated policy constraints, push transfer, catalogue
-filters, catalogue pagination, proof exchange, and broker replication. The
+filters, proof exchange, and broker replication. The
 DSP <code>application/json</code> response does not claim DCAT-AP conformance because its
 official context necessarily expands <code>dcat:endpointURL</code> as an RDF literal. An
 optional <code>application/ld+json</code> alternate representation can make the complete
@@ -2351,10 +2375,10 @@ alone. DSP requires each advertised Distribution to reference a
 DataService whose endpoint is used to initiate Contract Negotiation
 and Transfer Process operations. Consequently, a self-contained
 provider that has no existing DSP Connector must also provide these
-Connector operations for its catalogue to be actionable by standard
-DSP consumers. Tier 1 therefore defines the minimal
-contract-negotiation and transfer-process flows for otherwise directly
-accessible public datasets.</p>
+Connector operations for its catalogue to be actionable by
+DSP consumers supporting this profile's format-to-transport mapping. Tier 1
+therefore defines the minimal contract-negotiation and transfer-process flows
+for otherwise directly accessible public datasets.</p>
 <h2 id="1-conformance-and-requirement-language">1. Conformance and requirement language<a class="headerlink" href="#1-conformance-and-requirement-language" title="Permanent link">&para;</a></h2>
 <h3 id="11-normative-language">1.1 Normative language<a class="headerlink" href="#11-normative-language" title="Permanent link">&para;</a></h3>
 <p>The key words <strong>MUST</strong>, <strong>MUST NOT</strong>, <strong>REQUIRED</strong>, <strong>SHALL</strong>, <strong>SHALL NOT</strong>,
@@ -2427,6 +2451,10 @@ follows these rules:</p>
 <li>expansion under that alternate context MUST satisfy all applicable
    DCAT-AP 3.0.1 constraints without exception.</li>
 </ol>
+<p>When pagination is used, RDF conformance and complete-catalogue equality
+apply to the snapshot reconstructed under Section 7.5. Each DSP page MUST
+still satisfy its JSON Schema, and corresponding DSP and negotiated DCAT-AP
+pages differ only as permitted by Section 9.5.</p>
 <p>The JSON-LD context is a mapping mechanism, not a complete validation
 language. Requirements such as class membership of an EU File Type concept
 are therefore stated normatively here and asserted explicitly in the payload,
@@ -2442,7 +2470,7 @@ services for unrestricted discovery and retrieval. A consumer can discover
 and download a Tier 1 dataset without credentials, tokens, proofs, or prior
 authorization.</p>
 <p>At this protocol tier, Contract Negotiation and Transfer Process are
-implemented only at the level needed to allows the standard DSP
+implemented only at the level needed to allow the standard DSP
 access protocol to give access to all distributions, and cannot
 be used to limit that access.</p>
 <h3 id="22-included-capabilities">2.2 Included capabilities<a class="headerlink" href="#22-included-capabilities" title="Permanent link">&para;</a></h3>
@@ -2450,8 +2478,10 @@ be used to limit that access.</p>
 <ul>
 <li>DSP 2025-1 version discovery over HTTPS;</li>
 <li>provider-side DSP catalogue, negotiation, and transfer endpoints;</li>
-<li>complete-catalogue retrieval without server-side filtering;</li>
+<li>complete-catalogue retrieval without server-side filtering, optionally
+  across pages using DSP HTTP <code>Link</code> pagination;</li>
 <li>retrieval of one dataset description by its exact identifier;</li>
+<li>one or more public distributions per dataset, with distinct format values;</li>
 <li>public, finite, consumer-pull transfer over HTTPS;</li>
 <li>unconditional ODRL permission to perform the <code>use</code> action;</li>
 <li>process termination, suspension, resumption, and completion within the
@@ -2473,12 +2503,10 @@ be used to limit that access.</p>
 <li>push transfer and consumer-supplied data addresses;</li>
 <li>non-finite streams;</li>
 <li>server-side catalogue filtering or query languages;</li>
-<li>catalogue pagination;</li>
 <li>catalogue proof-metadata endpoints;</li>
 <li>DID-based service discovery requirements;</li>
 <li>catalogue brokers and catalogue replication;</li>
-<li>data-plane protocols other than HTTPS pull;</li>
-<li>durable persistence of negotiation or transfer-process state; and</li>
+<li>data-plane protocols other than HTTPS pull; and</li>
 <li>a DCAT 3 or DCAT-AP conformance claim for the DSP <code>application/json</code>
   response.</li>
 </ul>
@@ -2506,11 +2534,12 @@ apply.</p>
   Materials Commons DCAT-AP Tier 1 and advertised as specified in Section 9.</li>
 <li><strong>Public distribution</strong> means a distribution whose direct HTTPS URL is usable
   without authentication or authorization.</li>
-<li><strong>Catalogue snapshot</strong> means one internally consistent catalogue response
+<li><strong>Catalogue snapshot</strong> means one internally consistent complete catalogue
   and the dataset, offer, distribution, publisher, and service metadata used
-  to construct it.</li>
+  to construct it. A response MAY carry the whole snapshot or one page of it.</li>
 <li><strong>Common catalogue value</strong> means the JSON value of a catalogue snapshot
-  after removing its top-level <code>@context</code> member. Object-member order,
+  after assembling any pages as specified in Section 7.5 and removing its
+  top-level <code>@context</code> member. Object-member order,
   insignificant whitespace, and equivalent JSON number spellings are not
   part of this value.</li>
 <li><strong>Negotiated DCAT-AP feature</strong> means the optional Section 9
@@ -2597,9 +2626,10 @@ HTTPS.</p>
 <p>Catalogue, participant, publisher, dataset, offer, distribution, and service
 identifiers MUST be stable. Dataset, offer, and distribution identifiers MUST
 each be unique within a catalogue snapshot.</p>
-<p>When no independent offer or distribution identifier has been assigned, a
-Provider SHOULD derive one by appending <code>#offer</code> or <code>#distribution</code> to the
-dataset identifier.</p>
+<p>When no independent offer identifier has been assigned, a Provider SHOULD
+derive one by appending <code>#offer</code> to the dataset identifier. A sole distribution
+MAY similarly use <code>#distribution</code>. Multiple distributions MUST have distinct,
+stable identifiers, for example <code>#distribution-csv</code> and <code>#distribution-json</code>.</p>
 <h2 id="5-https-service-organization">5. HTTPS service organization<a class="headerlink" href="#5-https-service-organization" title="Permanent link">&para;</a></h2>
 <h3 id="51-location-independence">5.1 Location independence<a class="headerlink" href="#51-location-independence" title="Permanent link">&para;</a></h3>
 <p>This specification does not prescribe the path of <code>&lt;root&gt;</code> or <code>&lt;base&gt;</code>.
@@ -2741,10 +2771,10 @@ least one entry having:</p>
 </ul>
 <p>For the non-normative path arrangement in Section 5.1, that entry is:</p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-1&quot;</span><span class="p">,</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/2025-1&quot;</span><span class="p">,</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">&quot;binding&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HTTPS&quot;</span><span class="p">,</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="nt">&quot;serviceId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/services/dsp&quot;</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-1"</span><span class="p">,</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/2025-1"</span><span class="p">,</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">"binding"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HTTPS"</span><span class="p">,</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="nt">"serviceId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/services/dsp"</span>
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="p">}</span>
 </span></code></pre></div>
 <p>Additional version entries MAY be present and are outside this profile.</p>
@@ -2760,8 +2790,9 @@ and its
 <p><code>filter</code> MUST be absent or an empty array. A non-empty filter MUST produce
 <code>400 Bad Request</code> with a <code>CatalogError</code> whose code identifies an unsupported
 filter.</p>
-<p>A successful request MUST return <code>200 OK</code> and the complete current DSP
-catalogue. It MUST NOT require pagination.</p>
+<p>A successful request MUST return <code>200 OK</code> and either the complete current DSP
+catalogue or its first page, with navigation as specified in Section 7.5.
+Pagination is OPTIONAL for Tier 1 Providers.</p>
 <h3 id="72-catalogue-response">7.2 Catalogue response<a class="headerlink" href="#72-catalogue-response" title="Permanent link">&para;</a></h3>
 <p>The response MUST satisfy the DSP
 <a href="https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#ack-catalog">Catalog response requirements</a>
@@ -2784,8 +2815,9 @@ and contain:</p>
 <li>an optional negotiated DCAT-AP feature declaration on the DSP access service
   conforming to Section 9.</li>
 </ul>
-<p>The response MUST be internally consistent. It MUST NOT contain duplicate
-dataset, offer, distribution, or service identifiers.</p>
+<p>The response MUST be internally consistent. Dataset, offer, distribution,
+and service identifiers MUST be unique throughout the complete snapshot,
+including when its datasets are split across pages as specified in Section 7.5.</p>
 <p>The response is a DSP document. Under the official DSP context its
 <code>endpointURL</code> values remain RDF literals, so that JSON-LD expansion is not a
 DCAT 3 or DCAT-AP conformant RDF representation. The catalogue-level
@@ -2805,7 +2837,7 @@ and contain:</p>
 <li>non-empty <code>dct:title</code> and <code>dct:description</code> values;</li>
 <li>one publisher with an absolute IRI and non-empty name;</li>
 <li>exactly one <code>hasPolicy</code> value conforming to Section 8.4; and</li>
-<li>exactly one <code>distribution</code> value conforming to Section 8.5.</li>
+<li>one or more <code>distribution</code> values conforming to Section 8.5.</li>
 </ul>
 <p>All datasets in one snapshot MUST use the catalogue publisher's identifier and
 name.</p>
@@ -2825,15 +2857,44 @@ MUST return <code>404 Not Found</code> with <code>CatalogError</code>.</p>
 <p>Tier 1 defines no filter language. Consumers MUST filter the returned
 catalogue locally, consistent with DSP
 <a href="https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#queries-and-filter-expressions">Queries and Filter Expressions</a>.</p>
-<p>Catalogue responses MUST be complete and unpaginated. HTTP content coding MAY
-be used when normal HTTP negotiation is respected and decoded content is
-unchanged.</p>
+<p>Providers MAY paginate catalogue responses following DSP
+<a href="https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#pagination">Pagination</a>.
+An unpaginated response MUST contain the complete snapshot. If pagination is
+used, navigation MUST use the HTTP <code>Link</code> header with <code>next</code> and <code>previous</code>
+relations for adjacent pages where they exist. The last page MUST omit <code>next</code>
+and the first MUST omit <code>previous</code>. Consumers retrieving the complete catalogue
+MUST follow <code>next</code> links until no next page remains.</p>
+<p>For this profile, page links MUST be absolute HTTPS URLs accepting <code>POST</code>
+with the same <code>CatalogRequestMessage</code> body and representation selection as
+the initial request. Their query parameters are implementation-defined and
+MUST be treated as opaque by Consumers. Page retrieval MUST remain
+unauthenticated and satisfy the same response and error requirements as the
+initial request. An expired or unknown page reference MUST return
+<code>404 CatalogError</code>; a Consumer MAY restart from the initial catalogue request.</p>
+<p>Each page MUST be a schema-conforming Catalog containing complete dataset
+entries. Only the top-level <code>dataset</code> array varies across pages of a snapshot;
+all other catalogue properties, including service metadata, MUST be identical.
+Following all <code>next</code> links MUST yield every dataset in that snapshot exactly
+once. The complete catalogue is reconstructed by concatenating those <code>dataset</code>
+arrays and retaining the common catalogue properties. A page reference MUST
+NOT silently switch to another snapshot when publication metadata changes.</p>
+<p>HTTP content coding MAY be used independently of pagination when normal HTTP
+negotiation is respected and decoded content is unchanged.</p>
 <h3 id="76-rdf-alignment-and-validation">7.6 RDF alignment and validation<a class="headerlink" href="#76-rdf-alignment-and-validation" title="Permanent link">&para;</a></h3>
-<p>The Provider MUST expand each catalogue snapshot using the official DSP
-context and validate the resulting RDF graph against the authoritative
-DCAT-AP 3.0.1 mandatory-property, range, and controlled-vocabulary SHACL
-shapes. Validation MUST be performed against pinned, provenance-recorded
-copies and MUST NOT depend on live network retrieval.</p>
+<p>Each complete catalogue snapshot, when expanded using the official DSP
+context, MUST satisfy the authoritative DCAT-AP 3.0.1 mandatory-property,
+range, and controlled-vocabulary SHACL constraints, with only the exception
+below. For paginated catalogues this requirement applies to the reconstructed
+complete snapshot from Section 7.5; each DSP page MUST still satisfy its JSON
+Schema and the publication requirements for the entries it carries.</p>
+<p>This is an output-conformance requirement. A Provider MAY ensure it through
+validated publication inputs, pre-generated catalogues, JSON-LD/SHACL
+processing, or an equivalent method. Providers are not required to run a
+JSON-LD processor or SHACL engine, or to repeat validation during requests.
+Regardless of method, non-conforming output remains a conformance failure.</p>
+<p>The reference procedure for conformance checking is to expand the complete
+snapshot and validate it against pinned, provenance-recorded copies of the
+authoritative shapes. Such checks MUST NOT depend on live network retrieval.</p>
 <p>This requirement fixes the validation choices left to an implementing data
 exchange by the DCAT-AP
 <a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/#validation-of-dcat-ap">validation guidance</a>
@@ -2924,7 +2985,9 @@ DSP context does not define the <code>foaf</code> prefix.</p>
 Each dataset MUST refer to the same publisher and MUST either include its name
 or identify the catalogue publisher node carrying that name.</p>
 <h3 id="83-dataset-declaration">8.3 Dataset declaration<a class="headerlink" href="#83-dataset-declaration" title="Permanent link">&para;</a></h3>
-<p>Each dataset MUST define:</p>
+<p>Each dataset MUST define the following metadata. Cardinalities for fields
+marked "per distribution" apply independently to each of its one or more
+distributions.</p>
 <table>
 <thead>
 <tr>
@@ -2961,32 +3024,32 @@ or identify the catalogue publisher node carrying that name.</p>
 </tr>
 <tr>
 <td>Distribution identifier</td>
-<td style="text-align: right;"><code>1</code></td>
+<td style="text-align: right;"><code>1</code> per distribution</td>
 <td>Absolute stable IRI; unique</td>
 </tr>
 <tr>
 <td>Public access URL</td>
-<td style="text-align: right;"><code>1</code></td>
+<td style="text-align: right;"><code>1</code> per distribution</td>
 <td>Absolute HTTPS URL</td>
 </tr>
 <tr>
 <td>EU file-type IRI</td>
-<td style="text-align: right;"><code>1</code></td>
-<td>EU File Type concept</td>
+<td style="text-align: right;"><code>1</code> per distribution</td>
+<td>EU File Type concept; distinct within the dataset</td>
 </tr>
 <tr>
 <td>IANA media-type IRI</td>
-<td style="text-align: right;"><code>1</code></td>
+<td style="text-align: right;"><code>1</code> per distribution</td>
 <td>Registered media-type IRI</td>
 </tr>
 <tr>
 <td>Byte size</td>
-<td style="text-align: right;"><code>0..1</code></td>
+<td style="text-align: right;"><code>0..1</code> per distribution</td>
 <td>Non-negative integer</td>
 </tr>
 <tr>
 <td>SHA-256 digest</td>
-<td style="text-align: right;"><code>0..1</code></td>
+<td style="text-align: right;"><code>0..1</code> per distribution</td>
 <td>64 lower-case hexadecimal characters</td>
 </tr>
 </tbody>
@@ -2998,9 +3061,9 @@ MUST NOT be serialized.</p>
 <h3 id="84-unconditional-odrl-offer">8.4 Unconditional ODRL offer<a class="headerlink" href="#84-unconditional-odrl-offer" title="Permanent link">&para;</a></h3>
 <p>Each dataset MUST have exactly one advertised ODRL Offer:</p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/datasets/example#offer&quot;</span><span class="p">,</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Offer&quot;</span><span class="p">,</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">&quot;permission&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;use&quot;</span><span class="p">}]</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/datasets/example#offer"</span><span class="p">,</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Offer"</span><span class="p">,</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">"permission"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"use"</span><span class="p">}]</span>
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">}</span>
 </span></code></pre></div>
 <p>The catalogue form MUST NOT contain <code>target</code>, because DSP derives it from the
@@ -3011,7 +3074,8 @@ licence, copyright, attribution, citation, or ethical-use metadata.</p>
 <code>target</code> equal to the dataset identifier, following the DSP
 <a href="https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#contract-request-message">Contract Request Message</a>.</p>
 <h3 id="85-distribution-and-dcat-ap-aligned-metadata">8.5 Distribution and DCAT-AP-aligned metadata<a class="headerlink" href="#85-distribution-and-dcat-ap-aligned-metadata" title="Permanent link">&para;</a></h3>
-<p>Each dataset MUST have exactly one DSP Distribution containing:</p>
+<p>Each dataset MUST have one or more DSP Distributions. Each Distribution MUST
+contain:</p>
 <ul>
 <li>absolute <code>@id</code> and <code>@type</code> equal to <code>Distribution</code>;</li>
 <li><code>format</code> equal to the full EU File Type IRI;</li>
@@ -3038,10 +3102,10 @@ and <a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/#Distribution.acce
 <code>dct:format</code> member supplies the class assertion that DCAT-AP validation
 requires but the protected DSP context cannot express for that string:</p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">&quot;format&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://publications.europa.eu/resource/authority/file-type/CSV&quot;</span><span class="p">,</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">&quot;dct:format&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://publications.europa.eu/resource/authority/file-type/CSV&quot;</span><span class="p">,</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dct:MediaTypeOrExtent&quot;</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">"format"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://publications.europa.eu/resource/authority/file-type/CSV"</span><span class="p">,</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">"dct:format"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://publications.europa.eu/resource/authority/file-type/CSV"</span><span class="p">,</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:MediaTypeOrExtent"</span>
 </span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">  </span><span class="p">}</span>
 </span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="p">}</span>
 </span></code></pre></div>
@@ -3076,9 +3140,16 @@ response unless that behavior is explicitly part of the publication system.</p>
 </table>
 <p>Another representation MAY be published only with explicitly supplied EU File
 Type and IANA media-type IRIs.</p>
-<p><code>TransferRequestMessage.format</code> MUST exactly equal the distribution's
-advertised DSP <code>format</code>. Within this profile, every such value selects HTTPS
-consumer-pull behavior. A different value MUST be rejected.</p>
+<p>Distributions within one dataset MUST have distinct DSP <code>format</code> values.
+<code>TransferRequestMessage.format</code> MUST exactly match one advertised distribution
+of the Agreement's target dataset. The Provider MUST select that distribution
+and reject an unknown format. This permits, for example, CSV and JSON
+representations of the same dataset under its single unconditional offer.</p>
+<p>Within this profile, every advertised format value selects HTTPS consumer-pull
+behavior. This mapping is a Materials Commons profile convention; DSP alone
+does not define EU file-type IRIs as transport selections. Consumers using
+the DSP transfer flow MUST support this mapping. Direct public downloads
+remain available without DSP negotiation or transfer.</p>
 <h3 id="86-dsp-access-service">8.6 DSP access service<a class="headerlink" href="#86-dsp-access-service" title="Permanent link">&para;</a></h3>
 <p>The DSP access service MUST have a stable absolute <code>@id</code>, <code>@type</code> equal to
 <code>DataService</code>, a non-empty <code>dct:title</code>, and <code>endpointURL</code> equal to <code>&lt;base&gt;</code>. It
@@ -3086,7 +3157,9 @@ MUST occur in the root catalogue <code>service</code> array. It MUST contain
 <code>dct:conformsTo</code> values for both the Materials Commons DSP Tier 1 profile and
 DSP 2025-1-err1, expressed as <code>@id</code> objects with <code>@type</code> equal to
 <code>dct:Standard</code>. It MUST contain <code>dcat:servesDataset</code> as <code>@id</code> objects naming
-every dataset in the snapshot.</p>
+every dataset in the snapshot. When pagination is used, this complete list
+and the rest of the service metadata MUST be repeated identically on each
+page; it is not limited to the datasets carried by that page.</p>
 <p>If the Section 9 negotiated DCAT-AP feature is supported, this service's
 <code>dct:conformsTo</code> values MUST additionally include the negotiated DCAT-AP
 feature IRI and the DCAT-AP 3.0.1 profile IRI, each typed <code>dct:Standard</code>.</p>
@@ -3101,9 +3174,9 @@ DCAT-conformant, because doing so violates the DSP JSON Schema.</p>
 the public download URL. It MUST use an explicit JSON-LD value object whose
 <code>@type</code> is the full <code>xsd:nonNegativeInteger</code> IRI:</p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">&quot;dcat:byteSize&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="nt">&quot;@value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;12345&quot;</span><span class="p">,</span>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://www.w3.org/2001/XMLSchema#nonNegativeInteger&quot;</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">"dcat:byteSize"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="nt">"@value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345"</span><span class="p">,</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://www.w3.org/2001/XMLSchema#nonNegativeInteger"</span>
 </span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span><span class="p">}</span>
 </span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="p">}</span>
 </span></code></pre></div>
@@ -3121,14 +3194,14 @@ file is replaced; the Provider SHOULD update them promptly.</p>
 <p>Because the DSP context defines neither <code>spdx</code> nor its checksum terms, a
 checksum in a DSP response MUST use full IRIs, as follows:</p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">&quot;http://spdx.org/rdf/terms#checksum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://spdx.org/rdf/terms#Checksum&quot;</span><span class="p">,</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="nt">&quot;http://spdx.org/rdf/terms#algorithm&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">      </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://spdx.org/rdf/terms#checksumAlgorithm_sha256&quot;</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">"http://spdx.org/rdf/terms#checksum"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://spdx.org/rdf/terms#Checksum"</span><span class="p">,</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="nt">"http://spdx.org/rdf/terms#algorithm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">      </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://spdx.org/rdf/terms#checksumAlgorithm_sha256"</span>
 </span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="p">},</span>
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="nt">&quot;http://spdx.org/rdf/terms#checksumValue&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">      </span><span class="nt">&quot;@value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef&quot;</span><span class="p">,</span>
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">      </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://www.w3.org/2001/XMLSchema#hexBinary&quot;</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="nt">"http://spdx.org/rdf/terms#checksumValue"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">      </span><span class="nt">"@value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"</span><span class="p">,</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">      </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://www.w3.org/2001/XMLSchema#hexBinary"</span>
 </span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="p">}</span>
 </span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">  </span><span class="p">}</span>
 </span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="p">}</span>
@@ -3259,11 +3332,11 @@ When such a list excludes <code>application/json</code>, normal HTTP negotiation
 produce <code>406 Not Acceptable</code>.</p>
 <p>For a valid explicit JSON-LD request, a Provider advertising this feature MUST
 return <code>200 OK</code> with:</p>
-<div class="language-http highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="err">Content-Type: application/ld+json; profile=&quot;https://semiceu.github.io/DCAT-AP/releases/3.0.1/&quot;</span>
+<div class="language-http highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="err">Content-Type: application/ld+json; profile="https://semiceu.github.io/DCAT-AP/releases/3.0.1/"</span>
 </span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="err">Vary: Accept</span>
 </span></code></pre></div>
 <p>The response SHOULD also contain:</p>
-<div class="language-http highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="err">Link: &lt;tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1&gt;; rel=&quot;profile&quot;</span>
+<div class="language-http highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="err">Link: &lt;tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1&gt;; rel="profile"</span>
 </span></code></pre></div>
 <p>The response is an additional Materials Commons DCAT-AP representation, not a
 DSP response message. Ordinary DSP catalogue requests and all DSP error
@@ -3276,14 +3349,21 @@ DCAT-AP response, and the companion <code>GET</code> response MUST have the same
 catalogue value. No dataset, service, policy, distribution, metadata property,
 or conformance value may be added, removed, or changed between those
 representations.</p>
+<p>When DSP responses are paginated, this equality applies to the reconstructed
+complete snapshot, not to an individual page. A negotiated DCAT-AP response
+at a DSP page URL MUST contain the same page payload except for <code>@context</code>,
+with the same navigation links and the Section 9.4 representation headers.
+The companion <code>GET</code> service retains its separately specified retrieval
+behavior; it need not share DSP page boundaries. Its complete catalogue MUST
+equal the reconstructed DSP catalogue after removing <code>@context</code>.</p>
 <p>The negotiated and companion responses MUST replace the complete top-level
 DSP <code>@context</code>; they MUST NOT attempt to override terms in the protected DSP
 context. Their owned context MUST include the equivalent of:</p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="p">{</span>
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="nt">&quot;dcat&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://www.w3.org/ns/dcat#&quot;</span><span class="p">,</span>
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span><span class="nt">&quot;endpointURL&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dcat:endpointURL&quot;</span><span class="p">,</span>
-</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">    </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@id&quot;</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="nt">"dcat"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://www.w3.org/ns/dcat#"</span><span class="p">,</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span><span class="nt">"endpointURL"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dcat:endpointURL"</span><span class="p">,</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@id"</span>
 </span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">  </span><span class="p">}</span>
 </span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="p">}</span>
 </span></code></pre></div>
@@ -3306,49 +3386,49 @@ typed service-level <code>dct:conformsTo</code> statements above.</p>
 <p>The following is non-normative:</p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="p">[</span>
 </span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span><span class="p">{</span>
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/services/mc-dcat-ap&quot;</span><span class="p">,</span>
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">    </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DataService&quot;</span><span class="p">,</span>
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">    </span><span class="nt">&quot;dct:title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Public Materials Commons DCAT-AP catalogue&quot;</span><span class="p">,</span>
-</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">    </span><span class="nt">&quot;endpointURL&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/mc-dcat-ap/3.0.1/&quot;</span><span class="p">,</span>
-</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">    </span><span class="nt">&quot;dct:conformsTo&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/services/mc-dcat-ap"</span><span class="p">,</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DataService"</span><span class="p">,</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">    </span><span class="nt">"dct:title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Public Materials Commons DCAT-AP catalogue"</span><span class="p">,</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">    </span><span class="nt">"endpointURL"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/mc-dcat-ap/3.0.1/"</span><span class="p">,</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">    </span><span class="nt">"dct:conformsTo"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 </span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">      </span><span class="p">{</span>
-</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">        </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1&quot;</span><span class="p">,</span>
-</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">        </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dct:Standard&quot;</span>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">        </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1"</span><span class="p">,</span>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">        </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:Standard"</span>
 </span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="w">      </span><span class="p">},</span>
 </span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="w">      </span><span class="p">{</span>
-</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="w">        </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://semiceu.github.io/DCAT-AP/releases/3.0.1/&quot;</span><span class="p">,</span>
-</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="w">        </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dct:Standard&quot;</span>
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="w">        </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://semiceu.github.io/DCAT-AP/releases/3.0.1/"</span><span class="p">,</span>
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="w">        </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:Standard"</span>
 </span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a><span class="w">      </span><span class="p">}</span>
 </span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="w">    </span><span class="p">],</span>
-</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="w">    </span><span class="nt">&quot;dcat:servesDataset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="w">      </span><span class="p">{</span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/datasets/example&quot;</span><span class="p">}</span>
+</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="w">    </span><span class="nt">"dcat:servesDataset"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="w">      </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/datasets/example"</span><span class="p">}</span>
 </span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a><span class="w">    </span><span class="p">]</span>
 </span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a><span class="w">  </span><span class="p">},</span>
 </span><span id="__span-16-21"><a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a><span class="w">  </span><span class="p">{</span>
-</span><span id="__span-16-22"><a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a><span class="w">    </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/services/dsp&quot;</span><span class="p">,</span>
-</span><span id="__span-16-23"><a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a><span class="w">    </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DataService&quot;</span><span class="p">,</span>
-</span><span id="__span-16-24"><a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a><span class="w">    </span><span class="nt">&quot;dct:title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Public DSP service&quot;</span><span class="p">,</span>
-</span><span id="__span-16-25"><a id="__codelineno-16-25" name="__codelineno-16-25" href="#__codelineno-16-25"></a><span class="w">    </span><span class="nt">&quot;endpointURL&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/dsp/2025-1&quot;</span><span class="p">,</span>
-</span><span id="__span-16-26"><a id="__codelineno-16-26" name="__codelineno-16-26" href="#__codelineno-16-26"></a><span class="w">    </span><span class="nt">&quot;dct:conformsTo&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-16-22"><a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a><span class="w">    </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/services/dsp"</span><span class="p">,</span>
+</span><span id="__span-16-23"><a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a><span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DataService"</span><span class="p">,</span>
+</span><span id="__span-16-24"><a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a><span class="w">    </span><span class="nt">"dct:title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Public DSP service"</span><span class="p">,</span>
+</span><span id="__span-16-25"><a id="__codelineno-16-25" name="__codelineno-16-25" href="#__codelineno-16-25"></a><span class="w">    </span><span class="nt">"endpointURL"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/dsp/2025-1"</span><span class="p">,</span>
+</span><span id="__span-16-26"><a id="__codelineno-16-26" name="__codelineno-16-26" href="#__codelineno-16-26"></a><span class="w">    </span><span class="nt">"dct:conformsTo"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 </span><span id="__span-16-27"><a id="__codelineno-16-27" name="__codelineno-16-27" href="#__codelineno-16-27"></a><span class="w">      </span><span class="p">{</span>
-</span><span id="__span-16-28"><a id="__codelineno-16-28" name="__codelineno-16-28" href="#__codelineno-16-28"></a><span class="w">        </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tag:materialscommons.eu,2026:dsp/prototype-tier-1&quot;</span><span class="p">,</span>
-</span><span id="__span-16-29"><a id="__codelineno-16-29" name="__codelineno-16-29" href="#__codelineno-16-29"></a><span class="w">        </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dct:Standard&quot;</span>
+</span><span id="__span-16-28"><a id="__codelineno-16-28" name="__codelineno-16-28" href="#__codelineno-16-28"></a><span class="w">        </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tag:materialscommons.eu,2026:dsp/prototype-tier-1"</span><span class="p">,</span>
+</span><span id="__span-16-29"><a id="__codelineno-16-29" name="__codelineno-16-29" href="#__codelineno-16-29"></a><span class="w">        </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:Standard"</span>
 </span><span id="__span-16-30"><a id="__codelineno-16-30" name="__codelineno-16-30" href="#__codelineno-16-30"></a><span class="w">      </span><span class="p">},</span>
 </span><span id="__span-16-31"><a id="__codelineno-16-31" name="__codelineno-16-31" href="#__codelineno-16-31"></a><span class="w">      </span><span class="p">{</span>
-</span><span id="__span-16-32"><a id="__codelineno-16-32" name="__codelineno-16-32" href="#__codelineno-16-32"></a><span class="w">        </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/&quot;</span><span class="p">,</span>
-</span><span id="__span-16-33"><a id="__codelineno-16-33" name="__codelineno-16-33" href="#__codelineno-16-33"></a><span class="w">        </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dct:Standard&quot;</span>
+</span><span id="__span-16-32"><a id="__codelineno-16-32" name="__codelineno-16-32" href="#__codelineno-16-32"></a><span class="w">        </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/"</span><span class="p">,</span>
+</span><span id="__span-16-33"><a id="__codelineno-16-33" name="__codelineno-16-33" href="#__codelineno-16-33"></a><span class="w">        </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:Standard"</span>
 </span><span id="__span-16-34"><a id="__codelineno-16-34" name="__codelineno-16-34" href="#__codelineno-16-34"></a><span class="w">      </span><span class="p">},</span>
 </span><span id="__span-16-35"><a id="__codelineno-16-35" name="__codelineno-16-35" href="#__codelineno-16-35"></a><span class="w">      </span><span class="p">{</span>
-</span><span id="__span-16-36"><a id="__codelineno-16-36" name="__codelineno-16-36" href="#__codelineno-16-36"></a><span class="w">        </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tag:materialscommons.eu,2026:dsp/prototype-tier-1#dcat-ap-content-negotiation&quot;</span><span class="p">,</span>
-</span><span id="__span-16-37"><a id="__codelineno-16-37" name="__codelineno-16-37" href="#__codelineno-16-37"></a><span class="w">        </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dct:Standard&quot;</span>
+</span><span id="__span-16-36"><a id="__codelineno-16-36" name="__codelineno-16-36" href="#__codelineno-16-36"></a><span class="w">        </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tag:materialscommons.eu,2026:dsp/prototype-tier-1#dcat-ap-content-negotiation"</span><span class="p">,</span>
+</span><span id="__span-16-37"><a id="__codelineno-16-37" name="__codelineno-16-37" href="#__codelineno-16-37"></a><span class="w">        </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:Standard"</span>
 </span><span id="__span-16-38"><a id="__codelineno-16-38" name="__codelineno-16-38" href="#__codelineno-16-38"></a><span class="w">      </span><span class="p">},</span>
 </span><span id="__span-16-39"><a id="__codelineno-16-39" name="__codelineno-16-39" href="#__codelineno-16-39"></a><span class="w">      </span><span class="p">{</span>
-</span><span id="__span-16-40"><a id="__codelineno-16-40" name="__codelineno-16-40" href="#__codelineno-16-40"></a><span class="w">        </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://semiceu.github.io/DCAT-AP/releases/3.0.1/&quot;</span><span class="p">,</span>
-</span><span id="__span-16-41"><a id="__codelineno-16-41" name="__codelineno-16-41" href="#__codelineno-16-41"></a><span class="w">        </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dct:Standard&quot;</span>
+</span><span id="__span-16-40"><a id="__codelineno-16-40" name="__codelineno-16-40" href="#__codelineno-16-40"></a><span class="w">        </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://semiceu.github.io/DCAT-AP/releases/3.0.1/"</span><span class="p">,</span>
+</span><span id="__span-16-41"><a id="__codelineno-16-41" name="__codelineno-16-41" href="#__codelineno-16-41"></a><span class="w">        </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:Standard"</span>
 </span><span id="__span-16-42"><a id="__codelineno-16-42" name="__codelineno-16-42" href="#__codelineno-16-42"></a><span class="w">      </span><span class="p">}</span>
 </span><span id="__span-16-43"><a id="__codelineno-16-43" name="__codelineno-16-43" href="#__codelineno-16-43"></a><span class="w">    </span><span class="p">],</span>
-</span><span id="__span-16-44"><a id="__codelineno-16-44" name="__codelineno-16-44" href="#__codelineno-16-44"></a><span class="w">    </span><span class="nt">&quot;dcat:servesDataset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-</span><span id="__span-16-45"><a id="__codelineno-16-45" name="__codelineno-16-45" href="#__codelineno-16-45"></a><span class="w">      </span><span class="p">{</span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/datasets/example&quot;</span><span class="p">}</span>
+</span><span id="__span-16-44"><a id="__codelineno-16-44" name="__codelineno-16-44" href="#__codelineno-16-44"></a><span class="w">    </span><span class="nt">"dcat:servesDataset"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-16-45"><a id="__codelineno-16-45" name="__codelineno-16-45" href="#__codelineno-16-45"></a><span class="w">      </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/datasets/example"</span><span class="p">}</span>
 </span><span id="__span-16-46"><a id="__codelineno-16-46" name="__codelineno-16-46" href="#__codelineno-16-46"></a><span class="w">    </span><span class="p">]</span>
 </span><span id="__span-16-47"><a id="__codelineno-16-47" name="__codelineno-16-47" href="#__codelineno-16-47"></a><span class="w">  </span><span class="p">}</span>
 </span><span id="__span-16-48"><a id="__codelineno-16-48" name="__codelineno-16-48" href="#__codelineno-16-48"></a><span class="p">]</span>
@@ -3432,6 +3512,10 @@ fragment.</p>
 commit <code>OFFERED</code> after acknowledgement. In <code>OFFERED</code>, the Consumer MAY send an
 <code>ACCEPTED</code> event or return the exact same offer as a counter-request. Tier 1
 does not permit changed terms.</p>
+<p>The direct-agreement flow is sufficient for the initial implementation;
+sending offers need only be added when a target Consumer requires this
+optional branch. The required provider endpoints and state-transition checks
+remain applicable.</p>
 <h3 id="115-agreement">11.5 Agreement<a class="headerlink" href="#115-agreement" title="Permanent link">&para;</a></h3>
 <p>The Agreement MUST contain a unique <code>@id</code>, <code>@type</code> equal to <code>Agreement</code>, target
 equal to one catalogue dataset, assigner equal to the Provider participant,
@@ -3444,9 +3528,11 @@ state or <code>404</code>. Either party MAY terminate a nonterminal process. All
 message process identifiers MUST match. Invalid transitions or mismatches MUST
 return <code>400</code> without changing state.</p>
 <p>An outbound state MUST NOT be committed before its callback receives <code>2xx</code>.
-A failed callback SHOULD be attempted once more, for at most two attempts.
-After final failure, the Provider SHOULD attempt termination and MUST NOT
-report the unacknowledged target state.</p>
+Retry counts, timing, and backoff are implementation choices; Tier 1 does not
+prescribe a fixed attempt count. Retries MUST preserve message and process
+identity and MUST NOT overwrite a newer acknowledged state. After the
+Provider abandons delivery, it SHOULD attempt termination and MUST NOT report
+the unacknowledged target state. These rules also apply to transfer callbacks.</p>
 <h2 id="12-transfer-process">12. Transfer process<a class="headerlink" href="#12-transfer-process" title="Permanent link">&para;</a></h2>
 <h3 id="121-preconditions-and-request">12.1 Preconditions and request<a class="headerlink" href="#121-preconditions-and-request" title="Permanent link">&para;</a></h3>
 <p>A transfer MUST refer to a current Agreement in <code>FINALIZED</code> whose target is a
@@ -3468,12 +3554,13 @@ Reusing it with different values MUST return <code>400</code> and preserve the p
 </span></code></pre></div>
 <p>It MUST include both process identifiers and:</p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="p">{</span>
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">  </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DataAddress&quot;</span><span class="p">,</span>
-</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">  </span><span class="nt">&quot;endpointType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://w3id.org/idsa/v4.1/HTTP&quot;</span><span class="p">,</span>
-</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">  </span><span class="nt">&quot;endpoint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/files/dataset.csv&quot;</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DataAddress"</span><span class="p">,</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">  </span><span class="nt">"endpointType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://w3id.org/idsa/v4.1/HTTP"</span><span class="p">,</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">  </span><span class="nt">"endpoint"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/files/dataset.csv"</span>
 </span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="p">}</span>
 </span></code></pre></div>
-<p><code>endpoint</code> MUST equal the resolved public access and download URL.
+<p><code>endpoint</code> MUST equal the resolved public access and download URL of the
+distribution selected by the request's <code>format</code>.
 <code>endpointProperties</code> MUST NOT convey authorization, credentials, cookies, or
 tokens. The Provider commits <code>STARTED</code> only after <code>2xx</code> acknowledgement. This
 implements DSP
@@ -3603,13 +3690,17 @@ addresses, credentials, tokens, stack traces, or private participant data.</p>
 <p>Every request MUST use one internally consistent catalogue snapshot. The
 Provider MUST validate identifier uniqueness and shared publisher identity
 before emitting a catalogue or resolving a process.</p>
-<p>Metadata MAY change between requests. Negotiation and transfer operations MUST
+<p>Metadata MAY change between independent catalogue requests; pages belonging
+to one snapshot MUST follow Section 7.5. Negotiation and transfer operations MUST
 resolve the publication against the current snapshot. A removed dataset MUST
 not silently resolve to another dataset.</p>
-<p>Tier 1 does not require process state to survive restart. After state loss, an
-unknown prior process returns <code>404</code>; the Consumer MAY begin again. Within one
-process lifetime, transitions MUST be concurrency-safe and stale callbacks
-MUST NOT overwrite newer acknowledged state.</p>
+<p>Providers MAY persist negotiation and transfer-process state across restart;
+durable storage does not require a higher tier. Tier 1 does not require such
+persistence. After state loss, an unknown prior process returns <code>404</code>; the
+Consumer MAY begin again. Retained processes MUST preserve their identifiers,
+acknowledged states, and idempotency behavior. Transitions MUST be
+concurrency-safe and stale callbacks MUST NOT overwrite newer acknowledged
+state, whether storage is in memory or durable.</p>
 <h2 id="16-extensibility">16. Extensibility<a class="headerlink" href="#16-extensibility" title="Permanent link">&para;</a></h2>
 <p>DSP messages MAY contain extension properties permitted by upstream schemas,
 provided they do not redefine protected terms or alter Tier 1 semantics.</p>
@@ -3635,18 +3726,24 @@ representation is supplied. Extension metadata MUST NOT:</p>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Consumers can derive <code>&lt;base&gt;</code> without assuming its path.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> DSP bodies use <code>application/json</code>, the official context, and schemas.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> No <code>GET &lt;base&gt;/catalog</code> endpoint is required for conformance.</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> The expanded catalogue passes pinned DCAT-AP mandatory, range, and
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> The complete catalogue output, when expanded for conformance checking,
+      passes pinned DCAT-AP mandatory, range, and
       controlled-vocabulary validation except only for literal-valued
       <code>dcat:endpointURL</code>.</li>
 </ul>
 <h3 id="172-catalogue-and-publication">17.2 Catalogue and publication<a class="headerlink" href="#172-catalogue-and-publication" title="Permanent link">&para;</a></h3>
 <ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <code>POST &lt;base&gt;/catalog/request</code> returns the complete catalogue.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <code>POST &lt;base&gt;/catalog/request</code> returns the complete catalogue or its first
+      page with DSP <code>Link</code> navigation.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Non-empty filters return <code>400 CatalogError</code>.</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> At least one dataset is present and no pagination is required.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> At least one dataset is present; pagination support is optional.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> If paginated, <code>next</code>/<code>previous</code> links accept the specified POST request,
+      all pages form one consistent snapshot, and traversal returns every
+      dataset exactly once. Invalidated page references return <code>404 CatalogError</code>.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Dataset, offer, distribution, and service IDs are stable and unique.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> All datasets share one publisher.</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Each dataset has one unconditional offer and one public distribution.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Each dataset has one unconditional offer and one or more public
+      distributions, with distinct DSP format values within the dataset.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Format, media type, access URL, and direct download URL are present with
       the required RDF classes and ranges.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Every format is explicitly typed <code>dct:MediaTypeOrExtent</code>.</li>
@@ -3673,7 +3770,8 @@ representation is supplied. Extension metadata MUST NOT:</p>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Exact <code>Accept: application/ld+json</code> returns the profiled JSON-LD media
       type and <code>Vary: Accept</code>.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> The DSP, negotiated, and companion responses have structurally identical
-      Common catalogue values for the same snapshot.</li>
+      Common catalogue values for the same complete snapshot after assembling
+      any pages. Negotiated page payloads match their DSP counterparts.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Context substitution changes only literal <code>dcat:endpointURL</code> values into
       IRIs, and the substituted graph passes full DCAT-AP validation.</li>
 </ul>
@@ -3683,13 +3781,28 @@ representation is supplied. Extension metadata MUST NOT:</p>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Agreement and finalization callbacks are supported.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Agreements have unique ID, target, parties, UTC time, and permission.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Transfers require a finalized agreement for a current dataset.</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Requested format exactly matches the selected distribution.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Requested format exactly matches one distribution of the target dataset,
+      and Start supplies that distribution's public URL.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Consumer data addresses are rejected.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Start supplies the public HTTPS DataAddress.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Requests are idempotent by <code>consumerPid</code>.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Invalid transitions are rejected without state change.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Outbound states commit only after <code>2xx</code> callback acknowledgement.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Optional persistence and callback retries preserve identifiers,
+      acknowledged states, and idempotency behavior.</li>
 </ul>
+<h3 id="175-independent-consumer-interoperability-non-normative">17.5 Independent consumer interoperability (non-normative)<a class="headerlink" href="#175-independent-consumer-interoperability-non-normative" title="Permanent link">&para;</a></h3>
+<p>Before relying on an interoperability claim, exercise the complete flow with
+an independently implemented Consumer: version discovery, catalogue retrieval
+(including pagination when enabled), offer selection, negotiation through
+finalization, transfer start, data download, and completion. Include a dataset
+with two formats when multiple distributions are supported and check that
+each format selects the correct public URL.</p>
+<p>Record the Consumer implementation and version, any configuration or adapter
+needed for the Section 8.5 format-to-transport mapping, and the observed
+results. Schema validation and a Provider's own test client alone do not
+demonstrate independent interoperability. This is verification guidance, not
+a requirement to implement consumer endpoints in a Tier 1 Provider.</p>
 <h2 id="appendix-a-minimal-examples-non-normative">Appendix A. Minimal examples (non-normative)<a class="headerlink" href="#appendix-a-minimal-examples-non-normative" title="Permanent link">&para;</a></h2>
 <h3 id="a1-catalogue-request">A.1 Catalogue request<a class="headerlink" href="#a1-catalogue-request" title="Permanent link">&para;</a></h3>
 <div class="language-http highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nf">POST</span> <span class="nn">/dsp/2025-1/catalog/request</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
@@ -3698,62 +3811,62 @@ representation is supplied. Extension metadata MUST NOT:</p>
 </span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="na">Accept</span><span class="o">:</span> <span class="l">application/json</span>
 </span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>
 </span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="p">{</span>
-</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="w">  </span><span class="nt">&quot;@context&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;https://w3id.org/dspace/2025/1/context.jsonld&quot;</span><span class="p">],</span>
-</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="w">  </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CatalogRequestMessage&quot;</span><span class="p">,</span>
-</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="w">  </span><span class="nt">&quot;filter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"https://w3id.org/dspace/2025/1/context.jsonld"</span><span class="p">],</span>
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CatalogRequestMessage"</span><span class="p">,</span>
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="w">  </span><span class="nt">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
 </span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="p">}</span>
 </span></code></pre></div>
 <h3 id="a2-dataset-with-dcat-ap-aligned-metadata">A.2 Dataset with DCAT-AP-aligned metadata<a class="headerlink" href="#a2-dataset-with-dcat-ap-aligned-metadata" title="Permanent link">&para;</a></h3>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="p">{</span>
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">  </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/datasets/example&quot;</span><span class="p">,</span>
-</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">  </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Dataset&quot;</span><span class="p">,</span>
-</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">  </span><span class="nt">&quot;dct:title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Example materials dataset&quot;</span><span class="p">,</span>
-</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">  </span><span class="nt">&quot;dct:description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;A public example dataset.&quot;</span><span class="p">,</span>
-</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="w">  </span><span class="nt">&quot;dct:publisher&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="w">    </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/participants/provider&quot;</span><span class="p">,</span>
-</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="w">    </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://xmlns.com/foaf/0.1/Agent&quot;</span><span class="p">,</span>
-</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="w">    </span><span class="nt">&quot;http://xmlns.com/foaf/0.1/name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Example Provider&quot;</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">  </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/datasets/example"</span><span class="p">,</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dataset"</span><span class="p">,</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">  </span><span class="nt">"dct:title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Example materials dataset"</span><span class="p">,</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">  </span><span class="nt">"dct:description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A public example dataset."</span><span class="p">,</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="w">  </span><span class="nt">"dct:publisher"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="w">    </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/participants/provider"</span><span class="p">,</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://xmlns.com/foaf/0.1/Agent"</span><span class="p">,</span>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="w">    </span><span class="nt">"http://xmlns.com/foaf/0.1/name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Example Provider"</span>
 </span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="w">  </span><span class="p">},</span>
-</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="w">  </span><span class="nt">&quot;hasPolicy&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
-</span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a><span class="w">    </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/datasets/example#offer&quot;</span><span class="p">,</span>
-</span><span id="__span-20-13"><a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a><span class="w">    </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Offer&quot;</span><span class="p">,</span>
-</span><span id="__span-20-14"><a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a><span class="w">    </span><span class="nt">&quot;permission&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;use&quot;</span><span class="p">}]</span>
+</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="w">  </span><span class="nt">"hasPolicy"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
+</span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a><span class="w">    </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/datasets/example#offer"</span><span class="p">,</span>
+</span><span id="__span-20-13"><a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a><span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Offer"</span><span class="p">,</span>
+</span><span id="__span-20-14"><a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a><span class="w">    </span><span class="nt">"permission"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"use"</span><span class="p">}]</span>
 </span><span id="__span-20-15"><a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a><span class="w">  </span><span class="p">}],</span>
-</span><span id="__span-20-16"><a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a><span class="w">  </span><span class="nt">&quot;distribution&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
-</span><span id="__span-20-17"><a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a><span class="w">    </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/datasets/example#distribution&quot;</span><span class="p">,</span>
-</span><span id="__span-20-18"><a id="__codelineno-20-18" name="__codelineno-20-18" href="#__codelineno-20-18"></a><span class="w">    </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Distribution&quot;</span><span class="p">,</span>
-</span><span id="__span-20-19"><a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a><span class="w">    </span><span class="nt">&quot;format&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://publications.europa.eu/resource/authority/file-type/CSV&quot;</span><span class="p">,</span>
-</span><span id="__span-20-20"><a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a><span class="w">    </span><span class="nt">&quot;dct:format&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-20-21"><a id="__codelineno-20-21" name="__codelineno-20-21" href="#__codelineno-20-21"></a><span class="w">      </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://publications.europa.eu/resource/authority/file-type/CSV&quot;</span><span class="p">,</span>
-</span><span id="__span-20-22"><a id="__codelineno-20-22" name="__codelineno-20-22" href="#__codelineno-20-22"></a><span class="w">      </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dct:MediaTypeOrExtent&quot;</span>
+</span><span id="__span-20-16"><a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a><span class="w">  </span><span class="nt">"distribution"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
+</span><span id="__span-20-17"><a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a><span class="w">    </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/datasets/example#distribution"</span><span class="p">,</span>
+</span><span id="__span-20-18"><a id="__codelineno-20-18" name="__codelineno-20-18" href="#__codelineno-20-18"></a><span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Distribution"</span><span class="p">,</span>
+</span><span id="__span-20-19"><a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a><span class="w">    </span><span class="nt">"format"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://publications.europa.eu/resource/authority/file-type/CSV"</span><span class="p">,</span>
+</span><span id="__span-20-20"><a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a><span class="w">    </span><span class="nt">"dct:format"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-20-21"><a id="__codelineno-20-21" name="__codelineno-20-21" href="#__codelineno-20-21"></a><span class="w">      </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://publications.europa.eu/resource/authority/file-type/CSV"</span><span class="p">,</span>
+</span><span id="__span-20-22"><a id="__codelineno-20-22" name="__codelineno-20-22" href="#__codelineno-20-22"></a><span class="w">      </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:MediaTypeOrExtent"</span>
 </span><span id="__span-20-23"><a id="__codelineno-20-23" name="__codelineno-20-23" href="#__codelineno-20-23"></a><span class="w">    </span><span class="p">},</span>
-</span><span id="__span-20-24"><a id="__codelineno-20-24" name="__codelineno-20-24" href="#__codelineno-20-24"></a><span class="w">    </span><span class="nt">&quot;dcat:mediaType&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-20-25"><a id="__codelineno-20-25" name="__codelineno-20-25" href="#__codelineno-20-25"></a><span class="w">      </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://www.iana.org/assignments/media-types/text/csv&quot;</span><span class="p">,</span>
-</span><span id="__span-20-26"><a id="__codelineno-20-26" name="__codelineno-20-26" href="#__codelineno-20-26"></a><span class="w">      </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dct:MediaType&quot;</span>
+</span><span id="__span-20-24"><a id="__codelineno-20-24" name="__codelineno-20-24" href="#__codelineno-20-24"></a><span class="w">    </span><span class="nt">"dcat:mediaType"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-20-25"><a id="__codelineno-20-25" name="__codelineno-20-25" href="#__codelineno-20-25"></a><span class="w">      </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.iana.org/assignments/media-types/text/csv"</span><span class="p">,</span>
+</span><span id="__span-20-26"><a id="__codelineno-20-26" name="__codelineno-20-26" href="#__codelineno-20-26"></a><span class="w">      </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:MediaType"</span>
 </span><span id="__span-20-27"><a id="__codelineno-20-27" name="__codelineno-20-27" href="#__codelineno-20-27"></a><span class="w">    </span><span class="p">},</span>
-</span><span id="__span-20-28"><a id="__codelineno-20-28" name="__codelineno-20-28" href="#__codelineno-20-28"></a><span class="w">    </span><span class="nt">&quot;dcat:accessURL&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/files/example.csv&quot;</span><span class="p">},</span>
-</span><span id="__span-20-29"><a id="__codelineno-20-29" name="__codelineno-20-29" href="#__codelineno-20-29"></a><span class="w">    </span><span class="nt">&quot;dcat:downloadURL&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/files/example.csv&quot;</span><span class="p">},</span>
-</span><span id="__span-20-30"><a id="__codelineno-20-30" name="__codelineno-20-30" href="#__codelineno-20-30"></a><span class="w">    </span><span class="nt">&quot;dcat:byteSize&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-20-31"><a id="__codelineno-20-31" name="__codelineno-20-31" href="#__codelineno-20-31"></a><span class="w">      </span><span class="nt">&quot;@value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;12345&quot;</span><span class="p">,</span>
-</span><span id="__span-20-32"><a id="__codelineno-20-32" name="__codelineno-20-32" href="#__codelineno-20-32"></a><span class="w">      </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://www.w3.org/2001/XMLSchema#nonNegativeInteger&quot;</span>
+</span><span id="__span-20-28"><a id="__codelineno-20-28" name="__codelineno-20-28" href="#__codelineno-20-28"></a><span class="w">    </span><span class="nt">"dcat:accessURL"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/files/example.csv"</span><span class="p">},</span>
+</span><span id="__span-20-29"><a id="__codelineno-20-29" name="__codelineno-20-29" href="#__codelineno-20-29"></a><span class="w">    </span><span class="nt">"dcat:downloadURL"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/files/example.csv"</span><span class="p">},</span>
+</span><span id="__span-20-30"><a id="__codelineno-20-30" name="__codelineno-20-30" href="#__codelineno-20-30"></a><span class="w">    </span><span class="nt">"dcat:byteSize"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-20-31"><a id="__codelineno-20-31" name="__codelineno-20-31" href="#__codelineno-20-31"></a><span class="w">      </span><span class="nt">"@value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345"</span><span class="p">,</span>
+</span><span id="__span-20-32"><a id="__codelineno-20-32" name="__codelineno-20-32" href="#__codelineno-20-32"></a><span class="w">      </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://www.w3.org/2001/XMLSchema#nonNegativeInteger"</span>
 </span><span id="__span-20-33"><a id="__codelineno-20-33" name="__codelineno-20-33" href="#__codelineno-20-33"></a><span class="w">    </span><span class="p">},</span>
-</span><span id="__span-20-34"><a id="__codelineno-20-34" name="__codelineno-20-34" href="#__codelineno-20-34"></a><span class="w">    </span><span class="nt">&quot;accessService&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-20-35"><a id="__codelineno-20-35" name="__codelineno-20-35" href="#__codelineno-20-35"></a><span class="w">      </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/services/dsp&quot;</span><span class="p">,</span>
-</span><span id="__span-20-36"><a id="__codelineno-20-36" name="__codelineno-20-36" href="#__codelineno-20-36"></a><span class="w">      </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DataService&quot;</span><span class="p">,</span>
-</span><span id="__span-20-37"><a id="__codelineno-20-37" name="__codelineno-20-37" href="#__codelineno-20-37"></a><span class="w">      </span><span class="nt">&quot;dct:title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Public DSP service&quot;</span><span class="p">,</span>
-</span><span id="__span-20-38"><a id="__codelineno-20-38" name="__codelineno-20-38" href="#__codelineno-20-38"></a><span class="w">      </span><span class="nt">&quot;endpointURL&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/dsp/2025-1&quot;</span><span class="p">,</span>
-</span><span id="__span-20-39"><a id="__codelineno-20-39" name="__codelineno-20-39" href="#__codelineno-20-39"></a><span class="w">      </span><span class="nt">&quot;dct:conformsTo&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-20-34"><a id="__codelineno-20-34" name="__codelineno-20-34" href="#__codelineno-20-34"></a><span class="w">    </span><span class="nt">"accessService"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-20-35"><a id="__codelineno-20-35" name="__codelineno-20-35" href="#__codelineno-20-35"></a><span class="w">      </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/services/dsp"</span><span class="p">,</span>
+</span><span id="__span-20-36"><a id="__codelineno-20-36" name="__codelineno-20-36" href="#__codelineno-20-36"></a><span class="w">      </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DataService"</span><span class="p">,</span>
+</span><span id="__span-20-37"><a id="__codelineno-20-37" name="__codelineno-20-37" href="#__codelineno-20-37"></a><span class="w">      </span><span class="nt">"dct:title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Public DSP service"</span><span class="p">,</span>
+</span><span id="__span-20-38"><a id="__codelineno-20-38" name="__codelineno-20-38" href="#__codelineno-20-38"></a><span class="w">      </span><span class="nt">"endpointURL"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/dsp/2025-1"</span><span class="p">,</span>
+</span><span id="__span-20-39"><a id="__codelineno-20-39" name="__codelineno-20-39" href="#__codelineno-20-39"></a><span class="w">      </span><span class="nt">"dct:conformsTo"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 </span><span id="__span-20-40"><a id="__codelineno-20-40" name="__codelineno-20-40" href="#__codelineno-20-40"></a><span class="w">        </span><span class="p">{</span>
-</span><span id="__span-20-41"><a id="__codelineno-20-41" name="__codelineno-20-41" href="#__codelineno-20-41"></a><span class="w">          </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tag:materialscommons.eu,2026:dsp/prototype-tier-1&quot;</span><span class="p">,</span>
-</span><span id="__span-20-42"><a id="__codelineno-20-42" name="__codelineno-20-42" href="#__codelineno-20-42"></a><span class="w">          </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dct:Standard&quot;</span>
+</span><span id="__span-20-41"><a id="__codelineno-20-41" name="__codelineno-20-41" href="#__codelineno-20-41"></a><span class="w">          </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tag:materialscommons.eu,2026:dsp/prototype-tier-1"</span><span class="p">,</span>
+</span><span id="__span-20-42"><a id="__codelineno-20-42" name="__codelineno-20-42" href="#__codelineno-20-42"></a><span class="w">          </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:Standard"</span>
 </span><span id="__span-20-43"><a id="__codelineno-20-43" name="__codelineno-20-43" href="#__codelineno-20-43"></a><span class="w">        </span><span class="p">},</span>
 </span><span id="__span-20-44"><a id="__codelineno-20-44" name="__codelineno-20-44" href="#__codelineno-20-44"></a><span class="w">        </span><span class="p">{</span>
-</span><span id="__span-20-45"><a id="__codelineno-20-45" name="__codelineno-20-45" href="#__codelineno-20-45"></a><span class="w">          </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/&quot;</span><span class="p">,</span>
-</span><span id="__span-20-46"><a id="__codelineno-20-46" name="__codelineno-20-46" href="#__codelineno-20-46"></a><span class="w">          </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dct:Standard&quot;</span>
+</span><span id="__span-20-45"><a id="__codelineno-20-45" name="__codelineno-20-45" href="#__codelineno-20-45"></a><span class="w">          </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/"</span><span class="p">,</span>
+</span><span id="__span-20-46"><a id="__codelineno-20-46" name="__codelineno-20-46" href="#__codelineno-20-46"></a><span class="w">          </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:Standard"</span>
 </span><span id="__span-20-47"><a id="__codelineno-20-47" name="__codelineno-20-47" href="#__codelineno-20-47"></a><span class="w">        </span><span class="p">}</span>
 </span><span id="__span-20-48"><a id="__codelineno-20-48" name="__codelineno-20-48" href="#__codelineno-20-48"></a><span class="w">      </span><span class="p">],</span>
-</span><span id="__span-20-49"><a id="__codelineno-20-49" name="__codelineno-20-49" href="#__codelineno-20-49"></a><span class="w">      </span><span class="nt">&quot;dcat:servesDataset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-</span><span id="__span-20-50"><a id="__codelineno-20-50" name="__codelineno-20-50" href="#__codelineno-20-50"></a><span class="w">        </span><span class="p">{</span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/datasets/example&quot;</span><span class="p">}</span>
+</span><span id="__span-20-49"><a id="__codelineno-20-49" name="__codelineno-20-49" href="#__codelineno-20-49"></a><span class="w">      </span><span class="nt">"dcat:servesDataset"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-20-50"><a id="__codelineno-20-50" name="__codelineno-20-50" href="#__codelineno-20-50"></a><span class="w">        </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/datasets/example"</span><span class="p">}</span>
 </span><span id="__span-20-51"><a id="__codelineno-20-51" name="__codelineno-20-51" href="#__codelineno-20-51"></a><span class="w">      </span><span class="p">]</span>
 </span><span id="__span-20-52"><a id="__codelineno-20-52" name="__codelineno-20-52" href="#__codelineno-20-52"></a><span class="w">    </span><span class="p">}</span>
 </span><span id="__span-20-53"><a id="__codelineno-20-53" name="__codelineno-20-53" href="#__codelineno-20-53"></a><span class="w">  </span><span class="p">}]</span>
@@ -3761,37 +3874,37 @@ representation is supplied. Extension metadata MUST NOT:</p>
 </span></code></pre></div>
 <h3 id="a3-negotiation-request">A.3 Negotiation request<a class="headerlink" href="#a3-negotiation-request" title="Permanent link">&para;</a></h3>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="p">{</span>
-</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">  </span><span class="nt">&quot;@context&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;https://w3id.org/dspace/2025/1/context.jsonld&quot;</span><span class="p">],</span>
-</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">  </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ContractRequestMessage&quot;</span><span class="p">,</span>
-</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="w">  </span><span class="nt">&quot;consumerPid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;urn:uuid:11111111-1111-4111-8111-111111111111&quot;</span><span class="p">,</span>
-</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="w">  </span><span class="nt">&quot;callbackAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://consumer.example/dsp-callback&quot;</span><span class="p">,</span>
-</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="w">  </span><span class="nt">&quot;offer&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="w">    </span><span class="nt">&quot;@id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/datasets/example#offer&quot;</span><span class="p">,</span>
-</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="w">    </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Offer&quot;</span><span class="p">,</span>
-</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="w">    </span><span class="nt">&quot;target&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/datasets/example&quot;</span><span class="p">,</span>
-</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="w">    </span><span class="nt">&quot;permission&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;use&quot;</span><span class="p">}]</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"https://w3id.org/dspace/2025/1/context.jsonld"</span><span class="p">],</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ContractRequestMessage"</span><span class="p">,</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="w">  </span><span class="nt">"consumerPid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"urn:uuid:11111111-1111-4111-8111-111111111111"</span><span class="p">,</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="w">  </span><span class="nt">"callbackAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://consumer.example/dsp-callback"</span><span class="p">,</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="w">  </span><span class="nt">"offer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="w">    </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/datasets/example#offer"</span><span class="p">,</span>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Offer"</span><span class="p">,</span>
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="w">    </span><span class="nt">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/datasets/example"</span><span class="p">,</span>
+</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="w">    </span><span class="nt">"permission"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"use"</span><span class="p">}]</span>
 </span><span id="__span-21-11"><a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="w">  </span><span class="p">}</span>
 </span><span id="__span-21-12"><a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a><span class="p">}</span>
 </span></code></pre></div>
 <h3 id="a4-transfer-request-and-start">A.4 Transfer request and start<a class="headerlink" href="#a4-transfer-request-and-start" title="Permanent link">&para;</a></h3>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="p">{</span>
-</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">  </span><span class="nt">&quot;@context&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;https://w3id.org/dspace/2025/1/context.jsonld&quot;</span><span class="p">],</span>
-</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">  </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TransferRequestMessage&quot;</span><span class="p">,</span>
-</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="w">  </span><span class="nt">&quot;consumerPid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;urn:uuid:22222222-2222-4222-8222-222222222222&quot;</span><span class="p">,</span>
-</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="w">  </span><span class="nt">&quot;agreementId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;urn:uuid:33333333-3333-4333-8333-333333333333&quot;</span><span class="p">,</span>
-</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="w">  </span><span class="nt">&quot;format&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://publications.europa.eu/resource/authority/file-type/CSV&quot;</span><span class="p">,</span>
-</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="w">  </span><span class="nt">&quot;callbackAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://consumer.example/dsp-callback&quot;</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"https://w3id.org/dspace/2025/1/context.jsonld"</span><span class="p">],</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TransferRequestMessage"</span><span class="p">,</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="w">  </span><span class="nt">"consumerPid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"urn:uuid:22222222-2222-4222-8222-222222222222"</span><span class="p">,</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="w">  </span><span class="nt">"agreementId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"urn:uuid:33333333-3333-4333-8333-333333333333"</span><span class="p">,</span>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="w">  </span><span class="nt">"format"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://publications.europa.eu/resource/authority/file-type/CSV"</span><span class="p">,</span>
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="w">  </span><span class="nt">"callbackAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://consumer.example/dsp-callback"</span>
 </span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="p">}</span>
 </span></code></pre></div>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="p">{</span>
-</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="w">  </span><span class="nt">&quot;@context&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;https://w3id.org/dspace/2025/1/context.jsonld&quot;</span><span class="p">],</span>
-</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">  </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TransferStartMessage&quot;</span><span class="p">,</span>
-</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="w">  </span><span class="nt">&quot;providerPid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;urn:uuid:44444444-4444-4444-8444-444444444444&quot;</span><span class="p">,</span>
-</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="w">  </span><span class="nt">&quot;consumerPid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;urn:uuid:22222222-2222-4222-8222-222222222222&quot;</span><span class="p">,</span>
-</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="w">  </span><span class="nt">&quot;dataAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="w">    </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DataAddress&quot;</span><span class="p">,</span>
-</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a><span class="w">    </span><span class="nt">&quot;endpointType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://w3id.org/idsa/v4.1/HTTP&quot;</span><span class="p">,</span>
-</span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a><span class="w">    </span><span class="nt">&quot;endpoint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://provider.example/files/example.csv&quot;</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"https://w3id.org/dspace/2025/1/context.jsonld"</span><span class="p">],</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TransferStartMessage"</span><span class="p">,</span>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="w">  </span><span class="nt">"providerPid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"urn:uuid:44444444-4444-4444-8444-444444444444"</span><span class="p">,</span>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="w">  </span><span class="nt">"consumerPid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"urn:uuid:22222222-2222-4222-8222-222222222222"</span><span class="p">,</span>
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="w">  </span><span class="nt">"dataAddress"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DataAddress"</span><span class="p">,</span>
+</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a><span class="w">    </span><span class="nt">"endpointType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://w3id.org/idsa/v4.1/HTTP"</span><span class="p">,</span>
+</span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a><span class="w">    </span><span class="nt">"endpoint"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/files/example.csv"</span>
 </span><span id="__span-23-10"><a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a><span class="w">  </span><span class="p">}</span>
 </span><span id="__span-23-11"><a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a><span class="p">}</span>
 </span></code></pre></div>
@@ -3934,7 +4047,7 @@ representation is supplied. Extension metadata MUST NOT:</p>
       <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["announce.dismiss","content.code.annotate","content.action.edit","content.action.view","content.code.copy","content.code.select","content.footnote.tooltips","content.tabs.link","content.tooltips","navigation.footer","navigation.indexes","navigation.tabs","navigation.instant","navigation.instant.prefetch","navigation.path","navigation.prune","navigation.top","navigation.tracking","search.highlight"],"search":"../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":{"provider":"mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.e886cdf1.min.js"></script>
+      <script src="../assets/javascripts/bundle.6970bfe9.min.js"></script>
       
     
   </body>
