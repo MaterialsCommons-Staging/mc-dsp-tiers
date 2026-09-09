@@ -1,4 +1,4 @@
-# PROTOTYPE DRAFT FOR DISCSCUSSION: Materials Commons DCAT-AP GET Protocol Tier 1 (Public Catalogues)
+# PROTOTYPE DRAFT FOR DISCUSSION: Materials Commons DCAT-AP GET Protocol Tier 1 (Public Catalogues)
 
 ## Status of this document
 
