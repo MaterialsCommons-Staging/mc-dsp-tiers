@@ -197,11 +197,11 @@ Tier 1 includes:
 - retrieval of one dataset description by its exact identifier;
 - one or more public distributions per dataset, with distinct format values;
 - public, finite, consumer-pull transfer over HTTPS;
-- unconditional ODRL permission to perform the `use` action;
+- an unconditional ODRL offer, with the `use` permission recommended;
 - process termination, suspension, resumption, and completion within the
   constrained state transitions defined here;
-- DCAT-AP-compatible publication metadata for formats, media types, direct
-  download URLs, optional byte sizes, and optional SHA-256 checksums;
+- DCAT-AP-compatible publication metadata for formats, media types, licences,
+  direct download URLs, optional byte sizes, and optional SHA-256 checksums;
 - optional discovery of a Materials Commons DCAT-AP Tier 0 service through the
   DSP catalogue; and
 - optional discovery and retrieval of a context-substituted DCAT-AP
@@ -613,6 +613,7 @@ distributions.
 | Publisher identifier and name | `1` | Equal to catalogue publisher |
 | Offer identifier | `1` | Absolute stable IRI; unique |
 | Distribution identifier | `1` per distribution | Absolute stable IRI; unique |
+| Licence | `1` per distribution | IRI of a published licence, typed `dct:LicenseDocument` |
 | Public access URL | `1` per distribution | Absolute HTTPS URL |
 | EU file-type IRI | `1` per distribution | EU File Type concept; distinct within the dataset |
 | IANA media-type IRI | `1` per distribution | Registered media-type IRI |
@@ -638,8 +639,18 @@ Each dataset MUST have exactly one advertised ODRL Offer:
 
 The catalogue form MUST NOT contain `target`, because DSP derives it from the
 enclosing dataset. The offer MUST NOT contain constraints, duties,
-obligations, prohibitions, remedies, or nested targets. It does not replace
-licence, copyright, attribution, citation, or ethical-use metadata.
+obligations, prohibitions, remedies, or nested targets.
+
+The `permission` member is RECOMMENDED but not REQUIRED. DSP requires a
+`hasPolicy` containing an Offer, and requires that Offer to have an `@id`, but
+its rules are optional, so an Offer carrying no rule is a valid DSP Offer. A
+Tier 1 Provider that omits the permission remains conformant; one that includes
+it states explicitly that unconditional `use` is granted, which is why it is
+recommended.
+
+This offer is not the licence. It expresses unconditional technical access,
+and it does not replace copyright, attribution, citation, or ethical-use
+metadata. The licence is carried separately and is REQUIRED by Section 8.5.
 
 In a `ContractRequestMessage`, the same offer MUST have exactly one top-level
 `target` equal to the dataset identifier, following the DSP
@@ -657,8 +668,18 @@ contain:
 - `dcat:accessURL` as an `@id` object containing the public HTTPS URL;
 - `dcat:downloadURL` as an `@id` object containing that same direct URL;
 - `dcat:mediaType` as an `@id` object containing the IANA media-type IRI and
-  `@type` equal to `dct:MediaType`; and
+  `@type` equal to `dct:MediaType`;
+- `dct:license` as an `@id` object containing the IRI of a published licence,
+  typed `dct:LicenseDocument`; and
 - one DSP `accessService` object identifying the root DSP access service.
+
+The licence is REQUIRED, which is stricter than DCAT-AP, where
+[Distribution licence](https://semiceu.github.io/DCAT-AP/releases/3.0.1/#Distribution.licence)
+is only recommended. Publishing a dataset with no licence would leave a
+consumer to infer that nothing is granted, which contradicts the unconditional
+offer in Section 8.4 that accompanies it. A well-known licence IRI, for example
+a Creative Commons one, SHOULD be used in preference to a bespoke document, and
+in preference to modelling the same terms in ODRL.
 
 These requirements specialize the DCAT-AP properties for Distribution
 [format](https://semiceu.github.io/DCAT-AP/releases/3.0.1/#Distribution.format),
@@ -1344,8 +1365,9 @@ representation is supplied. Extension metadata MUST NOT:
 - [ ] All datasets share one publisher.
 - [ ] Each dataset has one unconditional offer and one or more public
       distributions, with distinct DSP format values within the dataset.
-- [ ] Format, media type, access URL, and direct download URL are present with
-      the required RDF classes and ranges.
+- [ ] Every distribution states a licence.
+- [ ] Format, media type, licence, access URL, and direct download URL are
+      present with the required RDF classes and ranges.
 - [ ] Every format is explicitly typed `dct:MediaTypeOrExtent`.
 - [ ] Every media type is explicitly typed `dct:MediaType`.
 - [ ] Known byte sizes are explicitly typed `xsd:nonNegativeInteger`, and

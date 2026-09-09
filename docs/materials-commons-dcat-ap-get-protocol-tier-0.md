@@ -131,8 +131,9 @@ Tier 0 includes:
 - direct `GET` and `HEAD` retrieval;
 - strict DCAT-AP 3.0.1 JSON-LD;
 - at least one public dataset per catalogue;
-- exactly one public downloadable distribution per Tier 0 dataset;
+- one or more public downloadable distributions per Tier 0 dataset;
 - EU File Type and IANA media-type identifiers;
+- a required licence per distribution;
 - optional byte size and SHA-256 checksum;
 - descriptions of the catalogue service and companion public data services;
 - optional linkage to Materials Commons DSP Tier 1; and
@@ -471,7 +472,7 @@ Each dataset MUST have:
 | `dct:description` | `1..*` | Non-empty literal |
 | `dct:publisher` | `1` | Catalogue publisher |
 | `odrl:hasPolicy` | `1` | Section 9.4 public-use offer |
-| `dcat:distribution` | `1` | Exactly one Section 10 distribution |
+| `dcat:distribution` | `1..*` | One or more Section 10 distributions |
 
 Dataset IRIs MUST be unique. This specializes DCAT
 [Dataset](https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/#Class:Dataset)
@@ -483,14 +484,15 @@ and DCAT-AP
 The dataset MUST link to one `odrl:Offer` with one permission whose action is
 `odrl:use`. The offer MUST NOT contain constraints, duties, prohibitions,
 remedies, or a target conflicting with the dataset. The policy expresses
-unconditional technical access; it does not replace licence, copyright,
-attribution, citation, or ethical-use metadata.
+unconditional technical access; it does not replace copyright, attribution,
+citation, or ethical-use metadata. The licence is carried separately by
+`dct:license` and is REQUIRED by Section 10.1.
 
 ## 10. Distribution and file metadata
 
 ### 10.1 Distribution
 
-Each Tier 0 dataset MUST have exactly one distribution with:
+Each Tier 0 dataset MUST have one or more distributions, each with:
 
 | Property | Cardinality | Requirement |
 |---|---:|---|
@@ -499,6 +501,7 @@ Each Tier 0 dataset MUST have exactly one distribution with:
 | `dcat:mediaType` | `1` | IANA media-type IRI typed `dct:MediaType` |
 | `dcat:accessURL` | `1` | Direct public HTTPS URL |
 | `dcat:downloadURL` | `1` | Same direct public HTTPS URL |
+| `dct:license` | `1` | IRI of a published licence, typed `dct:LicenseDocument` |
 | `dcat:accessService` | `0..1` | Data service that actually supplies access |
 | `dcat:byteSize` | `0..1` | Non-negative integer |
 | `spdx:checksum` | `0..1` | Section 10.3 checksum |
@@ -530,6 +533,10 @@ apply.
 
 Another representation MAY be used only when both an applicable EU File Type
 concept and IANA media-type IRI are supplied.
+
+Distributions of one dataset MUST have distinct `dct:format` values, so that a
+consumer can select between them. This matches Materials Commons DSP Tier 1,
+where the DSP `format` selects the distribution during a transfer.
 
 The graph MUST explicitly assert the selected format resource as a
 `dct:MediaTypeOrExtent` and the selected media-type resource as a
@@ -740,10 +747,11 @@ Extensions MUST NOT:
 - [ ] Exactly one primary Catalogue has title, description, publisher,
       datasets, services, and conformance IRIs.
 - [ ] The publisher is one named Agent shared by all datasets.
-- [ ] At least one Dataset has title, description, public-use offer, and one
-      Distribution.
-- [ ] Every Distribution has EU format, IANA media type, and equal direct
-      access and download URLs.
+- [ ] At least one Dataset has title, description, public-use offer, and at
+      least one Distribution.
+- [ ] Every Distribution has EU format, IANA media type, a licence, and equal
+      direct access and download URLs.
+- [ ] Distributions of one dataset have distinct formats.
 - [ ] Optional sizes and checksums use the required values and datatypes.
 - [ ] The Catalogue service endpoint is an RDF IRI and matches discovery.
 - [ ] Every service has known served datasets and standards identifiers.
