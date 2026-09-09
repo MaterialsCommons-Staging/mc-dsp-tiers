@@ -3,8 +3,8 @@
 ## Status of this document
 
 Non-normative. This page explains how the Materials Commons tiers relate to each other, to the
-Dataspace Protocol, and to the participation levels used in the project's architecture
-publications. It records what the WP11 working group has agreed and what it has not.
+Dataspace Protocol, and to the profiles that specify them. It records what the WP11 working group
+has agreed and what it has not.
 
 Sections marked **proposed** have not been decided. They are written down so they can be argued
 against rather than rediscovered.
@@ -30,12 +30,11 @@ naming is to be revisited before a release version.
 
 ## 2. The ladder
 
-**Proposed.** Tier 1 to Tier 3 follow the agreed direction; Tier 0 is a proposal, discussed in
-Section 4.
+Tier 0 and Tier 1 have specification text. Tier 2 and Tier 3 have outlines only.
 
 | Tier | Criterion | Specification |
 |---|---|---|
-| **0** | Static DCAT-AP catalogue with direct download URLs. Conformant to DCAT-AP, not to DSP. | [DCAT-AP GET Protocol Tier 1](materials-commons-dcat-ap-get-protocol-tier-1.md) |
+| **0** | Static DCAT-AP catalogue with direct download URLs. Conformant to DCAT-AP, not to DSP. | [DCAT-AP GET Protocol Tier 0](materials-commons-dcat-ap-get-protocol-tier-0.md) |
 | **1** | Public read. No authentication, no policy evaluation, no caller-dependent content. Every advertised dataset is retrievable by any consumer. | [DSP Tier 1](materials-commons-dsp-tier1.md) |
 | **2** | Identified and controlled access. Endpoints are authenticated, catalogue content and access decisions may depend on the caller, and policy constrains what a consumer may do. | [DSP Tier 2](materials-commons-dsp-tier2.md), outline |
 | **3** | Full protocol. The remaining optional DSP capabilities. | [DSP Tier 3](materials-commons-dsp-tier3.md), outline |
@@ -66,15 +65,20 @@ Tier 0 therefore exists because a catalogue-only level is structurally necessary
 placeholder for a future protocol change. It is what lets a research group participate with a
 file on static hosting.
 
-## 4. Proposal: renaming the catalogue-only level to Tier 0
+## 4. Why the catalogue-only level was renumbered
 
-**Proposed, for decision.** Today three different things are called Tier 1: the DSP profile, the
-DCAT-AP GET profile, and the first lane of the feature board. Renaming the GET profile's level to
-Tier 0 removes the collision and places both specifications on one ladder.
+The DCAT-AP GET Protocol was originally numbered Tier 1, which meant three different things
+carried that number: the DSP profile, the DCAT-AP GET profile, and the first lane of the feature
+board. Renumbering the GET profile to Tier 0 removes the collision and places both specifications
+on one ladder.
 
-This is a rename, not new work: the DCAT-AP GET Protocol already specifies exactly this level. If
-adopted it affects the document title, the `tag:` profile IRI, the well-known `version` value,
-and the cross-references in DSP Tier 1 Sections 1.2 and 9.
+This was a rename, not new work: the DCAT-AP GET Protocol already specified exactly this level.
+It changed the document title, the `tag:` profile IRI, and the cross-references in DSP Tier 1.
+Both documents remain prototype drafts, so the numbering is open to revision.
+
+The migration property that makes the ladder worth having is that **Tier 0 to Tier 1 changes
+nothing about the assets or the catalogue content**. A publisher adds one `DataService` reference
+and the same catalogue becomes reachable through DSP.
 
 ## 5. Proposal: splitting the Tier 1 conformance target
 
@@ -119,36 +123,13 @@ Where the token sits determines whether the deployment is on this ladder at all:
 | A direct download URL, with no connector | Not on the ladder. The data space never sees the authentication. |
 | The `DataAddress` of a Transfer Start Message, minted by the connector | 2 |
 
-## 7. Relationship to the participation levels
-
-The project's architecture publications describe **participation levels** L0 to L3. They answer a
-different question from tiers:
-
-- **A level asks what the participant must operate**: nothing, a web server, a connector library,
-  or a connector deployment.
-- **A tier asks how much of DSP an endpoint implements.**
-
-| Level | Tier | Note |
-|---|---|---|
-| L0 publish | 0 | The same thing under two names. |
-| L1 serve | none directly | A published catalogue with gated payloads. The authentication is out of band, so DSP does not see it. Reaches Tier 2 once the connector mints the data-plane token rather than the user logging in directly. |
-| L2 negotiate | 1 | Access granted through contract negotiation, agreed automatically. |
-| L3 operate | 2 to 3 | Fine-grained usage policies, auditability, managed transfer channels. |
-
-The mapping is typical, not binding. A library-based deployment may implement Tier 3 features
-without changing level, because levels and tiers measure different things.
-
-## 8. Open decisions
+## 7. Open decisions
 
 Carried into the WP11 session on 2026-09-25:
 
-- Tier 0, Section 4.
 - The Tier 1 conformance-target split, Section 5.
 - Feature assignment for the contract negotiation and transfer process sections, and for the
   remaining catalogue features. Eighteen of thirty-eight features are unassigned.
-- Whether catalogue filter expressions and pagination belong at Tier 2. They were assigned there
-  on the grounds that a static host cannot provide them, but static hosting is a property of
-  Tier 0, not a criterion for any DSP tier. An intrinsic criterion is proposed in Section 2.
 - The filter language a Tier 2 provider must support. JSONPath is proposed as the baseline that
   any provider can meet, with SPARQL optional and a mechanism for advertising more than one.
 - The name "tier" itself.

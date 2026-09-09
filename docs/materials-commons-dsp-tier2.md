@@ -47,9 +47,6 @@ expected at [Tier 3](materials-commons-dsp-tier3.md).
 
 ## Open questions
 
-- **B7 and B8 may not belong here.** They were assigned to Tier 2 because a static host cannot
-  provide them, but static hosting is a property of the catalogue-only level, not a criterion for
-  any DSP tier. Both are candidates for Tier 1 under an intrinsic criterion.
 - **B5b may belong at Tier 3.** Prohibitions and duties express usage control after access has
   been granted, which is beyond the Tier 2 criterion of controlling access. This was proposed in
   the meeting; the board records Tier 2.
