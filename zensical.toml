@@ -1,12 +1,12 @@
 [project]
 site_name = "Materials Commons DSP Tiers"
-repo_url = "https://github.com/MaterialsCommons/mc-dsp-tiers"
-site_url = "https://materialscommons.github.io/mc-dsp-tiers/"
+repo_url = "https://github.com/MaterialsCommons-Staging/mc-dsp-tiers"
+site_url = "https://materialscommons-staging.github.io/mc-dsp-tiers/"
 site_description = "Materials Commons tiered profiles of the Dataspace Protocol (DSP), DCAT-3 and DCAT-AP"
 site_author = "Materials Commons Contributors"
 edit_uri = "edit/main/docs/"
-repo_name = "MaterialsCommons/mc-dsp-tiers"
-copyright = 'Maintained by <a href="https://github.com/MaterialsCommons">Materials Commons</a>.'
+repo_name = "MaterialsCommons-Staging/mc-dsp-tiers"
+copyright = 'Maintained by <a href="https://github.com/MaterialsCommons-Staging">Materials Commons</a>.'
 
 extra_css = ["stylesheets/extra.css"]
 
@@ -63,7 +63,7 @@ toggle.name = "Switch to system preference"
 
 [[project.extra.social]]
 icon = "fontawesome/brands/github"
-link = "https://github.com/MaterialsCommons/mc-dsp-tiers"
+link = "https://github.com/MaterialsCommons-Staging/mc-dsp-tiers"
 
 # ===========================================================================
 # BEGIN Zensical defaults - restated, not project choices
