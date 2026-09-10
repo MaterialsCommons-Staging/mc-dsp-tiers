@@ -19,7 +19,9 @@ Two properties, both agreed:
 1. **A tier is a minimum feature set.** A provider that implements more than its tier requires
    does not lose the tier. An implementation claiming Tier 1 may also support authentication;
    consumers simply cannot rely on it.
-2. **Claiming a tier means everything below it is available too.** Tiers accumulate.
+2. **Claiming a tier means the DSP functionality of every tier below it is available too.**
+   Tier 0 is the exception: its DCAT-AP GET protocol is a separate conformance claim and
+   stays optional at higher tiers.
 
 The consequence is that a tier is a promise to a consumer about the *least* it can expect, not a
 description of the provider's deployment.
@@ -64,6 +66,14 @@ negotiation and transfer are initiated.
 Tier 0 therefore exists because a catalogue-only level is structurally necessary, not as a
 placeholder for a future protocol change. It is what lets a research group participate with a
 file on static hosting.
+
+This was put to the Dataspace Protocol maintainers in
+[discussion 276](https://github.com/eclipse-dataspace-protocol-base/DataspaceProtocol/discussions/276)
+and the reading was confirmed, on the stronger ground that static hosting makes no per-request
+decision at all: the process state, the callbacks and the POST are consequences of there being a
+decision to make. Their position is that a data space begins where an access decision is made,
+so open data is served by a catalogue vocabulary rather than by the protocol. Merging Tier 0 into
+the DSP catalogue endpoint should therefore not be assumed.
 
 ## 4. Why the catalogue-only level was renumbered
 
@@ -132,4 +142,7 @@ Carried into the WP11 session on 2026-09-25:
   remaining catalogue features. Eighteen of thirty-eight features are unassigned.
 - The filter language a Tier 2 provider must support. JSONPath is proposed as the baseline that
   any provider can meet, with SPARQL optional and a mechanism for advertising more than one.
+- Whether pagination belongs at Tier 1 rather than Tier 2 now that Tier 0 carries the
+  static-hosting case, and whether it is optional or required at whichever tier it lands on. The
+  same question applies to catalogue filter expressions.
 - The name "tier" itself.

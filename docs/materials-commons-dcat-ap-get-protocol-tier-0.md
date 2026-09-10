@@ -184,7 +184,7 @@ For this specification:
 | Prefix or name | IRI |
 |---|---|
 | Tier 0 DCAT-AP profile | (TBD) `tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0` |
-| Tier 0 DSP profile | (TBD) `tag:materialscommons.eu,2026:dsp/prototype-tier-1` |
+| Tier 1 DSP profile | (TBD) `tag:materialscommons.eu,2026:dsp/prototype-tier-1` |
 | DSP 2025-1 specification | `https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/` |
 | DCAT-AP 3.0.1 profile | `https://semiceu.github.io/DCAT-AP/releases/3.0.1/` |
 | `dcat` | `http://www.w3.org/ns/dcat#` |

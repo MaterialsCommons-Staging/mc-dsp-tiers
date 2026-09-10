@@ -434,7 +434,7 @@ and contain:
 - a stable `participantId`;
 - non-empty `dct:title` and `dct:description` values;
 - a `dct:conformsTo` array containing the Materials Commons DCAT-AP GET
-  Protocol Tier 1 and DCAT-AP 3.0.1 profile IRIs, each represented as a typed
+  Protocol Tier 0 and DCAT-AP 3.0.1 profile IRIs, each represented as a typed
   `dct:Standard` object;
 - `dct:publisher` conforming to Section 8.2;
 - at least one dataset;
