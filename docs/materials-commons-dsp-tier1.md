@@ -758,6 +758,14 @@ Each distribution MUST identify that same service through `accessService`.
 An embedded copy and the root copy, if both contain metadata, MUST be
 identical after RDF node merging.
 
+The prefixed spelling `dcat:servesDataset` is required, and MUST NOT be
+shortened to a bare `servesDataset`. The DSP JSON Schema declares the bare
+property, but the official DSP context defines no term for it, so a bare
+`servesDataset` expands to no triple at all and the served-dataset list is
+silently lost. The `dcat` prefix is defined in that context, so the prefixed
+form expands correctly. Reported upstream as
+[DataspaceProtocol#277](https://github.com/eclipse-dataspace-protocol-base/DataspaceProtocol/issues/277).
+
 `endpointURL` MUST remain the DSP-required JSON string. A Provider MUST NOT
 replace it with a JSON-LD `@id` object in an attempt to make the DSP response
 DCAT-conformant, because doing so violates the DSP JSON Schema.
