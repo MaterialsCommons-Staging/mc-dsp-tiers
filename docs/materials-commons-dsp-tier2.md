@@ -6,9 +6,7 @@
 boundary against [Tier 1](materials-commons-dsp-tier1.md) is written down. No section below is
 normative, and the requirement language of BCP 14 is deliberately not used yet.
 
-Feature assignments come from the
-[feature board](https://github.com/orgs/MaterialsCommons-Staging/projects/1) as sorted in the
-WP11 session of 2026-09-08. See [the tier model](tiers.md) for how the tiers relate.
+See [the tier model](tiers.md) for how the tiers relate.
 
 ## Criterion
 
@@ -21,22 +19,22 @@ succeeds, the deployment is Tier 1 with extra machinery, not Tier 2.
 
 ## Included capabilities
 
-Assigned to Tier 2 on 2026-09-08:
+Capabilities placed at this tier:
 
-| Feature | Capability |
-|---|---|
-| A3 | Token-based authorization on DSP endpoints, via the `Authorization` header |
-| A5b | Advertising authentication and participant identity in the version response (`auth`, `identifierType`) |
-| B3 | Nested sub-catalogues |
-| B4 | Distribution-level offers (`Distribution.hasPolicy`) |
-| B5a | Permission rules in offers and agreements |
-| B5b | Prohibition and obligation rules, and the ODRL profile |
-| B6 | ODRL constraints on rules, including logical constraints |
-| B7 | Catalogue query and filter expressions |
-| B8 | Pagination of catalogue responses via HTTP `Link` headers |
-| B10 | Access-controlled catalogues and credential-dependent catalogue content |
+| Capability |
+|---|
+| Token-based authorization on DSP endpoints, via the `Authorization` header |
+| Advertising authentication and participant identity in the version response (`auth`, `identifierType`) |
+| Nested sub-catalogues |
+| Distribution-level offers (`Distribution.hasPolicy`) |
+| Permission rules beyond the fixed `use` permission that Tier 1 already carries |
+| Prohibition and obligation rules, and the ODRL profile |
+| ODRL constraints on rules, including logical constraints |
+| Catalogue query and filter expressions |
+| Pagination of catalogue responses via HTTP `Link` headers, which Tier 1 allows as an option and this tier may require |
+| Access-controlled catalogues and credential-dependent catalogue content |
 
-Contract negotiation and transfer process features are not yet assigned. Expected to land here:
+The contract negotiation and transfer process capabilities are not yet placed. Expected here:
 policy-based or manual approval of contract requests, and data-plane credentials in
 `endpointProperties`.
 
@@ -47,9 +45,8 @@ expected at [Tier 3](materials-commons-dsp-tier3.md).
 
 ## Open questions
 
-- **B5b may belong at Tier 3.** Prohibitions and duties express usage control after access has
-  been granted, which is beyond the Tier 2 criterion of controlling access. This was proposed in
-  the meeting; the board records Tier 2.
+- **Prohibitions and duties may belong at Tier 3.** They express usage control after access has
+  been granted, which is beyond the Tier 2 criterion of controlling access.
 - **The filter language is undefined.** DSP makes filter expressions implementation-specific, so
   a Materials Commons profile has to name one. JSONPath is proposed as the baseline any provider
   can meet, with SPARQL optional where a triple store already exists, and a mechanism for a
@@ -57,8 +54,8 @@ expected at [Tier 3](materials-commons-dsp-tier3.md).
 - **Which authentication profile.** OpenID Connect fills the extension point DSP leaves open, and
   the `auth` object has to carry a concrete `protocol`, `version` and `profile`. The exact values
   are not chosen.
-- Whether a provider must be able to state that it withholds nothing, which the working group
-  agreed should not be expressed through the tier levels themselves.
+- Whether a provider must be able to state that it withholds nothing. That should not be
+  expressed through the tier levels themselves.
 
 ## Sections to write
 
