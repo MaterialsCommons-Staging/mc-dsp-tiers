@@ -312,7 +312,7 @@
               
                 
               
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -585,8 +585,9 @@
 <div class="mc-hero">
 <h1 class="mc-hero__title" id="materials-commons-dsp-tiers">Materials Commons DSP Tiers<a class="headerlink" href="#materials-commons-dsp-tiers" title="Permanent link">&para;</a></h1>
 <p class="mc-hero__tagline">Tiered profiles of the Dataspace Protocol, DCAT-3 and DCAT-AP for open materials data.</p>
-<p class="mc-hero__text"> These are the provider-side entry profiles for the Materials Commons project: minimal, concrete requirements for publishing open, publicly readable datasets and services using the Dataspace Protocol (DSP), DCAT-AP and DCAT-3, without the negotiation and access-control machinery those specifications otherwise assume. </p>
-<p class="mc-hero__actions"> <a class="md-button md-button--primary" href="materials-commons-dsp-tier1/">DSP Tier 1</a> <a class="md-button" href="materials-commons-dcat-ap-get-protocol-tier-0/">DCAT-AP GET Protocol Tier 0</a> </p>
+<p class="mc-hero__text"> These are the provider-side entry profiles for the Materials Commons project: minimal, concrete requirements for publishing open, publicly readable datasets and services using the Dataspace Protocol (DSP), DCAT-AP and DCAT-3. Nothing at these levels is access-controlled. DSP Tier 1 still implements the negotiation and transfer flows, because DSP requires them, but they cannot be used to restrict access. </p>
+<p class="mc-hero__text"> Tier 0 is a plain DCAT-AP catalogue served over HTTP GET and is not DSP. Tier 1 is the first DSP level. Tier 2 and Tier 3 are outlines. Start with the tier model if you want the shape of the ladder before the specifications. </p>
+<p class="mc-hero__actions"> <a class="md-button md-button--primary" href="tiers/">Tier model</a> <a class="md-button" href="materials-commons-dsp-tier1/">DSP Tier 1</a> <a class="md-button" href="materials-commons-dcat-ap-get-protocol-tier-0/">DCAT-AP GET Protocol Tier 0</a> </p>
 </div>
 
   
