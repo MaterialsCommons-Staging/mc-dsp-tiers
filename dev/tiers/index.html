@@ -1,0 +1,1095 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Materials Commons tiered profiles of the Dataspace Protocol (DSP), DCAT-3 and DCAT-AP">
+      
+      
+        <meta name="author" content="Materials Commons Contributors">
+      
+      
+        <link rel="canonical" href="https://materialscommons-staging.github.io/mc-dsp-tiers/dev/tiers/">
+      
+      
+        <link rel="prev" href="./..">
+      
+      
+        <link rel="next" href="../materials-commons-dsp-tier1/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="zensical-0.0.60">
+    
+    
+      
+        <title>Tier model - Materials Commons DSP Tiers</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="../assets/stylesheets/modern/main.ce62732f.min.css">
+      
+        
+          
+        
+        <link rel="stylesheet" href="../assets/stylesheets/modern/palette.812a03bb.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,500,500i,700,700i%7CJetBrains+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_scope.pathname.endsWith("/")||(__md_scope=new URL(__md_scope.pathname+"/",location)),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,_=__md_scope)=>JSON.parse(t.getItem(_.pathname+"."+e)),__md_set=(e,t,_=localStorage,a=__md_scope)=>{try{_.setItem(a.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer" aria-label="Navigation"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#the-tier-model" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="./.." title="Materials Commons DSP Tiers" class="md-header__button md-logo" aria-label="Materials Commons DSP Tiers" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 5v16M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer" aria-label="Navigation">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Materials Commons DSP Tiers
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Tier model
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="deep-orange"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search" aria-label="Search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Search">
+  <button type="button" class="md-search__button">
+    Search
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+        <a href="https://github.com/MaterialsCommons-Staging/mc-dsp-tiers" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M216.5 362.5c-66-8-112.5-55.5-112.5-117 0-25 9-52 24-70-6.5-16.5-5.5-51.5 2-66 20-2.5 47 8 63 22.5 19-6 39-9 63.5-9s44.5 3 62.5 8.5c15.5-14 43-24.5 63-22 7 13.5 8 48.5 1.5 65.5 16 19 24.5 44.5 24.5 70.5 0 61.5-46.5 108-113.5 116.5 17 11 28.5 35 28.5 62.5v52c0 15 12.5 23.5 27.5 17.5C441 459.5 512 369 512 257 512 115.5 397 0 255.5 0S0 115.5 0 257c0 111 70.5 203 165.5 237.5 13.5 5 26.5-4 26.5-17.5v-40c-7 3-16 5-24 5-33 0-52.5-18-66.5-51.5-5.5-13.5-11.5-21.5-23-23-6-.5-8-3-8-6 0-6 10-10.5 20-10.5 14.5 0 27 9 40 27.5 10 14.5 20.5 21 33 21s20.5-4.5 32-16c8.5-8.5 15-16 21-21"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MaterialsCommons-Staging/mc-dsp-tiers
+  </div>
+</a>
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="./.." class="md-tabs__link">
+        
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="././" class="md-tabs__link">
+        
+  
+  Tier model
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../materials-commons-dsp-tier1/" class="md-tabs__link">
+        
+  
+  DSP Tier 1
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../materials-commons-dsp-tier2/" class="md-tabs__link">
+        
+  
+  DSP Tier 2 (outline)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../materials-commons-dsp-tier3/" class="md-tabs__link">
+        
+  
+  DSP Tier 3 (outline)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../materials-commons-dcat-ap-get-protocol-tier-0/" class="md-tabs__link">
+        
+  
+  DCAT-AP GET Protocol Tier 0
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="./.." title="Materials Commons DSP Tiers" class="md-nav__button md-logo" aria-label="Materials Commons DSP Tiers" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 5v16M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
+
+    </a>
+    Materials Commons DSP Tiers
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/MaterialsCommons-Staging/mc-dsp-tiers" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M216.5 362.5c-66-8-112.5-55.5-112.5-117 0-25 9-52 24-70-6.5-16.5-5.5-51.5 2-66 20-2.5 47 8 63 22.5 19-6 39-9 63.5-9s44.5 3 62.5 8.5c15.5-14 43-24.5 63-22 7 13.5 8 48.5 1.5 65.5 16 19 24.5 44.5 24.5 70.5 0 61.5-46.5 108-113.5 116.5 17 11 28.5 35 28.5 62.5v52c0 15 12.5 23.5 27.5 17.5C441 459.5 512 369 512 257 512 115.5 397 0 255.5 0S0 115.5 0 257c0 111 70.5 203 165.5 237.5 13.5 5 26.5-4 26.5-17.5v-40c-7 3-16 5-24 5-33 0-52.5-18-66.5-51.5-5.5-13.5-11.5-21.5-23-23-6-.5-8-3-8-6 0-6 10-10.5 20-10.5 14.5 0 27 9 40 27.5 10 14.5 20.5 21 33 21s20.5-4.5 32-16c8.5-8.5 15-16 21-21"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MaterialsCommons-Staging/mc-dsp-tiers
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Home
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Tier model
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="././" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Tier model
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#status-of-this-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Status of this document
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-what-a-tier-is" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1. What a tier is
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-the-ladder" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2. The ladder
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-why-tier-0-is-not-a-dsp-tier" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3. Why Tier 0 is not a DSP tier
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-why-the-catalogue-only-level-was-renumbered" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        4. Why the catalogue-only level was renumbered
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-proposal-splitting-the-tier-1-conformance-target" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5. Proposal: splitting the Tier 1 conformance target
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-where-authentication-fits" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6. Where authentication fits
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-open-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        7. Open decisions
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../materials-commons-dsp-tier1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  DSP Tier 1
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../materials-commons-dsp-tier2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  DSP Tier 2 (outline)
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../materials-commons-dsp-tier3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  DSP Tier 3 (outline)
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../materials-commons-dcat-ap-get-protocol-tier-0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  DCAT-AP GET Protocol Tier 0
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  
+                    
+                    
+                    
+                      
+                    
+                    
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
+                    
+                  
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#status-of-this-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Status of this document
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-what-a-tier-is" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1. What a tier is
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-the-ladder" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2. The ladder
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-why-tier-0-is-not-a-dsp-tier" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3. Why Tier 0 is not a DSP tier
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-why-the-catalogue-only-level-was-renumbered" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        4. Why the catalogue-only level was renumbered
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-proposal-splitting-the-tier-1-conformance-target" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5. Proposal: splitting the Tier 1 conformance target
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-where-authentication-fits" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6. Where authentication fits
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-open-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        7. Open decisions
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+  
+    <a href="https://github.com/MaterialsCommons-Staging/mc-dsp-tiers/edit/main/docs/tiers.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-file-pen" viewBox="0 0 24 24"><path d="M12.659 22H18a2 2 0 0 0 2-2V8a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v9.34"/><path d="M14 2v5a1 1 0 0 0 1 1h5M10.378 12.622a1 1 0 0 1 3 3.003L8.36 20.637a2 2 0 0 1-.854.506l-2.867.837a.5.5 0 0 1-.62-.62l.836-2.869a2 2 0 0 1 .506-.853z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/MaterialsCommons-Staging/mc-dsp-tiers/raw/main/docs/tiers.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-file-code-2" viewBox="0 0 24 24"><path d="M4 12.15V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2h-3.35"/><path d="M14 2v5a1 1 0 0 0 1 1h5M5 16l-3 3 3 3M9 22l3-3-3-3"/></svg>
+    </a>
+  
+
+
+<h1 id="the-tier-model">The tier model<a class="headerlink" href="#the-tier-model" title="Permanent link">&para;</a></h1>
+<h2 id="status-of-this-document">Status of this document<a class="headerlink" href="#status-of-this-document" title="Permanent link">&para;</a></h2>
+<p>Non-normative. This page explains how the Materials Commons tiers relate to each other, to the
+Dataspace Protocol, and to the profiles that specify them. It records what the WP11 working group
+has agreed and what it has not.</p>
+<p>Sections marked <strong>proposed</strong> have not been decided. They are written down so they can be argued
+against rather than rediscovered.</p>
+<h2 id="1-what-a-tier-is">1. What a tier is<a class="headerlink" href="#1-what-a-tier-is" title="Permanent link">&para;</a></h2>
+<p>A tier is a <strong>subset of the Dataspace Protocol</strong> that a Materials Commons participant implements.
+It is not a security level, a trust level, or a statement about the data.</p>
+<p>Two properties, both agreed:</p>
+<ol>
+<li><strong>A tier is a minimum feature set.</strong> A provider that implements more than its tier requires
+   does not lose the tier. An implementation claiming Tier 1 may also support authentication;
+   consumers simply cannot rely on it.</li>
+<li><strong>Claiming a tier means the DSP functionality of every tier below it is available too.</strong>
+   Tier 0 is the exception: its DCAT-AP GET protocol is a separate conformance claim and
+   stays optional at higher tiers.</li>
+</ol>
+<p>The consequence is that a tier is a promise to a consumer about the <em>least</em> it can expect, not a
+description of the provider's deployment.</p>
+<p>Always write "Materials Commons tiers of DSP implementation" on first use. The word "tier"
+collides with the security profile tiers of the older data space reference architecture, and this
+naming is to be revisited before a release version.</p>
+<h2 id="2-the-ladder">2. The ladder<a class="headerlink" href="#2-the-ladder" title="Permanent link">&para;</a></h2>
+<p>Tier 0 and Tier 1 have specification text. Tier 2 and Tier 3 have outlines only.</p>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Criterion</th>
+<th>Specification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0</strong></td>
+<td>Static DCAT-AP catalogue with direct download URLs. Conformant to DCAT-AP, not to DSP.</td>
+<td><a href="../materials-commons-dcat-ap-get-protocol-tier-0/">DCAT-AP GET Protocol Tier 0</a></td>
+</tr>
+<tr>
+<td><strong>1</strong></td>
+<td>Public read. No authentication, no policy evaluation, no caller-dependent content. Every advertised dataset is retrievable by any consumer.</td>
+<td><a href="../materials-commons-dsp-tier1/">DSP Tier 1</a></td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>Identified and controlled access. Endpoints are authenticated, catalogue content and access decisions may depend on the caller, and policy constrains what a consumer may do.</td>
+<td><a href="../materials-commons-dsp-tier2/">DSP Tier 2</a>, outline</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>Full protocol. The remaining optional DSP capabilities.</td>
+<td><a href="../materials-commons-dsp-tier3/">DSP Tier 3</a>, outline</td>
+</tr>
+</tbody>
+</table>
+<p>Tier 2 is the first tier at which a negotiation can fail for a reason other than a malformed
+message.</p>
+<h2 id="3-why-tier-0-is-not-a-dsp-tier">3. Why Tier 0 is not a DSP tier<a class="headerlink" href="#3-why-tier-0-is-not-a-dsp-tier" title="Permanent link">&para;</a></h2>
+<p>A static file host cannot be a DSP provider. This is not a consequence of the catalogue request
+being a <code>POST</code>, and it would not be fixed by relaxing that:</p>
+<ul>
+<li>The provider must <strong>initiate</strong> requests to the consumer's <code>callbackAddress</code>
+  (<code>ContractAgreementMessage</code>, the <code>FINALIZED</code> event, <code>TransferStartMessage</code>). Static hosting
+  cannot originate an HTTP request.</li>
+<li><code>providerPid</code> is <strong>minted per process</strong>, and the negotiation and transfer state machines
+  require mutation with commit-only-after-<code>2xx</code>. No file can be pre-generated for an identifier
+  that does not yet exist.</li>
+<li>Thirteen of the fifteen provider endpoints in
+  <a href="../materials-commons-dsp-tier1/">DSP Tier 1, Section 5.2</a> remain <code>POST</code>.</li>
+</ul>
+<p>The first two are obligations of a DSP <strong>Connector</strong>. The Catalog Protocol names a <strong>Catalog
+Service</strong> as a separate role, so a catalogue-only service is a coherent idea, but DSP defines no
+conformance classes for it and the catalogue must still advertise a <code>DataService</code> at which
+negotiation and transfer are initiated.</p>
+<p>Tier 0 therefore exists because a catalogue-only level is structurally necessary, not as a
+placeholder for a future protocol change. It is what lets a research group participate with a
+file on static hosting.</p>
+<p>This was put to the Dataspace Protocol maintainers in
+<a href="https://github.com/eclipse-dataspace-protocol-base/DataspaceProtocol/discussions/276">discussion 276</a>
+and the reading was confirmed, on the stronger ground that static hosting makes no per-request
+decision at all: the process state, the callbacks and the POST are consequences of there being a
+decision to make. Their position is that a data space begins where an access decision is made,
+so open data is served by a catalogue vocabulary rather than by the protocol. Merging Tier 0 into
+the DSP catalogue endpoint should therefore not be assumed.</p>
+<h2 id="4-why-the-catalogue-only-level-was-renumbered">4. Why the catalogue-only level was renumbered<a class="headerlink" href="#4-why-the-catalogue-only-level-was-renumbered" title="Permanent link">&para;</a></h2>
+<p>The DCAT-AP GET Protocol was originally numbered Tier 1, which meant three different things
+carried that number: the DSP profile, the DCAT-AP GET profile, and the first lane of the feature
+board. Renumbering the GET profile to Tier 0 removes the collision and places both specifications
+on one ladder.</p>
+<p>This was a rename, not new work: the DCAT-AP GET Protocol already specified exactly this level.
+It changed the document title, the <code>tag:</code> profile IRI, and the cross-references in DSP Tier 1.
+Both documents remain prototype drafts, so the numbering is open to revision.</p>
+<p>The migration property that makes the ladder worth having is that <strong>Tier 0 to Tier 1 changes
+nothing about the assets or the catalogue content</strong>. A publisher adds one <code>DataService</code> reference
+and the same catalogue becomes reachable through DSP.</p>
+<h2 id="5-proposal-splitting-the-tier-1-conformance-target">5. Proposal: splitting the Tier 1 conformance target<a class="headerlink" href="#5-proposal-splitting-the-tier-1-conformance-target" title="Permanent link">&para;</a></h2>
+<p><strong>Proposed, for decision.</strong> DSP requires every advertised <code>DataService</code> to be backed by a working
+connector, but it does not require the catalogue publisher to <em>operate</em> that connector. Tier 1
+currently collapses the two by assuming that the provider is the operator.</p>
+<p>Splitting them gives:</p>
+<ul>
+<li><strong>Tier 1 Catalogue</strong> - serves the catalogue and dataset requests and advertises a <code>DataService</code>
+  it does not operate.</li>
+<li><strong>Tier 1 Connector</strong> - the full provider endpoint set with automatic agreement.</li>
+</ul>
+<p>A participant claims either or both. A shared connector, for example one operated by the common
+node, can then perform negotiation and transfer on behalf of catalogue-only publishers. It never
+handles the data: the <code>DataAddress</code> in the Transfer Start Message carries the publisher's own
+public URL, and DSP places no host constraint on it.</p>
+<p>Known costs, unresolved:</p>
+<ul>
+<li><code>Agreement.assigner</code> would name the shared connector rather than the publisher.</li>
+<li><code>Catalog.participantId</code> is required, so a broker-served publisher becomes content inside
+  another participant's catalogue rather than a participant of its own.</li>
+<li>The pattern only works while nothing is gated. At Tier 2 the shared connector would need
+  credentials for another participant's data, which is where it must stop.</li>
+</ul>
+<h2 id="6-where-authentication-fits">6. Where authentication fits<a class="headerlink" href="#6-where-authentication-fits" title="Permanent link">&para;</a></h2>
+<p>DSP leaves token semantics unspecified deliberately, and provides two extension points: the
+<code>Authorization</code> header on every endpoint, and the <code>auth</code> object in the version response naming
+<code>protocol</code>, <code>version</code> and <code>profile</code>.</p>
+<p>OpenID Connect is a legitimate fill for those extension points, not a deviation from DSP.
+Verifiable credentials through the Decentralized Claims Protocol are a different fill for the
+same extension points, and are equally outside DSP.</p>
+<p>Where the token sits determines whether the deployment is on this ladder at all:</p>
+<table>
+<thead>
+<tr>
+<th>Token presented at</th>
+<th>Tier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The DSP endpoints</td>
+<td>2</td>
+</tr>
+<tr>
+<td>A direct download URL, with no connector</td>
+<td>Not on the ladder. The data space never sees the authentication.</td>
+</tr>
+<tr>
+<td>The <code>DataAddress</code> of a Transfer Start Message, minted by the connector</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-open-decisions">7. Open decisions<a class="headerlink" href="#7-open-decisions" title="Permanent link">&para;</a></h2>
+<p>Carried into the WP11 session on 2026-09-25:</p>
+<ul>
+<li>The Tier 1 conformance-target split, Section 5.</li>
+<li>Feature assignment for the contract negotiation and transfer process sections, and for the
+  remaining catalogue features. Eighteen of thirty-eight features are unassigned.</li>
+<li>The filter language a Tier 2 provider must support. JSONPath is proposed as the baseline that
+  any provider can meet, with SPARQL optional and a mechanism for advertising more than one.</li>
+<li>Whether pagination belongs at Tier 1 rather than Tier 2 now that Tier 0 carries the
+  static-hosting case, and whether it is optional or required at whichever tier it lands on. The
+  same question applies to catalogue filter expressions.</li>
+<li>The name "tier" itself.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-circle-arrow-up" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="./.." class="md-footer__link md-footer__link--prev" aria-label="Previous: Home">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Home
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../materials-commons-dsp-tier1/" class="md-footer__link md-footer__link--next" aria-label="Next: DSP Tier 1">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                DSP Tier 1
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Maintained by <a href="https://github.com/MaterialsCommons-Staging">Materials Commons</a>.
+    </div>
+  
+  
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/MaterialsCommons-Staging/mc-dsp-tiers" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M216.5 362.5c-66-8-112.5-55.5-112.5-117 0-25 9-52 24-70-6.5-16.5-5.5-51.5 2-66 20-2.5 47 8 63 22.5 19-6 39-9 63.5-9s44.5 3 62.5 8.5c15.5-14 43-24.5 63-22 7 13.5 8 48.5 1.5 65.5 16 19 24.5 44.5 24.5 70.5 0 61.5-46.5 108-113.5 116.5 17 11 28.5 35 28.5 62.5v52c0 15 12.5 23.5 27.5 17.5C441 459.5 512 369 512 257 512 115.5 397 0 255.5 0S0 115.5 0 257c0 111 70.5 203 165.5 237.5 13.5 5 26.5-4 26.5-17.5v-40c-7 3-16 5-24 5-33 0-52.5-18-66.5-51.5-5.5-13.5-11.5-21.5-23-23-6-.5-8-3-8-6 0-6 10-10.5 20-10.5 14.5 0 27 9 40 27.5 10 14.5 20.5 21 33 21s20.5-4.5 32-16c8.5-8.5 15-16 21-21"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["announce.dismiss","content.code.annotate","content.action.edit","content.action.view","content.code.copy","content.code.select","content.footnote.tooltips","content.tabs.link","content.tooltips","navigation.footer","navigation.indexes","navigation.tabs","navigation.instant","navigation.instant.prefetch","navigation.path","navigation.prune","navigation.top","navigation.tracking","search.highlight"],"search":"../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":{"provider":"mike"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.88ee1349.min.js"></script>
+      
+    
+  </body>
+</html>
