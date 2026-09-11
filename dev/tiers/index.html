@@ -807,8 +807,8 @@
 <h1 id="the-tier-model">The tier model<a class="headerlink" href="#the-tier-model" title="Permanent link">&para;</a></h1>
 <h2 id="status-of-this-document">Status of this document<a class="headerlink" href="#status-of-this-document" title="Permanent link">&para;</a></h2>
 <p>Non-normative. This page explains how the Materials Commons tiers relate to each other, to the
-Dataspace Protocol, and to the profiles that specify them. It records what the WP11 working group
-has agreed and what it has not.</p>
+Dataspace Protocol, and to the profiles that specify them. It records what has been settled and
+what has not.</p>
 <p>Sections marked <strong>proposed</strong> have not been decided. They are written down so they can be argued
 against rather than rediscovered.</p>
 <h2 id="1-what-a-tier-is">1. What a tier is<a class="headerlink" href="#1-what-a-tier-is" title="Permanent link">&para;</a></h2>
@@ -820,8 +820,10 @@ It is not a security level, a trust level, or a statement about the data.</p>
    does not lose the tier. An implementation claiming Tier 1 may also support authentication;
    consumers simply cannot rely on it.</li>
 <li><strong>Claiming a tier means the DSP functionality of every tier below it is available too.</strong>
-   Tier 0 is the exception: its DCAT-AP GET protocol is a separate conformance claim and
-   stays optional at higher tiers.</li>
+   Two things do not carry upward. The Tier 0 DCAT-AP GET protocol is a separate conformance
+   claim and stays optional at every higher tier. Tier 1's guarantee that every advertised
+   dataset is retrievable without credentials is a property of Tier 1, not an obligation on
+   Tier 2, whose whole purpose is to make access depend on the caller.</li>
 </ol>
 <p>The consequence is that a tier is a promise to a consumer about the <em>least</em> it can expect, not a
 description of the provider's deployment.</p>
@@ -873,7 +875,7 @@ being a <code>POST</code>, and it would not be fixed by relaxing that:</p>
 <li><code>providerPid</code> is <strong>minted per process</strong>, and the negotiation and transfer state machines
   require mutation with commit-only-after-<code>2xx</code>. No file can be pre-generated for an identifier
   that does not yet exist.</li>
-<li>Thirteen of the fifteen provider endpoints in
+<li>Eleven of the fifteen provider endpoints in
   <a href="../materials-commons-dsp-tier1/">DSP Tier 1, Section 5.2</a> remain <code>POST</code>.</li>
 </ul>
 <p>The first two are obligations of a DSP <strong>Connector</strong>. The Catalog Protocol names a <strong>Catalog
@@ -898,9 +900,12 @@ on one ladder.</p>
 <p>This was a rename, not new work: the DCAT-AP GET Protocol already specified exactly this level.
 It changed the document title, the <code>tag:</code> profile IRI, and the cross-references in DSP Tier 1.
 Both documents remain prototype drafts, so the numbering is open to revision.</p>
-<p>The migration property that makes the ladder worth having is that <strong>Tier 0 to Tier 1 changes
-nothing about the assets or the catalogue content</strong>. A publisher adds one <code>DataService</code> reference
-and the same catalogue becomes reachable through DSP.</p>
+<p>The migration property that makes the ladder worth having is that <strong>Tier 0 to Tier 1 leaves the
+assets untouched</strong>. The files, their URLs, their formats and their licences are unchanged, and the
+catalogue keeps its identifiers. What the publisher adds is protocol scaffolding: a
+<code>participantId</code>, an offer carrying the fixed <code>use</code> permission that the DSP schema requires, an
+<code>accessService</code> on every distribution, the DSP <code>format</code> string alongside the <code>dct:format</code> node,
+and the prefixed <code>dcat:servesDataset</code> spelling.</p>
 <h2 id="5-proposal-splitting-the-tier-1-conformance-target">5. Proposal: splitting the Tier 1 conformance target<a class="headerlink" href="#5-proposal-splitting-the-tier-1-conformance-target" title="Permanent link">&para;</a></h2>
 <p><strong>Proposed, for decision.</strong> DSP requires every advertised <code>DataService</code> to be backed by a working
 connector, but it does not require the catalogue publisher to <em>operate</em> that connector. Tier 1
@@ -954,11 +959,11 @@ same extension points, and are equally outside DSP.</p>
 </tbody>
 </table>
 <h2 id="7-open-decisions">7. Open decisions<a class="headerlink" href="#7-open-decisions" title="Permanent link">&para;</a></h2>
-<p>Carried into the WP11 session on 2026-09-25:</p>
+<p>Still to settle:</p>
 <ul>
 <li>The Tier 1 conformance-target split, Section 5.</li>
-<li>Feature assignment for the contract negotiation and transfer process sections, and for the
-  remaining catalogue features. Eighteen of thirty-eight features are unassigned.</li>
+<li>Which tier the contract negotiation and transfer process capabilities belong to, and the
+  remaining catalogue capabilities. Roughly half of the inventory is still unassigned.</li>
 <li>The filter language a Tier 2 provider must support. JSONPath is proposed as the baseline that
   any provider can meet, with SPARQL optional and a mechanism for advertising more than one.</li>
 <li>Whether pagination belongs at Tier 1 rather than Tier 2 now that Tier 0 carries the

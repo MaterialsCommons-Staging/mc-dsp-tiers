@@ -2569,8 +2569,11 @@ follows these rules:</p>
 <li>every other RDF range, class assertion, controlled-vocabulary value, and
    datatype required by this profile MUST be represented explicitly in the
    common JSON value and MUST NOT depend on an implementation inference;</li>
-<li>the DSP <code>application/json</code> response MUST NOT claim that its RDF graph
-   conforms to DCAT or DCAT-AP;</li>
+<li>the DSP <code>application/json</code> response MUST NOT claim that its own RDF graph
+   conforms to DCAT or DCAT-AP. The catalogue-level <code>dct:conformsTo</code> values
+   required by Section 7.2 describe the common catalogue value and its
+   context-substituted DCAT-AP representation, not the expansion of the DSP
+   response itself;</li>
 <li>an alternate DCAT-AP representation, when supplied, MUST change only the
    top-level <code>@context</code>, the HTTP representation headers, and serialization
    details that do not change the JSON value; and</li>
@@ -2633,8 +2636,10 @@ be used to limit that access.</p>
 <li>DID-based service discovery requirements;</li>
 <li>catalogue brokers and catalogue replication;</li>
 <li>data-plane protocols other than HTTPS pull; and</li>
-<li>a DCAT 3 or DCAT-AP conformance claim for the DSP <code>application/json</code>
-  response.</li>
+<li>a DCAT 3 or DCAT-AP conformance claim for the RDF graph obtained by expanding
+  the DSP <code>application/json</code> response under the official DSP context. The
+  catalogue still carries the <code>dct:conformsTo</code> values of Section 7.2, which
+  describe the common catalogue value rather than that expansion.</li>
 </ul>
 <p>An implementation MAY provide excluded capabilities in another profile or
 tier. They MUST NOT be required to access a Tier 1 dataset or alter the
@@ -2949,7 +2954,7 @@ including when its datasets are split across pages as specified in Section 7.5.<
 DCAT 3 or DCAT-AP conformant RDF representation. The catalogue-level
 <code>dct:conformsTo</code> values identify the conformance targets of the shared
 catalogue value and its context-substituted DCAT-AP representation; they MUST
-NOT be interpreted as overriding the RDF-literal exception in Section 3. A
+NOT be interpreted as overriding the RDF-literal exception in Section 1.4. A
 <code>DataService</code> MAY additionally claim conformance to a protocol that it
 implements; such a service-level statement does not claim that the enclosing
 DSP serialization removes that exception.</p>
@@ -3074,6 +3079,11 @@ the same validation without the exception above.</p>
 <td>Participant identifier</td>
 <td style="text-align: right;"><code>1</code></td>
 <td>Absolute stable IRI</td>
+</tr>
+<tr>
+<td>Conformance</td>
+<td style="text-align: right;"><code>2..*</code></td>
+<td>Tier 0 and DCAT-AP 3.0.1 profile IRIs, typed <code>dct:Standard</code>, per Section 7.2</td>
 </tr>
 <tr>
 <td>Publisher</td>
@@ -3902,6 +3912,8 @@ representation is supplied. Extension metadata MUST NOT:</p>
       dataset exactly once. Invalidated page references return <code>404 CatalogError</code>.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Dataset, offer, distribution, and service IDs are stable and unique.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> All datasets share one publisher.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> The catalogue carries the Tier 0 and DCAT-AP 3.0.1 conformance IRIs as
+      typed <code>dct:Standard</code> objects.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Each dataset has one unconditional offer and one or more public
       distributions, with distinct DSP format values within the dataset.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Every distribution states a licence.</li>
@@ -4007,31 +4019,35 @@ a requirement to implement consumer endpoints in a Tier 1 Provider.</p>
 </span><span id="__span-20-27"><a id="__codelineno-20-27" name="__codelineno-20-27" href="#__codelineno-20-27"></a><span class="w">    </span><span class="p">},</span>
 </span><span id="__span-20-28"><a id="__codelineno-20-28" name="__codelineno-20-28" href="#__codelineno-20-28"></a><span class="w">    </span><span class="nt">"dcat:accessURL"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/files/example.csv"</span><span class="p">},</span>
 </span><span id="__span-20-29"><a id="__codelineno-20-29" name="__codelineno-20-29" href="#__codelineno-20-29"></a><span class="w">    </span><span class="nt">"dcat:downloadURL"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/files/example.csv"</span><span class="p">},</span>
-</span><span id="__span-20-30"><a id="__codelineno-20-30" name="__codelineno-20-30" href="#__codelineno-20-30"></a><span class="w">    </span><span class="nt">"dcat:byteSize"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-20-31"><a id="__codelineno-20-31" name="__codelineno-20-31" href="#__codelineno-20-31"></a><span class="w">      </span><span class="nt">"@value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345"</span><span class="p">,</span>
-</span><span id="__span-20-32"><a id="__codelineno-20-32" name="__codelineno-20-32" href="#__codelineno-20-32"></a><span class="w">      </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://www.w3.org/2001/XMLSchema#nonNegativeInteger"</span>
+</span><span id="__span-20-30"><a id="__codelineno-20-30" name="__codelineno-20-30" href="#__codelineno-20-30"></a><span class="w">    </span><span class="nt">"dct:license"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-20-31"><a id="__codelineno-20-31" name="__codelineno-20-31" href="#__codelineno-20-31"></a><span class="w">      </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://creativecommons.org/licenses/by/4.0/"</span><span class="p">,</span>
+</span><span id="__span-20-32"><a id="__codelineno-20-32" name="__codelineno-20-32" href="#__codelineno-20-32"></a><span class="w">      </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:LicenseDocument"</span>
 </span><span id="__span-20-33"><a id="__codelineno-20-33" name="__codelineno-20-33" href="#__codelineno-20-33"></a><span class="w">    </span><span class="p">},</span>
-</span><span id="__span-20-34"><a id="__codelineno-20-34" name="__codelineno-20-34" href="#__codelineno-20-34"></a><span class="w">    </span><span class="nt">"accessService"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-20-35"><a id="__codelineno-20-35" name="__codelineno-20-35" href="#__codelineno-20-35"></a><span class="w">      </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/services/dsp"</span><span class="p">,</span>
-</span><span id="__span-20-36"><a id="__codelineno-20-36" name="__codelineno-20-36" href="#__codelineno-20-36"></a><span class="w">      </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DataService"</span><span class="p">,</span>
-</span><span id="__span-20-37"><a id="__codelineno-20-37" name="__codelineno-20-37" href="#__codelineno-20-37"></a><span class="w">      </span><span class="nt">"dct:title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Public DSP service"</span><span class="p">,</span>
-</span><span id="__span-20-38"><a id="__codelineno-20-38" name="__codelineno-20-38" href="#__codelineno-20-38"></a><span class="w">      </span><span class="nt">"endpointURL"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/dsp/2025-1"</span><span class="p">,</span>
-</span><span id="__span-20-39"><a id="__codelineno-20-39" name="__codelineno-20-39" href="#__codelineno-20-39"></a><span class="w">      </span><span class="nt">"dct:conformsTo"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-</span><span id="__span-20-40"><a id="__codelineno-20-40" name="__codelineno-20-40" href="#__codelineno-20-40"></a><span class="w">        </span><span class="p">{</span>
-</span><span id="__span-20-41"><a id="__codelineno-20-41" name="__codelineno-20-41" href="#__codelineno-20-41"></a><span class="w">          </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tag:materialscommons.eu,2026:dsp/prototype-tier-1"</span><span class="p">,</span>
-</span><span id="__span-20-42"><a id="__codelineno-20-42" name="__codelineno-20-42" href="#__codelineno-20-42"></a><span class="w">          </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:Standard"</span>
-</span><span id="__span-20-43"><a id="__codelineno-20-43" name="__codelineno-20-43" href="#__codelineno-20-43"></a><span class="w">        </span><span class="p">},</span>
+</span><span id="__span-20-34"><a id="__codelineno-20-34" name="__codelineno-20-34" href="#__codelineno-20-34"></a><span class="w">    </span><span class="nt">"dcat:byteSize"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-20-35"><a id="__codelineno-20-35" name="__codelineno-20-35" href="#__codelineno-20-35"></a><span class="w">      </span><span class="nt">"@value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345"</span><span class="p">,</span>
+</span><span id="__span-20-36"><a id="__codelineno-20-36" name="__codelineno-20-36" href="#__codelineno-20-36"></a><span class="w">      </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://www.w3.org/2001/XMLSchema#nonNegativeInteger"</span>
+</span><span id="__span-20-37"><a id="__codelineno-20-37" name="__codelineno-20-37" href="#__codelineno-20-37"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-20-38"><a id="__codelineno-20-38" name="__codelineno-20-38" href="#__codelineno-20-38"></a><span class="w">    </span><span class="nt">"accessService"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-20-39"><a id="__codelineno-20-39" name="__codelineno-20-39" href="#__codelineno-20-39"></a><span class="w">      </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/services/dsp"</span><span class="p">,</span>
+</span><span id="__span-20-40"><a id="__codelineno-20-40" name="__codelineno-20-40" href="#__codelineno-20-40"></a><span class="w">      </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DataService"</span><span class="p">,</span>
+</span><span id="__span-20-41"><a id="__codelineno-20-41" name="__codelineno-20-41" href="#__codelineno-20-41"></a><span class="w">      </span><span class="nt">"dct:title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Public DSP service"</span><span class="p">,</span>
+</span><span id="__span-20-42"><a id="__codelineno-20-42" name="__codelineno-20-42" href="#__codelineno-20-42"></a><span class="w">      </span><span class="nt">"endpointURL"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/dsp/2025-1"</span><span class="p">,</span>
+</span><span id="__span-20-43"><a id="__codelineno-20-43" name="__codelineno-20-43" href="#__codelineno-20-43"></a><span class="w">      </span><span class="nt">"dct:conformsTo"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 </span><span id="__span-20-44"><a id="__codelineno-20-44" name="__codelineno-20-44" href="#__codelineno-20-44"></a><span class="w">        </span><span class="p">{</span>
-</span><span id="__span-20-45"><a id="__codelineno-20-45" name="__codelineno-20-45" href="#__codelineno-20-45"></a><span class="w">          </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/"</span><span class="p">,</span>
+</span><span id="__span-20-45"><a id="__codelineno-20-45" name="__codelineno-20-45" href="#__codelineno-20-45"></a><span class="w">          </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tag:materialscommons.eu,2026:dsp/prototype-tier-1"</span><span class="p">,</span>
 </span><span id="__span-20-46"><a id="__codelineno-20-46" name="__codelineno-20-46" href="#__codelineno-20-46"></a><span class="w">          </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:Standard"</span>
-</span><span id="__span-20-47"><a id="__codelineno-20-47" name="__codelineno-20-47" href="#__codelineno-20-47"></a><span class="w">        </span><span class="p">}</span>
-</span><span id="__span-20-48"><a id="__codelineno-20-48" name="__codelineno-20-48" href="#__codelineno-20-48"></a><span class="w">      </span><span class="p">],</span>
-</span><span id="__span-20-49"><a id="__codelineno-20-49" name="__codelineno-20-49" href="#__codelineno-20-49"></a><span class="w">      </span><span class="nt">"dcat:servesDataset"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-</span><span id="__span-20-50"><a id="__codelineno-20-50" name="__codelineno-20-50" href="#__codelineno-20-50"></a><span class="w">        </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/datasets/example"</span><span class="p">}</span>
-</span><span id="__span-20-51"><a id="__codelineno-20-51" name="__codelineno-20-51" href="#__codelineno-20-51"></a><span class="w">      </span><span class="p">]</span>
-</span><span id="__span-20-52"><a id="__codelineno-20-52" name="__codelineno-20-52" href="#__codelineno-20-52"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-20-53"><a id="__codelineno-20-53" name="__codelineno-20-53" href="#__codelineno-20-53"></a><span class="w">  </span><span class="p">}]</span>
-</span><span id="__span-20-54"><a id="__codelineno-20-54" name="__codelineno-20-54" href="#__codelineno-20-54"></a><span class="p">}</span>
+</span><span id="__span-20-47"><a id="__codelineno-20-47" name="__codelineno-20-47" href="#__codelineno-20-47"></a><span class="w">        </span><span class="p">},</span>
+</span><span id="__span-20-48"><a id="__codelineno-20-48" name="__codelineno-20-48" href="#__codelineno-20-48"></a><span class="w">        </span><span class="p">{</span>
+</span><span id="__span-20-49"><a id="__codelineno-20-49" name="__codelineno-20-49" href="#__codelineno-20-49"></a><span class="w">          </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/"</span><span class="p">,</span>
+</span><span id="__span-20-50"><a id="__codelineno-20-50" name="__codelineno-20-50" href="#__codelineno-20-50"></a><span class="w">          </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:Standard"</span>
+</span><span id="__span-20-51"><a id="__codelineno-20-51" name="__codelineno-20-51" href="#__codelineno-20-51"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-20-52"><a id="__codelineno-20-52" name="__codelineno-20-52" href="#__codelineno-20-52"></a><span class="w">      </span><span class="p">],</span>
+</span><span id="__span-20-53"><a id="__codelineno-20-53" name="__codelineno-20-53" href="#__codelineno-20-53"></a><span class="w">      </span><span class="nt">"dcat:servesDataset"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-20-54"><a id="__codelineno-20-54" name="__codelineno-20-54" href="#__codelineno-20-54"></a><span class="w">        </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/datasets/example"</span><span class="p">}</span>
+</span><span id="__span-20-55"><a id="__codelineno-20-55" name="__codelineno-20-55" href="#__codelineno-20-55"></a><span class="w">      </span><span class="p">]</span>
+</span><span id="__span-20-56"><a id="__codelineno-20-56" name="__codelineno-20-56" href="#__codelineno-20-56"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-20-57"><a id="__codelineno-20-57" name="__codelineno-20-57" href="#__codelineno-20-57"></a><span class="w">  </span><span class="p">}]</span>
+</span><span id="__span-20-58"><a id="__codelineno-20-58" name="__codelineno-20-58" href="#__codelineno-20-58"></a><span class="p">}</span>
 </span></code></pre></div>
 <h3 id="a3-negotiation-request">A.3 Negotiation request<a class="headerlink" href="#a3-negotiation-request" title="Permanent link">&para;</a></h3>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="p">{</span>

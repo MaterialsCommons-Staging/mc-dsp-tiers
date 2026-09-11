@@ -765,9 +765,7 @@
 <p><strong>This is an outline, not a specification.</strong> It records the scope agreed for Tier 2 so that the
 boundary against <a href="../materials-commons-dsp-tier1/">Tier 1</a> is written down. No section below is
 normative, and the requirement language of BCP 14 is deliberately not used yet.</p>
-<p>Feature assignments come from the
-<a href="https://github.com/orgs/MaterialsCommons-Staging/projects/1">feature board</a> as sorted in the
-WP11 session of 2026-09-08. See <a href="../tiers/">the tier model</a> for how the tiers relate.</p>
+<p>See <a href="../tiers/">the tier model</a> for how the tiers relate.</p>
 <h2 id="criterion">Criterion<a class="headerlink" href="#criterion" title="Permanent link">&para;</a></h2>
 <p>Endpoints are authenticated, catalogue content and access decisions may depend on the caller's
 identity or credentials, and policy actually constrains what a consumer may do.</p>
@@ -775,58 +773,47 @@ identity or credentials, and policy actually constrains what a consumer may do.<
 malformed message. That single sentence is the test: if every well-formed request still
 succeeds, the deployment is Tier 1 with extra machinery, not Tier 2.</p>
 <h2 id="included-capabilities">Included capabilities<a class="headerlink" href="#included-capabilities" title="Permanent link">&para;</a></h2>
-<p>Assigned to Tier 2 on 2026-09-08:</p>
+<p>Capabilities placed at this tier:</p>
 <table>
 <thead>
 <tr>
-<th>Feature</th>
 <th>Capability</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>A3</td>
 <td>Token-based authorization on DSP endpoints, via the <code>Authorization</code> header</td>
 </tr>
 <tr>
-<td>A5b</td>
 <td>Advertising authentication and participant identity in the version response (<code>auth</code>, <code>identifierType</code>)</td>
 </tr>
 <tr>
-<td>B3</td>
 <td>Nested sub-catalogues</td>
 </tr>
 <tr>
-<td>B4</td>
 <td>Distribution-level offers (<code>Distribution.hasPolicy</code>)</td>
 </tr>
 <tr>
-<td>B5a</td>
-<td>Permission rules in offers and agreements</td>
+<td>Permission rules beyond the fixed <code>use</code> permission that Tier 1 already carries</td>
 </tr>
 <tr>
-<td>B5b</td>
 <td>Prohibition and obligation rules, and the ODRL profile</td>
 </tr>
 <tr>
-<td>B6</td>
 <td>ODRL constraints on rules, including logical constraints</td>
 </tr>
 <tr>
-<td>B7</td>
 <td>Catalogue query and filter expressions</td>
 </tr>
 <tr>
-<td>B8</td>
-<td>Pagination of catalogue responses via HTTP <code>Link</code> headers</td>
+<td>Pagination of catalogue responses via HTTP <code>Link</code> headers, which Tier 1 allows as an option and this tier may require</td>
 </tr>
 <tr>
-<td>B10</td>
 <td>Access-controlled catalogues and credential-dependent catalogue content</td>
 </tr>
 </tbody>
 </table>
-<p>Contract negotiation and transfer process features are not yet assigned. Expected to land here:
+<p>The contract negotiation and transfer process capabilities are not yet placed. Expected here:
 policy-based or manual approval of contract requests, and data-plane credentials in
 <code>endpointProperties</code>.</p>
 <h2 id="excluded">Excluded<a class="headerlink" href="#excluded" title="Permanent link">&para;</a></h2>
@@ -834,9 +821,8 @@ policy-based or manual approval of contract requests, and data-plane credentials
 expected at <a href="../materials-commons-dsp-tier3/">Tier 3</a>.</p>
 <h2 id="open-questions">Open questions<a class="headerlink" href="#open-questions" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>B5b may belong at Tier 3.</strong> Prohibitions and duties express usage control after access has
-  been granted, which is beyond the Tier 2 criterion of controlling access. This was proposed in
-  the meeting; the board records Tier 2.</li>
+<li><strong>Prohibitions and duties may belong at Tier 3.</strong> They express usage control after access has
+  been granted, which is beyond the Tier 2 criterion of controlling access.</li>
 <li><strong>The filter language is undefined.</strong> DSP makes filter expressions implementation-specific, so
   a Materials Commons profile has to name one. JSONPath is proposed as the baseline any provider
   can meet, with SPARQL optional where a triple store already exists, and a mechanism for a
@@ -844,8 +830,8 @@ expected at <a href="../materials-commons-dsp-tier3/">Tier 3</a>.</p>
 <li><strong>Which authentication profile.</strong> OpenID Connect fills the extension point DSP leaves open, and
   the <code>auth</code> object has to carry a concrete <code>protocol</code>, <code>version</code> and <code>profile</code>. The exact values
   are not chosen.</li>
-<li>Whether a provider must be able to state that it withholds nothing, which the working group
-  agreed should not be expressed through the tier levels themselves.</li>
+<li>Whether a provider must be able to state that it withholds nothing. That should not be
+  expressed through the tier levels themselves.</li>
 </ul>
 <h2 id="sections-to-write">Sections to write<a class="headerlink" href="#sections-to-write" title="Permanent link">&para;</a></h2>
 <p>Following the structure of the Tier 1 profile: conformance and requirement language; scope;
