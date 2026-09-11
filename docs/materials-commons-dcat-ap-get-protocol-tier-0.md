@@ -130,7 +130,8 @@ Tier 0 includes:
 - one or more discoverable catalogue endpoints per HTTPS origin;
 - direct `GET` and `HEAD` retrieval;
 - strict DCAT-AP 3.0.1 JSON-LD;
-- at least one public dataset per catalogue;
+- at least one public dataset per catalogue, with an optional unconditional
+  ODRL offer;
 - one or more public downloadable distributions per Tier 0 dataset;
 - EU File Type and IANA media-type identifiers;
 - a required licence per distribution;
@@ -471,7 +472,7 @@ Each dataset MUST have:
 | `dct:title` | `1..*` | Non-empty literal |
 | `dct:description` | `1..*` | Non-empty literal |
 | `dct:publisher` | `1` | Catalogue publisher |
-| `odrl:hasPolicy` | `1` | Section 9.4 public-use offer |
+| `odrl:hasPolicy` | `0..1` | Optional Section 9.4 public-use offer |
 | `dcat:distribution` | `1..*` | One or more Section 10 distributions |
 
 Dataset IRIs MUST be unique. This specializes DCAT
@@ -479,15 +480,28 @@ Dataset IRIs MUST be unique. This specializes DCAT
 and DCAT-AP
 [Dataset](https://semiceu.github.io/DCAT-AP/releases/3.0.1/#Dataset).
 
-### 9.4 Public-use ODRL offer
+### 9.4 Optional public-use ODRL offer
 
-The dataset MUST link to exactly one `odrl:Offer`. The offer MUST NOT contain
-more than one permission. Including a permission is RECOMMENDED; if present,
-its action MUST be `odrl:use`. The offer MUST NOT contain constraints, duties,
-prohibitions, remedies, or a target conflicting with the dataset. The policy expresses
-unconditional technical access; it does not replace copyright, attribution,
-citation, or ethical-use metadata. The licence is carried separately by
-`dct:license` and is REQUIRED by Section 10.1.
+A dataset MAY link to at most one `odrl:Offer`. If present, the offer MUST NOT
+contain more than one permission; if a permission is present, its action MUST
+be `odrl:use`. The offer MUST NOT contain constraints, duties, prohibitions,
+remedies, or a target conflicting with the dataset.
+
+The offer is optional because nothing in this protocol consumes it. An ODRL
+policy travels with contract negotiation, and this protocol has none, so no
+contract request can reference the offer's `@id`. DCAT-AP places
+[`odrl:hasPolicy` on Distribution with cardinality `0..1`](https://semiceu.github.io/DCAT-AP/releases/3.0.1/#Distribution.haspolicy),
+"the policy expressing the rights associated with the distribution", and does
+not define it on Dataset at all, so requiring it here would be stricter than
+the profile this document claims to conform to.
+
+The rights statement is carried by `dct:license`, REQUIRED by Section 10.1. An
+offer expresses unconditional technical access only; it does not replace
+licence, copyright, attribution, citation, or ethical-use metadata.
+
+A Provider that also exposes a Materials Commons DSP Tier 1 companion carries
+an offer regardless, because DSP requires `hasPolicy` on every Dataset.
+Section 14 then applies and the two representations MUST agree.
 
 ## 10. Distribution and file metadata
 
@@ -748,8 +762,8 @@ Extensions MUST NOT:
 - [ ] Exactly one primary Catalogue has title, description, publisher,
       datasets, services, and conformance IRIs.
 - [ ] The publisher is one named Agent shared by all datasets.
-- [ ] At least one Dataset has title, description, public-use offer, and at
-      least one Distribution.
+- [ ] At least one Dataset has title, description and at least one
+      Distribution, and carries at most one public-use offer.
 - [ ] Every Distribution has EU format, IANA media type, a licence, and equal
       direct access and download URLs.
 - [ ] Distributions of one dataset have distinct formats.
