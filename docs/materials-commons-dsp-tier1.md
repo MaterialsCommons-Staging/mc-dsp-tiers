@@ -37,8 +37,8 @@ It provides:
 1. unauthenticated DSP version discovery;
 2. unauthenticated DSP catalogue and individual-dataset discovery, with
    optional catalogue pagination;
-3. one unconditional ODRL `use` offer and one or more public HTTPS-pull
-   distributions for each dataset;
+3. one unconditional ODRL offer, with the `use` permission recommended, and one
+   or more public HTTPS-pull distributions for each dataset;
 4. the provider endpoints required for the selected DSP contract-negotiation
    and transfer-process flows;
 5. a direct, unauthenticated HTTPS data plane that is not protected by the DSP
@@ -641,12 +641,15 @@ The catalogue form MUST NOT contain `target`, because DSP derives it from the
 enclosing dataset. The offer MUST NOT contain constraints, duties,
 obligations, prohibitions, remedies, or nested targets.
 
-The `permission` member is RECOMMENDED but not REQUIRED. DSP requires a
-`hasPolicy` containing an Offer, and requires that Offer to have an `@id`, but
-its rules are optional, so an Offer carrying no rule is a valid DSP Offer. A
-Tier 1 Provider that omits the permission remains conformant; one that includes
-it states explicitly that unconditional `use` is granted, which is why it is
-recommended.
+The `permission` member is RECOMMENDED but not REQUIRED. The offer MUST NOT
+contain more than one permission. If present, its action MUST be `use`, which
+the official DSP context maps to `odrl:use`.
+
+DSP requires a `hasPolicy` containing an Offer, and requires that Offer to have
+an `@id`, but its rules are optional, so an Offer carrying no rule is a valid
+DSP Offer. A Tier 1 Provider that omits the permission remains conformant; one
+that includes it states explicitly that unconditional `use` is granted, which
+is why it is recommended.
 
 This offer is not the licence. It expresses unconditional technical access,
 and it does not replace copyright, attribution, citation, or ethical-use
@@ -1121,11 +1124,6 @@ The Provider MUST accept only an offer that:
 1. uses a currently advertised offer `@id`;
 2. has one top-level `target` equal to that offer's dataset;
 3. has `@type` equal to `Offer`;
-4. contains exactly the unconditional `use` permission;
-5. contains no nested target; and
-1. uses a currently advertised offer `@id`;
-2. has one top-level `target` equal to that offer's dataset;
-3. has `@type` equal to `Offer`;
 4. contains no nested target; and
 5. is otherwise structurally equal to the advertised policy.
 
@@ -1173,13 +1171,9 @@ remain applicable.
 
 The Agreement MUST contain a unique `@id`, `@type` equal to `Agreement`, target
 equal to one catalogue dataset, assigner equal to the Provider participant,
-assignee equal to the Consumer process identifier, a UTC XML Schema `dateTime`,
-and the same unconditional permission. Rules inside the Agreement MUST NOT
-The Agreement MUST contain a unique `@id`, `@type` equal to `Agreement`, target
-equal to one catalogue dataset, assigner equal to the Provider participant,
-assignee equal to the Consumer process identifier, and a UTC XML Schema `dateTime`.
-Its `permission` member MUST be structurally equal to that of the selected
-Offer when present, and MUST be omitted when absent from that Offer.
+assignee equal to the Consumer process identifier, and a UTC XML Schema
+`dateTime`. Its `permission` member MUST be structurally equal to that of the
+selected Offer when present, and MUST be omitted when absent from that Offer.
 Rules inside the Agreement MUST NOT have their own targets.
 
 ### 11.6 Status, termination, and callbacks
@@ -1418,7 +1412,8 @@ representation is supplied. Extension metadata MUST NOT:
 
 - [ ] Only the exact advertised unconditional offer is accepted.
 - [ ] Agreement and finalization callbacks are supported.
-- [ ] Agreements have unique ID, target, parties, UTC time, and permission.
+- [ ] Agreements have unique ID, target, parties and UTC time, and mirror the
+      offer's permission, including its absence.
 - [ ] Transfers require a finalized agreement for a current dataset.
 - [ ] Requested format exactly matches one distribution of the target dataset,
       and Start supplies that distribution's public URL.
