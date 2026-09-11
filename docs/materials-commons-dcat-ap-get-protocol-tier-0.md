@@ -500,8 +500,9 @@ offer expresses unconditional technical access only; it does not replace
 licence, copyright, attribution, citation, or ethical-use metadata.
 
 A Provider that also exposes a Materials Commons DSP Tier 1 companion carries
-an offer regardless, because DSP requires `hasPolicy` on every Dataset.
-Section 14 then applies and the two representations MUST agree.
+an offer regardless, and that offer carries a `use` permission, because the DSP
+JSON Schema requires `hasPolicy` on every Dataset and requires every Offer to
+carry a rule. Section 14 then applies and the two representations MUST agree.
 
 ## 10. Distribution and file metadata
 
