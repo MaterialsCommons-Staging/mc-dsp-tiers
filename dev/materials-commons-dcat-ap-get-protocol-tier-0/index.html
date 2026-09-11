@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="zensical-0.0.60">
+      <meta name="generator" content="zensical-0.0.61">
     
     
       
@@ -973,10 +973,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#94-public-use-odrl-offer" class="md-nav__link">
+  <a href="#94-optional-public-use-odrl-offer" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        9.4 Public-use ODRL offer
+        9.4 Optional public-use ODRL offer
       </span>
     </span>
   </a>
@@ -1758,10 +1758,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#94-public-use-odrl-offer" class="md-nav__link">
+  <a href="#94-optional-public-use-odrl-offer" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        9.4 Public-use ODRL offer
+        9.4 Optional public-use ODRL offer
       </span>
     </span>
   </a>
@@ -2204,9 +2204,11 @@ strictly validated JSON-LD representation.</p>
 <li>one or more discoverable catalogue endpoints per HTTPS origin;</li>
 <li>direct <code>GET</code> and <code>HEAD</code> retrieval;</li>
 <li>strict DCAT-AP 3.0.1 JSON-LD;</li>
-<li>at least one public dataset per catalogue;</li>
-<li>exactly one public downloadable distribution per Tier 0 dataset;</li>
+<li>at least one public dataset per catalogue, with an optional unconditional
+  ODRL offer;</li>
+<li>one or more public downloadable distributions per Tier 0 dataset;</li>
 <li>EU File Type and IANA media-type identifiers;</li>
+<li>a required licence per distribution;</li>
 <li>optional byte size and SHA-256 checksum;</li>
 <li>descriptions of the catalogue service and companion public data services;</li>
 <li>optional linkage to Materials Commons DSP Tier 1; and</li>
@@ -2631,13 +2633,13 @@ contributors MAY differ.</p>
 </tr>
 <tr>
 <td><code>odrl:hasPolicy</code></td>
-<td style="text-align: right;"><code>1</code></td>
-<td>Section 9.4 public-use offer</td>
+<td style="text-align: right;"><code>0..1</code></td>
+<td>Optional Section 9.4 public-use offer</td>
 </tr>
 <tr>
 <td><code>dcat:distribution</code></td>
-<td style="text-align: right;"><code>1</code></td>
-<td>Exactly one Section 10 distribution</td>
+<td style="text-align: right;"><code>1..*</code></td>
+<td>One or more Section 10 distributions</td>
 </tr>
 </tbody>
 </table>
@@ -2645,15 +2647,27 @@ contributors MAY differ.</p>
 <a href="https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/#Class:Dataset">Dataset</a>
 and DCAT-AP
 <a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/#Dataset">Dataset</a>.</p>
-<h3 id="94-public-use-odrl-offer">9.4 Public-use ODRL offer<a class="headerlink" href="#94-public-use-odrl-offer" title="Permanent link">&para;</a></h3>
-<p>The dataset MUST link to one <code>odrl:Offer</code> with one permission whose action is
-<code>odrl:use</code>. The offer MUST NOT contain constraints, duties, prohibitions,
-remedies, or a target conflicting with the dataset. The policy expresses
-unconditional technical access; it does not replace licence, copyright,
-attribution, citation, or ethical-use metadata.</p>
+<h3 id="94-optional-public-use-odrl-offer">9.4 Optional public-use ODRL offer<a class="headerlink" href="#94-optional-public-use-odrl-offer" title="Permanent link">&para;</a></h3>
+<p>A dataset MAY link to at most one <code>odrl:Offer</code>. If present, the offer MUST NOT
+contain more than one permission; if a permission is present, its action MUST
+be <code>odrl:use</code>. The offer MUST NOT contain constraints, duties, prohibitions,
+remedies, or a target conflicting with the dataset.</p>
+<p>The offer is optional because nothing in this protocol consumes it. An ODRL
+policy travels with contract negotiation, and this protocol has none, so no
+contract request can reference the offer's <code>@id</code>. DCAT-AP places
+<a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/#Distribution.haspolicy"><code>odrl:hasPolicy</code> on Distribution with cardinality <code>0..1</code></a>,
+"the policy expressing the rights associated with the distribution", and does
+not define it on Dataset at all, so requiring it here would be stricter than
+the profile this document claims to conform to.</p>
+<p>The rights statement is carried by <code>dct:license</code>, REQUIRED by Section 10.1. An
+offer expresses unconditional technical access only; it does not replace
+licence, copyright, attribution, citation, or ethical-use metadata.</p>
+<p>A Provider that also exposes a Materials Commons DSP Tier 1 companion carries
+an offer regardless, because DSP requires <code>hasPolicy</code> on every Dataset.
+Section 14 then applies and the two representations MUST agree.</p>
 <h2 id="10-distribution-and-file-metadata">10. Distribution and file metadata<a class="headerlink" href="#10-distribution-and-file-metadata" title="Permanent link">&para;</a></h2>
 <h3 id="101-distribution">10.1 Distribution<a class="headerlink" href="#101-distribution" title="Permanent link">&para;</a></h3>
-<p>Each Tier 0 dataset MUST have exactly one distribution with:</p>
+<p>Each Tier 0 dataset MUST have one or more distributions, each with:</p>
 <table>
 <thead>
 <tr>
@@ -2687,6 +2701,11 @@ attribution, citation, or ethical-use metadata.</p>
 <td><code>dcat:downloadURL</code></td>
 <td style="text-align: right;"><code>1</code></td>
 <td>Same direct public HTTPS URL</td>
+</tr>
+<tr>
+<td><code>dct:license</code></td>
+<td style="text-align: right;"><code>1</code></td>
+<td>IRI of a published licence, typed <code>dct:LicenseDocument</code></td>
 </tr>
 <tr>
 <td><code>dcat:accessService</code></td>
@@ -2744,6 +2763,9 @@ apply.</p>
 </table>
 <p>Another representation MAY be used only when both an applicable EU File Type
 concept and IANA media-type IRI are supplied.</p>
+<p>Distributions of one dataset MUST have distinct <code>dct:format</code> values, so that a
+consumer can select between them. This matches Materials Commons DSP Tier 1,
+where the DSP <code>format</code> selects the distribution during a transfer.</p>
 <p>The graph MUST explicitly assert the selected format resource as a
 <code>dct:MediaTypeOrExtent</code> and the selected media-type resource as a
 <code>dct:MediaType</code>. Loading a controlled-vocabulary document during validation
@@ -2945,10 +2967,11 @@ series, catalogue records, and identifiers.</p>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Exactly one primary Catalogue has title, description, publisher,
       datasets, services, and conformance IRIs.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> The publisher is one named Agent shared by all datasets.</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> At least one Dataset has title, description, public-use offer, and one
-      Distribution.</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Every Distribution has EU format, IANA media type, and equal direct
-      access and download URLs.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> At least one Dataset has title, description and at least one
+      Distribution, and carries at most one public-use offer.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Every Distribution has EU format, IANA media type, a licence, and equal
+      direct access and download URLs.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Distributions of one dataset have distinct formats.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Optional sizes and checksums use the required values and datatypes.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> The Catalogue service endpoint is an RDF IRI and matches discovery.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Every service has known served datasets and standards identifiers.</li>
@@ -3180,10 +3203,14 @@ series, catalogue records, and identifiers.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["announce.dismiss","content.code.annotate","content.action.edit","content.action.view","content.code.copy","content.code.select","content.footnote.tooltips","content.tabs.link","content.tooltips","navigation.footer","navigation.indexes","navigation.tabs","navigation.instant","navigation.instant.prefetch","navigation.path","navigation.prune","navigation.top","navigation.tracking","search.highlight"],"search":"../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":{"provider":"mike"}}</script>
+      
+      
+        
+        
+      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["announce.dismiss","content.code.annotate","content.action.edit","content.action.view","content.code.copy","content.code.select","content.footnote.tooltips","content.tabs.link","content.tooltips","navigation.footer","navigation.indexes","navigation.tabs","navigation.instant","navigation.instant.prefetch","navigation.path","navigation.prune","navigation.top","navigation.tracking","search.highlight"],"redirect":null,"search":"../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":{"provider":"mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.88ee1349.min.js"></script>
+      <script src="../assets/javascripts/bundle.df5d1f2b.min.js"></script>
       
     
   </body>

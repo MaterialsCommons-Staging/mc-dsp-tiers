@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="zensical-0.0.60">
+      <meta name="generator" content="zensical-0.0.61">
     
     
       
@@ -2476,8 +2476,8 @@ without requiring authentication or access control.</p>
 <li>unauthenticated DSP version discovery;</li>
 <li>unauthenticated DSP catalogue and individual-dataset discovery, with
    optional catalogue pagination;</li>
-<li>one unconditional ODRL <code>use</code> offer and one or more public HTTPS-pull
-   distributions for each dataset;</li>
+<li>one unconditional ODRL offer, with the <code>use</code> permission recommended, and one
+   or more public HTTPS-pull distributions for each dataset;</li>
 <li>the provider endpoints required for the selected DSP contract-negotiation
    and transfer-process flows;</li>
 <li>a direct, unauthenticated HTTPS data plane that is not protected by the DSP
@@ -2609,11 +2609,11 @@ be used to limit that access.</p>
 <li>retrieval of one dataset description by its exact identifier;</li>
 <li>one or more public distributions per dataset, with distinct format values;</li>
 <li>public, finite, consumer-pull transfer over HTTPS;</li>
-<li>unconditional ODRL permission to perform the <code>use</code> action;</li>
+<li>an unconditional ODRL offer, with the <code>use</code> permission recommended;</li>
 <li>process termination, suspension, resumption, and completion within the
   constrained state transitions defined here;</li>
-<li>DCAT-AP-compatible publication metadata for formats, media types, direct
-  download URLs, optional byte sizes, and optional SHA-256 checksums;</li>
+<li>DCAT-AP-compatible publication metadata for formats, media types, licences,
+  direct download URLs, optional byte sizes, and optional SHA-256 checksums;</li>
 <li>optional discovery of a Materials Commons DCAT-AP Tier 0 service through the
   DSP catalogue; and</li>
 <li>optional discovery and retrieval of a context-substituted DCAT-AP
@@ -3154,6 +3154,11 @@ distributions.</p>
 <td>Absolute stable IRI; unique</td>
 </tr>
 <tr>
+<td>Licence</td>
+<td style="text-align: right;"><code>1</code> per distribution</td>
+<td>IRI of a published licence, typed <code>dct:LicenseDocument</code></td>
+</tr>
+<tr>
 <td>Public access URL</td>
 <td style="text-align: right;"><code>1</code> per distribution</td>
 <td>Absolute HTTPS URL</td>
@@ -3194,8 +3199,18 @@ MUST NOT be serialized.</p>
 </span></code></pre></div>
 <p>The catalogue form MUST NOT contain <code>target</code>, because DSP derives it from the
 enclosing dataset. The offer MUST NOT contain constraints, duties,
-obligations, prohibitions, remedies, or nested targets. It does not replace
-licence, copyright, attribution, citation, or ethical-use metadata.</p>
+obligations, prohibitions, remedies, or nested targets.</p>
+<p>The <code>permission</code> member is RECOMMENDED but not REQUIRED. The offer MUST NOT
+contain more than one permission. If present, its action MUST be <code>use</code>, which
+the official DSP context maps to <code>odrl:use</code>.</p>
+<p>DSP requires a <code>hasPolicy</code> containing an Offer, and requires that Offer to have
+an <code>@id</code>, but its rules are optional, so an Offer carrying no rule is a valid
+DSP Offer. A Tier 1 Provider that omits the permission remains conformant; one
+that includes it states explicitly that unconditional <code>use</code> is granted, which
+is why it is recommended.</p>
+<p>This offer is not the licence. It expresses unconditional technical access,
+and it does not replace copyright, attribution, citation, or ethical-use
+metadata. The licence is carried separately and is REQUIRED by Section 8.5.</p>
 <p>In a <code>ContractRequestMessage</code>, the same offer MUST have exactly one top-level
 <code>target</code> equal to the dataset identifier, following the DSP
 <a href="https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#contract-request-message">Contract Request Message</a>.</p>
@@ -3210,9 +3225,18 @@ contain:</p>
 <li><code>dcat:accessURL</code> as an <code>@id</code> object containing the public HTTPS URL;</li>
 <li><code>dcat:downloadURL</code> as an <code>@id</code> object containing that same direct URL;</li>
 <li><code>dcat:mediaType</code> as an <code>@id</code> object containing the IANA media-type IRI and
-  <code>@type</code> equal to <code>dct:MediaType</code>; and</li>
+  <code>@type</code> equal to <code>dct:MediaType</code>;</li>
+<li><code>dct:license</code> as an <code>@id</code> object containing the IRI of a published licence,
+  typed <code>dct:LicenseDocument</code>; and</li>
 <li>one DSP <code>accessService</code> object identifying the root DSP access service.</li>
 </ul>
+<p>The licence is REQUIRED, which is stricter than DCAT-AP, where
+<a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/#Distribution.licence">Distribution licence</a>
+is only recommended. Publishing a dataset with no licence would leave a
+consumer to infer that nothing is granted, which contradicts the unconditional
+offer in Section 8.4 that accompanies it. A well-known licence IRI, for example
+a Creative Commons one, SHOULD be used in preference to a bespoke document, and
+in preference to modelling the same terms in ODRL.</p>
 <p>These requirements specialize the DCAT-AP properties for Distribution
 <a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/#Distribution.format">format</a>,
 <a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/#Distribution.mediatype">media type</a>,
@@ -3292,6 +3316,13 @@ feature IRI and the DCAT-AP 3.0.1 profile IRI, each typed <code>dct:Standard</co
 <p>Each distribution MUST identify that same service through <code>accessService</code>.
 An embedded copy and the root copy, if both contain metadata, MUST be
 identical after RDF node merging.</p>
+<p>The prefixed spelling <code>dcat:servesDataset</code> is required, and MUST NOT be
+shortened to a bare <code>servesDataset</code>. The DSP JSON Schema declares the bare
+property, but the official DSP context defines no term for it, so a bare
+<code>servesDataset</code> expands to no triple at all and the served-dataset list is
+silently lost. The <code>dcat</code> prefix is defined in that context, so the prefixed
+form expands correctly. Reported upstream as
+<a href="https://github.com/eclipse-dataspace-protocol-base/DataspaceProtocol/issues/277">DataspaceProtocol#277</a>.</p>
 <p><code>endpointURL</code> MUST remain the DSP-required JSON string. A Provider MUST NOT
 replace it with a JSON-LD <code>@id</code> object in an attempt to make the DSP response
 DCAT-conformant, because doing so violates the DSP JSON Schema.</p>
@@ -3605,7 +3636,6 @@ fragment.</p>
 <li>uses a currently advertised offer <code>@id</code>;</li>
 <li>has one top-level <code>target</code> equal to that offer's dataset;</li>
 <li>has <code>@type</code> equal to <code>Offer</code>;</li>
-<li>contains exactly the unconditional <code>use</code> permission;</li>
 <li>contains no nested target; and</li>
 <li>is otherwise structurally equal to the advertised policy.</li>
 </ol>
@@ -3645,9 +3675,10 @@ remain applicable.</p>
 <h3 id="115-agreement">11.5 Agreement<a class="headerlink" href="#115-agreement" title="Permanent link">&para;</a></h3>
 <p>The Agreement MUST contain a unique <code>@id</code>, <code>@type</code> equal to <code>Agreement</code>, target
 equal to one catalogue dataset, assigner equal to the Provider participant,
-assignee equal to the Consumer process identifier, a UTC XML Schema <code>dateTime</code>,
-and the same unconditional permission. Rules inside the Agreement MUST NOT
-have their own targets.</p>
+assignee equal to the Consumer process identifier, and a UTC XML Schema
+<code>dateTime</code>. Its <code>permission</code> member MUST be structurally equal to that of the
+selected Offer when present, and MUST be omitted when absent from that Offer.
+Rules inside the Agreement MUST NOT have their own targets.</p>
 <h3 id="116-status-termination-and-callbacks">11.6 Status, termination, and callbacks<a class="headerlink" href="#116-status-termination-and-callbacks" title="Permanent link">&para;</a></h3>
 <p><code>GET &lt;base&gt;/negotiations/{providerPid}</code> MUST return the current acknowledged
 state or <code>404</code>. Either party MAY terminate a nonterminal process. All route and
@@ -3870,8 +3901,9 @@ representation is supplied. Extension metadata MUST NOT:</p>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> All datasets share one publisher.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Each dataset has one unconditional offer and one or more public
       distributions, with distinct DSP format values within the dataset.</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Format, media type, access URL, and direct download URL are present with
-      the required RDF classes and ranges.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Every distribution states a licence.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Format, media type, licence, access URL, and direct download URL are
+      present with the required RDF classes and ranges.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Every format is explicitly typed <code>dct:MediaTypeOrExtent</code>.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Every media type is explicitly typed <code>dct:MediaType</code>.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Known byte sizes are explicitly typed <code>xsd:nonNegativeInteger</code>, and
@@ -3905,7 +3937,8 @@ representation is supplied. Extension metadata MUST NOT:</p>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Only the exact advertised unconditional offer is accepted.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Agreement and finalization callbacks are supported.</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Agreements have unique ID, target, parties, UTC time, and permission.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Agreements have unique ID, target, parties and UTC time, and mirror the
+      offer's permission, including its absence.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Transfers require a finalized agreement for a current dataset.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Requested format exactly matches one distribution of the target dataset,
       and Start supplies that distribution's public URL.</li>
@@ -4170,10 +4203,14 @@ a requirement to implement consumer endpoints in a Tier 1 Provider.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["announce.dismiss","content.code.annotate","content.action.edit","content.action.view","content.code.copy","content.code.select","content.footnote.tooltips","content.tabs.link","content.tooltips","navigation.footer","navigation.indexes","navigation.tabs","navigation.instant","navigation.instant.prefetch","navigation.path","navigation.prune","navigation.top","navigation.tracking","search.highlight"],"search":"../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":{"provider":"mike"}}</script>
+      
+      
+        
+        
+      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["announce.dismiss","content.code.annotate","content.action.edit","content.action.view","content.code.copy","content.code.select","content.footnote.tooltips","content.tabs.link","content.tooltips","navigation.footer","navigation.indexes","navigation.tabs","navigation.instant","navigation.instant.prefetch","navigation.path","navigation.prune","navigation.top","navigation.tracking","search.highlight"],"redirect":null,"search":"../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":{"provider":"mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.88ee1349.min.js"></script>
+      <script src="../assets/javascripts/bundle.df5d1f2b.min.js"></script>
       
     
   </body>
