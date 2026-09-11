@@ -2476,8 +2476,8 @@ without requiring authentication or access control.</p>
 <li>unauthenticated DSP version discovery;</li>
 <li>unauthenticated DSP catalogue and individual-dataset discovery, with
    optional catalogue pagination;</li>
-<li>one unconditional ODRL offer, with the <code>use</code> permission recommended, and one
-   or more public HTTPS-pull distributions for each dataset;</li>
+<li>one unconditional ODRL <code>use</code> offer and one or more public HTTPS-pull
+   distributions for each dataset;</li>
 <li>the provider endpoints required for the selected DSP contract-negotiation
    and transfer-process flows;</li>
 <li>a direct, unauthenticated HTTPS data plane that is not protected by the DSP
@@ -2609,7 +2609,7 @@ be used to limit that access.</p>
 <li>retrieval of one dataset description by its exact identifier;</li>
 <li>one or more public distributions per dataset, with distinct format values;</li>
 <li>public, finite, consumer-pull transfer over HTTPS;</li>
-<li>an unconditional ODRL offer, with the <code>use</code> permission recommended;</li>
+<li>an unconditional ODRL permission to perform the <code>use</code> action;</li>
 <li>process termination, suspension, resumption, and completion within the
   constrained state transitions defined here;</li>
 <li>DCAT-AP-compatible publication metadata for formats, media types, licences,
@@ -3200,14 +3200,17 @@ MUST NOT be serialized.</p>
 <p>The catalogue form MUST NOT contain <code>target</code>, because DSP derives it from the
 enclosing dataset. The offer MUST NOT contain constraints, duties,
 obligations, prohibitions, remedies, or nested targets.</p>
-<p>The <code>permission</code> member is RECOMMENDED but not REQUIRED. The offer MUST NOT
-contain more than one permission. If present, its action MUST be <code>use</code>, which
-the official DSP context maps to <code>odrl:use</code>.</p>
-<p>DSP requires a <code>hasPolicy</code> containing an Offer, and requires that Offer to have
-an <code>@id</code>, but its rules are optional, so an Offer carrying no rule is a valid
-DSP Offer. A Tier 1 Provider that omits the permission remains conformant; one
-that includes it states explicitly that unconditional <code>use</code> is granted, which
-is why it is recommended.</p>
+<p>The offer MUST carry exactly one <code>permission</code>, whose action MUST be <code>use</code>,
+which the official DSP context maps to <code>odrl:use</code>.</p>
+<p>The permission is not optional, because the DSP JSON Schema does not allow it
+to be. <code>Offer</code> requires <code>anyOf</code> of <code>permission</code> or <code>prohibition</code>, and Section
+2.3 excludes prohibitions, so the permission is the only rule a Tier 1 offer
+may carry. Section 5.3 requires outgoing documents to validate against that
+schema, so an offer without a rule is not a conforming Tier 1 catalogue.</p>
+<p>It is fixed boilerplate rather than a rights statement: every Tier 1 dataset
+carries the identical four tokens, they convey nothing about the dataset, and
+they cannot restrict access. The rights statement is the licence required by
+Section 8.5.</p>
 <p>This offer is not the licence. It expresses unconditional technical access,
 and it does not replace copyright, attribution, citation, or ethical-use
 metadata. The licence is carried separately and is REQUIRED by Section 8.5.</p>
@@ -3636,6 +3639,7 @@ fragment.</p>
 <li>uses a currently advertised offer <code>@id</code>;</li>
 <li>has one top-level <code>target</code> equal to that offer's dataset;</li>
 <li>has <code>@type</code> equal to <code>Offer</code>;</li>
+<li>contains exactly the unconditional <code>use</code> permission;</li>
 <li>contains no nested target; and</li>
 <li>is otherwise structurally equal to the advertised policy.</li>
 </ol>
@@ -3675,10 +3679,9 @@ remain applicable.</p>
 <h3 id="115-agreement">11.5 Agreement<a class="headerlink" href="#115-agreement" title="Permanent link">&para;</a></h3>
 <p>The Agreement MUST contain a unique <code>@id</code>, <code>@type</code> equal to <code>Agreement</code>, target
 equal to one catalogue dataset, assigner equal to the Provider participant,
-assignee equal to the Consumer process identifier, and a UTC XML Schema
-<code>dateTime</code>. Its <code>permission</code> member MUST be structurally equal to that of the
-selected Offer when present, and MUST be omitted when absent from that Offer.
-Rules inside the Agreement MUST NOT have their own targets.</p>
+assignee equal to the Consumer process identifier, a UTC XML Schema
+<code>dateTime</code>, and a <code>permission</code> structurally equal to that of the selected
+Offer. Rules inside the Agreement MUST NOT have their own targets.</p>
 <h3 id="116-status-termination-and-callbacks">11.6 Status, termination, and callbacks<a class="headerlink" href="#116-status-termination-and-callbacks" title="Permanent link">&para;</a></h3>
 <p><code>GET &lt;base&gt;/negotiations/{providerPid}</code> MUST return the current acknowledged
 state or <code>404</code>. Either party MAY terminate a nonterminal process. All route and
@@ -3937,8 +3940,7 @@ representation is supplied. Extension metadata MUST NOT:</p>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Only the exact advertised unconditional offer is accepted.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Agreement and finalization callbacks are supported.</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Agreements have unique ID, target, parties and UTC time, and mirror the
-      offer's permission, including its absence.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Agreements have unique ID, target, parties, UTC time, and permission.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Transfers require a finalized agreement for a current dataset.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Requested format exactly matches one distribution of the target dataset,
       and Start supplies that distribution's public URL.</li>
