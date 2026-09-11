@@ -55,9 +55,12 @@ requirements.
 This specification defines three conformance targets:
 
 - A **Discovery Service** exposes the well-known document in Section 6.
-- A **Catalogue Service** implements the HTTPS behavior in Section 7.
+- A **Catalogue Service** implements the HTTPS behavior in Section 7, the public
+  distribution behavior in Section 13, and the transport and disclosure rules in
+  Section 15.
 - A **Catalogue Representation** is the DCAT-AP RDF graph and JSON-LD
-  serialization in Sections 8 through 12.
+  serialization in Sections 8 through 12, and satisfies the companion
+  consistency rules in Section 14 when a companion is advertised.
 
 A service claiming **Materials Commons DCAT-AP Get Protocol Tier 0 conformance** MUST
 conform to all three targets.
@@ -492,8 +495,9 @@ policy travels with contract negotiation, and this protocol has none, so no
 contract request can reference the offer's `@id`. DCAT-AP places
 [`odrl:hasPolicy` on Distribution with cardinality `0..1`](https://semiceu.github.io/DCAT-AP/releases/3.0.1/#Distribution.haspolicy),
 "the policy expressing the rights associated with the distribution", and does
-not define it on Dataset at all, so requiring it here would be stricter than
-the profile this document claims to conform to.
+not define it on Dataset at all. Carrying it on a Dataset is an extension under
+Section 16 rather than DCAT-AP usage, which is a further reason not to require
+it.
 
 The rights statement is carried by `dct:license`, REQUIRED by Section 10.1. An
 offer expresses unconditional technical access only; it does not replace
@@ -693,14 +697,17 @@ the following MUST agree for the same snapshot:
 - publisher identifier and name;
 - dataset identifiers, titles, and descriptions;
 - distribution identifiers;
+- offers and their policies, where present;
 - public access and download URLs;
 - EU File Type and IANA media-type IRIs;
 - byte size and checksum when supplied; and
 - dataset membership of each shared service.
 
-The DCAT-AP graph MAY include additional DCAT-AP metadata that cannot be
-represented safely in DSP. The DSP document MAY include negotiation and
-transfer metadata that has no role in this graph.
+Where the companion is advertised through Materials Commons DSP Tier 1, that
+profile's Section 9.5 governs, and it requires the two representations to share
+one Common catalogue value. This section states the fields that MUST agree in
+every case, including where no DSP companion is advertised and Section 9.5
+therefore does not apply.
 
 The two endpoints need not complete requests atomically. Short-lived
 differences between snapshots SHOULD be minimized, and contradictory metadata
@@ -811,6 +818,8 @@ Extensions MUST NOT:
     "mediaType": {"@id": "dcat:mediaType", "@type": "@id"},
     "accessURL": {"@id": "dcat:accessURL", "@type": "@id"},
     "downloadURL": {"@id": "dcat:downloadURL", "@type": "@id"},
+    "license": {"@id": "dct:license", "@type": "@id"},
+    "LicenseDocument": "dct:LicenseDocument",
     "endpointURL": {"@id": "dcat:endpointURL", "@type": "@id"},
     "servesDataset": {"@id": "dcat:servesDataset", "@type": "@id", "@container": "@set"},
     "conformsTo": {"@id": "dct:conformsTo", "@type": "@id", "@container": "@set"},
@@ -860,7 +869,11 @@ Extensions MUST NOT:
         "@type": "MediaType"
       },
       "accessURL": "https://provider.example/files/example.csv",
-      "downloadURL": "https://provider.example/files/example.csv"
+      "downloadURL": "https://provider.example/files/example.csv",
+      "license": {
+        "@id": "http://creativecommons.org/licenses/by/4.0/",
+        "@type": "LicenseDocument"
+      }
     }
   }],
   "service": [{

@@ -149,8 +149,11 @@ follows these rules:
 3. every other RDF range, class assertion, controlled-vocabulary value, and
    datatype required by this profile MUST be represented explicitly in the
    common JSON value and MUST NOT depend on an implementation inference;
-4. the DSP `application/json` response MUST NOT claim that its RDF graph
-   conforms to DCAT or DCAT-AP;
+4. the DSP `application/json` response MUST NOT claim that its own RDF graph
+   conforms to DCAT or DCAT-AP. The catalogue-level `dct:conformsTo` values
+   required by Section 7.2 describe the common catalogue value and its
+   context-substituted DCAT-AP representation, not the expansion of the DSP
+   response itself;
 5. an alternate DCAT-AP representation, when supplied, MUST change only the
    top-level `@context`, the HTTP representation headers, and serialization
    details that do not change the JSON value; and
@@ -222,8 +225,10 @@ The following are outside Tier 1:
 - DID-based service discovery requirements;
 - catalogue brokers and catalogue replication;
 - data-plane protocols other than HTTPS pull; and
-- a DCAT 3 or DCAT-AP conformance claim for the DSP `application/json`
-  response.
+- a DCAT 3 or DCAT-AP conformance claim for the RDF graph obtained by expanding
+  the DSP `application/json` response under the official DSP context. The
+  catalogue still carries the `dct:conformsTo` values of Section 7.2, which
+  describe the common catalogue value rather than that expansion.
 
 An implementation MAY provide excluded capabilities in another profile or
 tier. They MUST NOT be required to access a Tier 1 dataset or alter the
@@ -454,7 +459,7 @@ The response is a DSP document. Under the official DSP context its
 DCAT 3 or DCAT-AP conformant RDF representation. The catalogue-level
 `dct:conformsTo` values identify the conformance targets of the shared
 catalogue value and its context-substituted DCAT-AP representation; they MUST
-NOT be interpreted as overriding the RDF-literal exception in Section 3. A
+NOT be interpreted as overriding the RDF-literal exception in Section 1.4. A
 `DataService` MAY additionally claim conformance to a protocol that it
 implements; such a service-level statement does not claim that the enclosing
 DSP serialization removes that exception.
@@ -582,6 +587,7 @@ One catalogue snapshot MUST define:
 | Title | `1` | Non-empty string |
 | Description | `1` | Non-empty string |
 | Participant identifier | `1` | Absolute stable IRI |
+| Conformance | `2..*` | Tier 0 and DCAT-AP 3.0.1 profile IRIs, typed `dct:Standard`, per Section 7.2 |
 | Publisher | `1` | One shared Agent identifier and name |
 | DSP access service | `1` | Root service with stable ID, title, `<base>` endpoint, conformance, and served datasets |
 | Dataset | `1..*` | At least one Tier 1 dataset |
@@ -1378,6 +1384,8 @@ representation is supplied. Extension metadata MUST NOT:
       dataset exactly once. Invalidated page references return `404 CatalogError`.
 - [ ] Dataset, offer, distribution, and service IDs are stable and unique.
 - [ ] All datasets share one publisher.
+- [ ] The catalogue carries the Tier 0 and DCAT-AP 3.0.1 conformance IRIs as
+      typed `dct:Standard` objects.
 - [ ] Each dataset has one unconditional offer and one or more public
       distributions, with distinct DSP format values within the dataset.
 - [ ] Every distribution states a licence.
@@ -1492,6 +1500,10 @@ Accept: application/json
     },
     "dcat:accessURL": {"@id": "https://provider.example/files/example.csv"},
     "dcat:downloadURL": {"@id": "https://provider.example/files/example.csv"},
+    "dct:license": {
+      "@id": "http://creativecommons.org/licenses/by/4.0/",
+      "@type": "dct:LicenseDocument"
+    },
     "dcat:byteSize": {
       "@value": "12345",
       "@type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger"

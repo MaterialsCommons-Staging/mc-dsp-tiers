@@ -3,8 +3,8 @@
 ## Status of this document
 
 Non-normative. This page explains how the Materials Commons tiers relate to each other, to the
-Dataspace Protocol, and to the profiles that specify them. It records what the WP11 working group
-has agreed and what it has not.
+Dataspace Protocol, and to the profiles that specify them. It records what has been settled and
+what has not.
 
 Sections marked **proposed** have not been decided. They are written down so they can be argued
 against rather than rediscovered.
@@ -20,8 +20,10 @@ Two properties, both agreed:
    does not lose the tier. An implementation claiming Tier 1 may also support authentication;
    consumers simply cannot rely on it.
 2. **Claiming a tier means the DSP functionality of every tier below it is available too.**
-   Tier 0 is the exception: its DCAT-AP GET protocol is a separate conformance claim and
-   stays optional at higher tiers.
+   Two things do not carry upward. The Tier 0 DCAT-AP GET protocol is a separate conformance
+   claim and stays optional at every higher tier. Tier 1's guarantee that every advertised
+   dataset is retrievable without credentials is a property of Tier 1, not an obligation on
+   Tier 2, whose whole purpose is to make access depend on the caller.
 
 The consequence is that a tier is a promise to a consumer about the *least* it can expect, not a
 description of the provider's deployment.
@@ -55,7 +57,7 @@ being a `POST`, and it would not be fixed by relaxing that:
 - `providerPid` is **minted per process**, and the negotiation and transfer state machines
   require mutation with commit-only-after-`2xx`. No file can be pre-generated for an identifier
   that does not yet exist.
-- Thirteen of the fifteen provider endpoints in
+- Eleven of the fifteen provider endpoints in
   [DSP Tier 1, Section 5.2](materials-commons-dsp-tier1.md) remain `POST`.
 
 The first two are obligations of a DSP **Connector**. The Catalog Protocol names a **Catalog
@@ -86,9 +88,12 @@ This was a rename, not new work: the DCAT-AP GET Protocol already specified exac
 It changed the document title, the `tag:` profile IRI, and the cross-references in DSP Tier 1.
 Both documents remain prototype drafts, so the numbering is open to revision.
 
-The migration property that makes the ladder worth having is that **Tier 0 to Tier 1 changes
-nothing about the assets or the catalogue content**. A publisher adds one `DataService` reference
-and the same catalogue becomes reachable through DSP.
+The migration property that makes the ladder worth having is that **Tier 0 to Tier 1 leaves the
+assets untouched**. The files, their URLs, their formats and their licences are unchanged, and the
+catalogue keeps its identifiers. What the publisher adds is protocol scaffolding: a
+`participantId`, an offer carrying the fixed `use` permission that the DSP schema requires, an
+`accessService` on every distribution, the DSP `format` string alongside the `dct:format` node,
+and the prefixed `dcat:servesDataset` spelling.
 
 ## 5. Proposal: splitting the Tier 1 conformance target
 
@@ -135,11 +140,11 @@ Where the token sits determines whether the deployment is on this ladder at all:
 
 ## 7. Open decisions
 
-Carried into the WP11 session on 2026-09-25:
+Still to settle:
 
 - The Tier 1 conformance-target split, Section 5.
-- Feature assignment for the contract negotiation and transfer process sections, and for the
-  remaining catalogue features. Eighteen of thirty-eight features are unassigned.
+- Which tier the contract negotiation and transfer process capabilities belong to, and the
+  remaining catalogue capabilities. Roughly half of the inventory is still unassigned.
 - The filter language a Tier 2 provider must support. JSONPath is proposed as the baseline that
   any provider can meet, with SPARQL optional and a mechanism for advertising more than one.
 - Whether pagination belongs at Tier 1 rather than Tier 2 now that Tier 0 carries the
