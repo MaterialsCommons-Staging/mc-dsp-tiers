@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+      <url>
+        <loc>https://materialscommons-staging.github.io/mc-dsp-tiers/0.1.0/</loc>
+      </url>
+      <url>
+        <loc>https://materialscommons-staging.github.io/mc-dsp-tiers/0.1.0/tiers/</loc>
+      </url>
+      <url>
+        <loc>https://materialscommons-staging.github.io/mc-dsp-tiers/0.1.0/materials-commons-dcat-ap-get-protocol-tier-0/</loc>
+      </url>
+      <url>
+        <loc>https://materialscommons-staging.github.io/mc-dsp-tiers/0.1.0/materials-commons-dsp-tier1/</loc>
+      </url>
+      <url>
+        <loc>https://materialscommons-staging.github.io/mc-dsp-tiers/0.1.0/materials-commons-dsp-tier2/</loc>
+      </url>
+      <url>
+        <loc>https://materialscommons-staging.github.io/mc-dsp-tiers/0.1.0/materials-commons-dsp-tier3/</loc>
+      </url>
+</urlset>

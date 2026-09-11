@@ -1,0 +1,3249 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Materials Commons tiered profiles of the Dataspace Protocol (DSP), DCAT-3 and DCAT-AP">
+      
+      
+        <meta name="author" content="Materials Commons Contributors">
+      
+      
+        <link rel="canonical" href="https://materialscommons-staging.github.io/mc-dsp-tiers/0.1.0/materials-commons-dcat-ap-get-protocol-tier-0/">
+      
+      
+        <link rel="prev" href="../tiers/">
+      
+      
+        <link rel="next" href="../materials-commons-dsp-tier1/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="zensical-0.0.61">
+    
+    
+      
+        <title>Tier 0 (DCAT-AP GET) - Materials Commons DSP Tiers</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="../assets/stylesheets/modern/main.ce62732f.min.css">
+      
+        
+          
+        
+        <link rel="stylesheet" href="../assets/stylesheets/modern/palette.812a03bb.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,500,500i,700,700i%7CJetBrains+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_scope.pathname.endsWith("/")||(__md_scope=new URL(__md_scope.pathname+"/",location)),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,_=__md_scope)=>JSON.parse(t.getItem(_.pathname+"."+e)),__md_set=(e,t,_=localStorage,a=__md_scope)=>{try{_.setItem(a.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer" aria-label="Navigation"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#prototype-draft-for-discussion-materials-commons-dcat-ap-get-protocol-tier-0-public-catalogues" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="./.." title="Materials Commons DSP Tiers" class="md-header__button md-logo" aria-label="Materials Commons DSP Tiers" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 5v16M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer" aria-label="Navigation">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Materials Commons DSP Tiers
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Tier 0 (DCAT-AP GET)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="deep-orange"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search" aria-label="Search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Search">
+  <button type="button" class="md-search__button">
+    Search
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+        <a href="https://github.com/MaterialsCommons-Staging/mc-dsp-tiers" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M216.5 362.5c-66-8-112.5-55.5-112.5-117 0-25 9-52 24-70-6.5-16.5-5.5-51.5 2-66 20-2.5 47 8 63 22.5 19-6 39-9 63.5-9s44.5 3 62.5 8.5c15.5-14 43-24.5 63-22 7 13.5 8 48.5 1.5 65.5 16 19 24.5 44.5 24.5 70.5 0 61.5-46.5 108-113.5 116.5 17 11 28.5 35 28.5 62.5v52c0 15 12.5 23.5 27.5 17.5C441 459.5 512 369 512 257 512 115.5 397 0 255.5 0S0 115.5 0 257c0 111 70.5 203 165.5 237.5 13.5 5 26.5-4 26.5-17.5v-40c-7 3-16 5-24 5-33 0-52.5-18-66.5-51.5-5.5-13.5-11.5-21.5-23-23-6-.5-8-3-8-6 0-6 10-10.5 20-10.5 14.5 0 27 9 40 27.5 10 14.5 20.5 21 33 21s20.5-4.5 32-16c8.5-8.5 15-16 21-21"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MaterialsCommons-Staging/mc-dsp-tiers
+  </div>
+</a>
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="./.." class="md-tabs__link">
+        
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../tiers/" class="md-tabs__link">
+        
+  
+  Tier model
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="././" class="md-tabs__link">
+        
+  
+  Tier 0 (DCAT-AP GET)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../materials-commons-dsp-tier1/" class="md-tabs__link">
+        
+  
+  Tier 1 (DSP)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../materials-commons-dsp-tier2/" class="md-tabs__link">
+        
+  
+  Tier 2 (outline)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../materials-commons-dsp-tier3/" class="md-tabs__link">
+        
+  
+  Tier 3 (outline)
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="./.." title="Materials Commons DSP Tiers" class="md-nav__button md-logo" aria-label="Materials Commons DSP Tiers" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 5v16M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
+
+    </a>
+    Materials Commons DSP Tiers
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/MaterialsCommons-Staging/mc-dsp-tiers" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M216.5 362.5c-66-8-112.5-55.5-112.5-117 0-25 9-52 24-70-6.5-16.5-5.5-51.5 2-66 20-2.5 47 8 63 22.5 19-6 39-9 63.5-9s44.5 3 62.5 8.5c15.5-14 43-24.5 63-22 7 13.5 8 48.5 1.5 65.5 16 19 24.5 44.5 24.5 70.5 0 61.5-46.5 108-113.5 116.5 17 11 28.5 35 28.5 62.5v52c0 15 12.5 23.5 27.5 17.5C441 459.5 512 369 512 257 512 115.5 397 0 255.5 0S0 115.5 0 257c0 111 70.5 203 165.5 237.5 13.5 5 26.5-4 26.5-17.5v-40c-7 3-16 5-24 5-33 0-52.5-18-66.5-51.5-5.5-13.5-11.5-21.5-23-23-6-.5-8-3-8-6 0-6 10-10.5 20-10.5 14.5 0 27 9 40 27.5 10 14.5 20.5 21 33 21s20.5-4.5 32-16c8.5-8.5 15-16 21-21"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MaterialsCommons-Staging/mc-dsp-tiers
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Home
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Tier model
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Tier 0 (DCAT-AP GET)
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="././" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Tier 0 (DCAT-AP GET)
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#status-of-this-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Status of this document
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#abstract" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Abstract
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-conformance-and-requirement-language" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1. Conformance and requirement language
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Conformance and requirement language">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-normative-language" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1.1 Normative language
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-conformance-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1.2 Conformance targets
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-upstream-conformance" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1.3 Upstream conformance
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-why-this-is-separate-from-dsp" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1.4 Why this is separate from DSP
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2. Scope
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Scope">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2.1 Purpose
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-included-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2.2 Included capabilities
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-excluded-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2.3 Excluded capabilities
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-terminology" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3. Terminology
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-normative-namespaces-and-identifiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        4. Normative namespaces and identifiers
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-protocol-architecture-and-url-independence" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5. Protocol architecture and URL independence
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Protocol architecture and URL independence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-separation-of-identity-and-location" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5.1 Separation of identity and location
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-no-prescribed-catalogue-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5.2 No prescribed catalogue path
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-versioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5.3 Versioning
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-well-known-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6. Well-known discovery
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Well-known discovery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-discovery-endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6.1 Discovery endpoint
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-discovery-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6.2 Discovery document
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-discovery-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6.3 Discovery example
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-selection-and-failure-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6.4 Selection and failure behavior
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-caching" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6.5 Caching
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-catalogue-https-endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        7. Catalogue HTTPS endpoint
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Catalogue HTTPS endpoint">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-retrieval" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        7.1 Retrieval
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-media-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        7.2 Media type
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-request-headers-and-status-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        7.3 Request headers and status codes
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-caching-and-cors" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        7.4 Caching and CORS
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-rdf-and-json-ld-representation" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        8. RDF and JSON-LD representation
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. RDF and JSON-LD representation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-normative-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        8.1 Normative graph
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        8.2 Context
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-snapshot-consistency" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        8.3 Snapshot consistency
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-catalogue-publisher-and-datasets" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        9. Catalogue, publisher, and datasets
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Catalogue, publisher, and datasets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-catalogue" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        9.1 Catalogue
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-publisher-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        9.2 Publisher Agent
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        9.3 Dataset
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-optional-public-use-odrl-offer" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        9.4 Optional public-use ODRL offer
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-distribution-and-file-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        10. Distribution and file metadata
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Distribution and file metadata">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        10.1 Distribution
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102-controlled-format-and-media-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        10.2 Controlled format and media type
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#103-byte-size-and-checksum" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        10.3 Byte size and checksum
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-data-services-and-cross-protocol-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        11. Data services and cross-protocol discovery
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Data services and cross-protocol discovery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-catalogue-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        11.1 Catalogue service
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112-other-public-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        11.2 Other public services
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113-materials-commons-dsp-tier-1-companion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        11.3 Materials Commons DSP Tier 1 companion
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        12. Validation
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121-required-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        12.1 Required validation
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122-offline-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        12.2 Offline validation
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#123-failure-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        12.3 Failure behavior
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-public-distribution-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        13. Public distribution behavior
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-synchronization-with-a-dsp-companion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        14. Synchronization with a DSP companion
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-security-and-privacy" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        15. Security and privacy
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16-extensibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        16. Extensibility
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#17-conformance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        17. Conformance checklist
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="17. Conformance checklist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#171-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        17.1 Discovery
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#172-catalogue-endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        17.2 Catalogue endpoint
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#173-rdf-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        17.3 RDF graph
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#174-validation-and-companion-consistency" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        17.4 Validation and companion consistency
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-a-minimal-json-ld-example-non-normative" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Appendix A. Minimal JSON-LD example (non-normative)
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-b-normative-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Appendix B. Normative references
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-c-informative-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Appendix C. Informative references
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../materials-commons-dsp-tier1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Tier 1 (DSP)
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../materials-commons-dsp-tier2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Tier 2 (outline)
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../materials-commons-dsp-tier3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Tier 3 (outline)
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  
+                    
+                    
+                    
+                      
+                    
+                    
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
+                    
+                  
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#status-of-this-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Status of this document
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#abstract" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Abstract
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-conformance-and-requirement-language" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1. Conformance and requirement language
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Conformance and requirement language">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-normative-language" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1.1 Normative language
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-conformance-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1.2 Conformance targets
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-upstream-conformance" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1.3 Upstream conformance
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-why-this-is-separate-from-dsp" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1.4 Why this is separate from DSP
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2. Scope
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Scope">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2.1 Purpose
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-included-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2.2 Included capabilities
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-excluded-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2.3 Excluded capabilities
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-terminology" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3. Terminology
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-normative-namespaces-and-identifiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        4. Normative namespaces and identifiers
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-protocol-architecture-and-url-independence" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5. Protocol architecture and URL independence
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Protocol architecture and URL independence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-separation-of-identity-and-location" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5.1 Separation of identity and location
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-no-prescribed-catalogue-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5.2 No prescribed catalogue path
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-versioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5.3 Versioning
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-well-known-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6. Well-known discovery
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Well-known discovery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-discovery-endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6.1 Discovery endpoint
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-discovery-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6.2 Discovery document
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-discovery-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6.3 Discovery example
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-selection-and-failure-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6.4 Selection and failure behavior
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-caching" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6.5 Caching
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-catalogue-https-endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        7. Catalogue HTTPS endpoint
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Catalogue HTTPS endpoint">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-retrieval" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        7.1 Retrieval
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-media-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        7.2 Media type
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-request-headers-and-status-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        7.3 Request headers and status codes
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-caching-and-cors" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        7.4 Caching and CORS
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-rdf-and-json-ld-representation" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        8. RDF and JSON-LD representation
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. RDF and JSON-LD representation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-normative-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        8.1 Normative graph
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        8.2 Context
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-snapshot-consistency" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        8.3 Snapshot consistency
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-catalogue-publisher-and-datasets" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        9. Catalogue, publisher, and datasets
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Catalogue, publisher, and datasets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-catalogue" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        9.1 Catalogue
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-publisher-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        9.2 Publisher Agent
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        9.3 Dataset
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-optional-public-use-odrl-offer" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        9.4 Optional public-use ODRL offer
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-distribution-and-file-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        10. Distribution and file metadata
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Distribution and file metadata">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        10.1 Distribution
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102-controlled-format-and-media-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        10.2 Controlled format and media type
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#103-byte-size-and-checksum" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        10.3 Byte size and checksum
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-data-services-and-cross-protocol-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        11. Data services and cross-protocol discovery
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Data services and cross-protocol discovery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-catalogue-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        11.1 Catalogue service
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112-other-public-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        11.2 Other public services
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113-materials-commons-dsp-tier-1-companion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        11.3 Materials Commons DSP Tier 1 companion
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        12. Validation
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121-required-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        12.1 Required validation
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122-offline-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        12.2 Offline validation
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#123-failure-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        12.3 Failure behavior
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-public-distribution-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        13. Public distribution behavior
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-synchronization-with-a-dsp-companion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        14. Synchronization with a DSP companion
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-security-and-privacy" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        15. Security and privacy
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16-extensibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        16. Extensibility
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#17-conformance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        17. Conformance checklist
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="17. Conformance checklist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#171-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        17.1 Discovery
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#172-catalogue-endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        17.2 Catalogue endpoint
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#173-rdf-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        17.3 RDF graph
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#174-validation-and-companion-consistency" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        17.4 Validation and companion consistency
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-a-minimal-json-ld-example-non-normative" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Appendix A. Minimal JSON-LD example (non-normative)
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-b-normative-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Appendix B. Normative references
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-c-informative-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Appendix C. Informative references
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+  
+    <a href="https://github.com/MaterialsCommons-Staging/mc-dsp-tiers/edit/main/docs/materials-commons-dcat-ap-get-protocol-tier-0.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-file-pen" viewBox="0 0 24 24"><path d="M12.659 22H18a2 2 0 0 0 2-2V8a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v9.34"/><path d="M14 2v5a1 1 0 0 0 1 1h5M10.378 12.622a1 1 0 0 1 3 3.003L8.36 20.637a2 2 0 0 1-.854.506l-2.867.837a.5.5 0 0 1-.62-.62l.836-2.869a2 2 0 0 1 .506-.853z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/MaterialsCommons-Staging/mc-dsp-tiers/raw/main/docs/materials-commons-dcat-ap-get-protocol-tier-0.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-file-code-2" viewBox="0 0 24 24"><path d="M4 12.15V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2h-3.35"/><path d="M14 2v5a1 1 0 0 0 1 1h5M5 16l-3 3 3 3M9 22l3-3-3-3"/></svg>
+    </a>
+  
+
+
+<h1 id="prototype-draft-for-discussion-materials-commons-dcat-ap-get-protocol-tier-0-public-catalogues">PROTOTYPE DRAFT FOR DISCUSSION: Materials Commons DCAT-AP GET Protocol Tier 0 (Public Catalogues)<a class="headerlink" href="#prototype-draft-for-discussion-materials-commons-dcat-ap-get-protocol-tier-0-public-catalogues" title="Permanent link">&para;</a></h1>
+<h2 id="status-of-this-document">Status of this document<a class="headerlink" href="#status-of-this-document" title="Permanent link">&para;</a></h2>
+<p>This document defines <strong>Materials Commons DCAT-AP Get Protocol Tier 0</strong>, an independent
+HTTPS protocol for discovery and retrieval of standards-conformant DCAT-AP
+3.0.1 catalogues of public datasets and services.</p>
+<p>This document is a normative specification. It profiles
+<a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/">DCAT-AP 3.0.1</a>, which is an
+application profile of
+<a href="https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/">DCAT 3</a>. It also defines
+an HTTPS retrieval operation and a well-known discovery document; neither
+DCAT 3 nor DCAT-AP prescribes those protocol details.</p>
+<p>The separately specified
+<a href="../materials-commons-dsp-tier1/">Materials Commons DSP Tier 1</a> protocol may advertise a
+service conforming to this document. Neither protocol requires the other for
+conformance.</p>
+<h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
+<p>Materials Commons DCAT-AP Get Protocol Tier 0 provides basic non-authenticated access to a
+strict DCAT-AP 3.0.1 catalogue of public datasets and services. It defines:</p>
+<ol>
+<li>origin-level discovery at <code>/.well-known/mc-dcat-ap</code>;</li>
+<li>an absolute, implementation-selected HTTPS catalogue endpoint;</li>
+<li>a profiled <code>application/ld+json</code> response;</li>
+<li>a deterministic minimum graph for catalogues, publishers, datasets,
+   distributions, checksums, and data services;</li>
+<li>public direct-download behavior;</li>
+<li>consistency rules for an optional Materials Commons DSP Tier 1 companion;
+   and</li>
+<li>offline-capable DCAT-AP mandatory, range, and controlled-vocabulary
+   validation.</li>
+</ol>
+<p>The path of the catalogue endpoint is not prescribed. For example,
+<code>/mc-dcat-ap/3.0.1/</code> is convenient but not normative.</p>
+<h2 id="1-conformance-and-requirement-language">1. Conformance and requirement language<a class="headerlink" href="#1-conformance-and-requirement-language" title="Permanent link">&para;</a></h2>
+<h3 id="11-normative-language">1.1 Normative language<a class="headerlink" href="#11-normative-language" title="Permanent link">&para;</a></h3>
+<p>The key words <strong>MUST</strong>, <strong>MUST NOT</strong>, <strong>REQUIRED</strong>, <strong>SHALL</strong>, <strong>SHALL NOT</strong>,
+<strong>SHOULD</strong>, <strong>SHOULD NOT</strong>, <strong>RECOMMENDED</strong>, <strong>NOT RECOMMENDED</strong>, <strong>MAY</strong>, and
+<strong>OPTIONAL</strong> in this document are to be interpreted as described in
+<a href="https://www.rfc-editor.org/info/bcp14">BCP 14</a> when, and only when, they appear
+in all capitals.</p>
+<p>Examples and sections explicitly marked non-normative are not conformance
+requirements.</p>
+<h3 id="12-conformance-targets">1.2 Conformance targets<a class="headerlink" href="#12-conformance-targets" title="Permanent link">&para;</a></h3>
+<p>This specification defines three conformance targets:</p>
+<ul>
+<li>A <strong>Discovery Service</strong> exposes the well-known document in Section 6.</li>
+<li>A <strong>Catalogue Service</strong> implements the HTTPS behavior in Section 7, the public
+  distribution behavior in Section 13, and the transport and disclosure rules in
+  Section 15.</li>
+<li>A <strong>Catalogue Representation</strong> is the DCAT-AP RDF graph and JSON-LD
+  serialization in Sections 8 through 12, and satisfies the companion
+  consistency rules in Section 14 when a companion is advertised.</li>
+</ul>
+<p>A service claiming <strong>Materials Commons DCAT-AP Get Protocol Tier 0 conformance</strong> MUST
+conform to all three targets.</p>
+<h3 id="13-upstream-conformance">1.3 Upstream conformance<a class="headerlink" href="#13-upstream-conformance" title="Permanent link">&para;</a></h3>
+<p>A Catalogue Representation MUST conform to the
+<a href="https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/#conformance">DCAT 3 conformance requirements</a>
+and the
+<a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/#provider-requirements">DCAT-AP provider requirements</a>.</p>
+<p>The normative conformance identifier for this profile is:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0
+</span></code></pre></div>
+<p>The identifier names the conformance profile and does not prescribe a
+deployment URL.</p>
+<p>The <code>tag:</code> URIs in this specification are provisional prototype
+identifiers (RFC 4151), marked (TBD) where they appear in prose, pending
+a working-group decision.</p>
+<p>When this specification is published at a stable public location, the profile
+IRI SHOULD dereference to this document or to authoritative metadata linking
+to it.</p>
+<h3 id="14-why-this-is-separate-from-dsp">1.4 Why this is separate from DSP<a class="headerlink" href="#14-why-this-is-separate-from-dsp" title="Permanent link">&para;</a></h3>
+<p>DSP 2025-1 reuses selected DCAT terms in a DSP-specific JSON profile. It does
+not define a general DCAT serialization, and its protected JSON-LD context
+cannot always produce values satisfying DCAT and DCAT-AP RDF constraints.</p>
+<p>In particular, DSP requires <code>DataService.endpointURL</code> as a JSON string. The DSP
+context expands that value as an RDF literal of <code>dcat:endpointURL</code>. DCAT 3
+defines the value as a Web-resolvable IRI, while DCAT-AP requires an IRI or
+blank node. Replacing the DSP string with a JSON-LD <code>@id</code> object would violate
+the DSP JSON Schema, and redefining the protected DSP term is prohibited. See:</p>
+<ul>
+<li>DSP <a href="https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#schemas-contexts">Schemas and Contexts</a>;</li>
+<li>DSP <a href="https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#ack-dataset">DataService requirements</a>;</li>
+<li>DCAT 3 <a href="https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/#Property:data_service_endpoint_url">endpoint URL</a>; and</li>
+<li>DCAT-AP <a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/#DataService.endpointURL">Data Service endpoint URL</a>.</li>
+</ul>
+<p>Materials Commons resolves this standards conflict through two representations:</p>
+<ol>
+<li><strong>Materials Commons DSP Tier 1</strong> remains schema-valid DSP and may carry
+   useful compatible metadata without claiming DCAT conformance.</li>
+<li><strong>Materials Commons DCAT-AP Get Protocol Tier 0</strong>, defined here, provides a separate RDF
+   graph that is fully validated as DCAT-AP 3.0.1.</li>
+</ol>
+<p>The two representations MAY describe the same resources and reference each
+other, but they have independent conformance and deployment URLs.</p>
+<h2 id="2-scope">2. Scope<a class="headerlink" href="#2-scope" title="Permanent link">&para;</a></h2>
+<h3 id="21-purpose">2.1 Purpose<a class="headerlink" href="#21-purpose" title="Permanent link">&para;</a></h3>
+<p>This protocol is intended for public catalogues whose metadata and
+distributions can be discovered without authentication. It gives generic
+DCAT-AP clients a predictable discovery operation and a directly retrievable,
+strictly validated JSON-LD representation.</p>
+<h3 id="22-included-capabilities">2.2 Included capabilities<a class="headerlink" href="#22-included-capabilities" title="Permanent link">&para;</a></h3>
+<p>Tier 0 includes:</p>
+<ul>
+<li>unauthenticated well-known discovery;</li>
+<li>one or more discoverable catalogue endpoints per HTTPS origin;</li>
+<li>direct <code>GET</code> and <code>HEAD</code> retrieval;</li>
+<li>strict DCAT-AP 3.0.1 JSON-LD;</li>
+<li>at least one public dataset per catalogue, with an optional unconditional
+  ODRL offer;</li>
+<li>one or more public downloadable distributions per Tier 0 dataset;</li>
+<li>EU File Type and IANA media-type identifiers;</li>
+<li>a required licence per distribution;</li>
+<li>optional byte size and SHA-256 checksum;</li>
+<li>descriptions of the catalogue service and companion public data services;</li>
+<li>optional linkage to Materials Commons DSP Tier 1; and</li>
+<li>normal HTTP caching and conditional requests.</li>
+</ul>
+<h3 id="23-excluded-capabilities">2.3 Excluded capabilities<a class="headerlink" href="#23-excluded-capabilities" title="Permanent link">&para;</a></h3>
+<p>The following are outside Tier 0:</p>
+<ul>
+<li>authentication and authorization;</li>
+<li>private, confidential, or caller-specific catalogue views;</li>
+<li>catalogue mutation;</li>
+<li>a query or filtering language;</li>
+<li>required pagination;</li>
+<li>content negotiation for non-JSON-LD RDF syntaxes;</li>
+<li>non-HTTPS distribution protocols;</li>
+<li>access-controlled distribution URLs; and</li>
+<li>DSP negotiation or transfer-process behavior.</li>
+</ul>
+<p>A Provider MAY offer such capabilities separately. They MUST NOT be required
+to retrieve a Tier 0 discovery document, catalogue, or distribution.</p>
+<h2 id="3-terminology">3. Terminology<a class="headerlink" href="#3-terminology" title="Permanent link">&para;</a></h2>
+<p>Terms defined by
+<a href="https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/#vocabulary-overview">DCAT 3</a>
+and
+<a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/#specterminology">DCAT-AP 3.0.1</a>
+apply.</p>
+<p>For this specification:</p>
+<ul>
+<li><strong>Provider</strong> means the organization publishing a conforming catalogue.</li>
+<li><strong>Discovery origin</strong>, written <code>&lt;origin&gt;</code>, means an HTTPS URI consisting only
+  of scheme and authority, such as <code>https://provider.example</code>.</li>
+<li><strong>Discovery endpoint</strong> means
+  <code>&lt;origin&gt;/.well-known/mc-dcat-ap</code>.</li>
+<li><strong>Catalogue endpoint</strong> means the absolute HTTPS URL advertised by a discovery
+  entry. <code>GET</code> on that URL returns one Catalogue Representation.</li>
+<li><strong>Catalogue service</strong> means the <code>dcat:DataService</code> describing the Catalogue
+  endpoint itself.</li>
+<li><strong>DSP companion</strong> means an optional Materials Commons DSP Tier 1 Provider
+  describing the same datasets.</li>
+<li><strong>Snapshot</strong> means one internally consistent Catalogue Representation and
+  the source metadata used to construct it.</li>
+</ul>
+<h2 id="4-normative-namespaces-and-identifiers">4. Normative namespaces and identifiers<a class="headerlink" href="#4-normative-namespaces-and-identifiers" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Prefix or name</th>
+<th>IRI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tier 0 DCAT-AP profile</td>
+<td>(TBD) <code>tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0</code></td>
+</tr>
+<tr>
+<td>Tier 1 DSP profile</td>
+<td>(TBD) <code>tag:materialscommons.eu,2026:dsp/prototype-tier-1</code></td>
+</tr>
+<tr>
+<td>DSP 2025-1 specification</td>
+<td><code>https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/</code></td>
+</tr>
+<tr>
+<td>DCAT-AP 3.0.1 profile</td>
+<td><code>https://semiceu.github.io/DCAT-AP/releases/3.0.1/</code></td>
+</tr>
+<tr>
+<td><code>dcat</code></td>
+<td><code>http://www.w3.org/ns/dcat#</code></td>
+</tr>
+<tr>
+<td><code>dct</code></td>
+<td><code>http://purl.org/dc/terms/</code></td>
+</tr>
+<tr>
+<td><code>foaf</code></td>
+<td><code>http://xmlns.com/foaf/0.1/</code></td>
+</tr>
+<tr>
+<td><code>odrl</code></td>
+<td><code>http://www.w3.org/ns/odrl/2/</code></td>
+</tr>
+<tr>
+<td><code>spdx</code></td>
+<td><code>http://spdx.org/rdf/terms#</code></td>
+</tr>
+<tr>
+<td><code>xsd</code></td>
+<td><code>http://www.w3.org/2001/XMLSchema#</code></td>
+</tr>
+<tr>
+<td>EU File Type authority</td>
+<td><code>http://publications.europa.eu/resource/authority/file-type/</code></td>
+</tr>
+<tr>
+<td>IANA media types</td>
+<td><code>https://www.iana.org/assignments/media-types/</code></td>
+</tr>
+<tr>
+<td>SPDX SHA-256 algorithm</td>
+<td><code>https://spdx.org/rdf/terms#checksumAlgorithm_sha256</code></td>
+</tr>
+</tbody>
+</table>
+<p>All resource identifiers MUST be absolute IRIs. Every retrievable endpoint and
+distribution URL MUST use HTTPS. Identifiers MUST NOT be inferred from endpoint
+paths.</p>
+<h2 id="5-protocol-architecture-and-url-independence">5. Protocol architecture and URL independence<a class="headerlink" href="#5-protocol-architecture-and-url-independence" title="Permanent link">&para;</a></h2>
+<h3 id="51-separation-of-identity-and-location">5.1 Separation of identity and location<a class="headerlink" href="#51-separation-of-identity-and-location" title="Permanent link">&para;</a></h3>
+<p>Catalogue, dataset, distribution, publisher, and service IRIs identify RDF
+resources. The Catalogue endpoint is the network location from which one graph
+is retrieved. These values MAY be equal but MUST NOT be assumed to be equal.</p>
+<h3 id="52-no-prescribed-catalogue-path">5.2 No prescribed catalogue path<a class="headerlink" href="#52-no-prescribed-catalogue-path" title="Permanent link">&para;</a></h3>
+<p>This specification does not prescribe the Catalogue endpoint path. It may be
+rooted at any absolute HTTPS URL and may be hosted on a different origin from
+the Discovery endpoint.</p>
+<p>The following arrangement is non-normative:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Discovery endpoint: https://provider.example/.well-known/mc-dcat-ap
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Catalogue endpoint: https://provider.example/mc-dcat-ap/3.0.1/
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>DSP connector root: https://provider.example/dsp
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>DSP version base:   https://provider.example/dsp/2025-1
+</span></code></pre></div>
+<p>Clients MUST follow the discovered absolute URL and MUST NOT construct it from
+the version number or from the DSP location.</p>
+<h3 id="53-versioning">5.3 Versioning<a class="headerlink" href="#53-versioning" title="Permanent link">&para;</a></h3>
+<p>The protocol version advertised by this document is <code>3.0.1</code>, aligned with the
+required DCAT-AP release. A future protocol or DCAT-AP release MUST use a
+distinct discovery version and profile identifier. Multiple versions MAY be
+advertised concurrently.</p>
+<h2 id="6-well-known-discovery">6. Well-known discovery<a class="headerlink" href="#6-well-known-discovery" title="Permanent link">&para;</a></h2>
+<h3 id="61-discovery-endpoint">6.1 Discovery endpoint<a class="headerlink" href="#61-discovery-endpoint" title="Permanent link">&para;</a></h3>
+<p>A Provider MUST expose:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>GET &lt;origin&gt;/.well-known/mc-dcat-ap
+</span></code></pre></div>
+<p>This use of <code>/.well-known/</code> follows
+<a href="https://www.rfc-editor.org/rfc/rfc8615">RFC 8615</a>. The Discovery endpoint is
+fixed at the origin level; only the discovered Catalogue endpoint is
+path-independent.</p>
+<p>The well-known suffix defined by this specification is <code>mc-dcat-ap</code>. Its
+registration under the RFC 8615 procedure is part of publication of this
+protocol as an Internet-wide standard; deployment documentation MUST NOT claim
+that an unregistered suffix has already been registered.</p>
+<p>The Discovery endpoint MUST:</p>
+<ul>
+<li>be available without authentication;</li>
+<li>return <code>200 OK</code> and <code>application/json</code> on success;</li>
+<li>return a UTF-8 JSON object conforming to Section 6.2;</li>
+<li>support <code>HEAD</code> with the same headers and no body;</li>
+<li>send <code>Access-Control-Allow-Origin: *</code>; and</li>
+<li>not redirect to a different origin.</li>
+</ul>
+<h3 id="62-discovery-document">6.2 Discovery document<a class="headerlink" href="#62-discovery-document" title="Permanent link">&para;</a></h3>
+<p>The document MUST contain exactly one top-level required member, <code>services</code>,
+whose value is a non-empty array. Additional top-level members MAY be present
+and MUST be ignored by clients that do not understand them.</p>
+<p>Each service entry MUST contain:</p>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Type</th>
+<th style="text-align: right;">Cardinality</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>version</code></td>
+<td>string</td>
+<td style="text-align: right;"><code>1</code></td>
+<td>Exact value <code>3.0.1</code></td>
+</tr>
+<tr>
+<td><code>profile</code></td>
+<td>string</td>
+<td style="text-align: right;"><code>1</code></td>
+<td>Exact Tier 0 profile IRI</td>
+</tr>
+<tr>
+<td><code>endpoint</code></td>
+<td>string</td>
+<td style="text-align: right;"><code>1</code></td>
+<td>Absolute HTTPS Catalogue endpoint</td>
+</tr>
+<tr>
+<td><code>catalogueId</code></td>
+<td>string</td>
+<td style="text-align: right;"><code>1</code></td>
+<td>Absolute IRI of the returned <code>dcat:Catalog</code></td>
+</tr>
+<tr>
+<td><code>serviceId</code></td>
+<td>string</td>
+<td style="text-align: right;"><code>1</code></td>
+<td>Absolute IRI of its Catalogue service</td>
+</tr>
+<tr>
+<td><code>dspVersionDiscovery</code></td>
+<td>string</td>
+<td style="text-align: right;"><code>0..1</code></td>
+<td>Absolute HTTPS DSP version-discovery URL</td>
+</tr>
+</tbody>
+</table>
+<p>The exact <code>profile</code> value MUST be:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0
+</span></code></pre></div>
+<p><code>endpoint</code> MUST NOT contain user information, a query, or a fragment.
+<code>dspVersionDiscovery</code>, when present, MUST end in
+<code>/.well-known/dspace-version</code> and identify a Materials Commons DSP Tier 1
+companion.</p>
+<p>Two entries MUST NOT have the same pair of <code>profile</code> and <code>catalogueId</code>.
+Unknown entry members MAY be present and MUST be ignored by clients.</p>
+<h3 id="63-discovery-example">6.3 Discovery example<a class="headerlink" href="#63-discovery-example" title="Permanent link">&para;</a></h3>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">"services"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">      </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3.0.1"</span><span class="p">,</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">      </span><span class="nt">"profile"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0"</span><span class="p">,</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">      </span><span class="nt">"endpoint"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/mc-dcat-ap/3.0.1/"</span><span class="p">,</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">      </span><span class="nt">"catalogueId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/catalogues/public"</span><span class="p">,</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">      </span><span class="nt">"serviceId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/services/mc-dcat-ap"</span><span class="p">,</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">      </span><span class="nt">"dspVersionDiscovery"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/dsp/.well-known/dspace-version"</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">  </span><span class="p">]</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="64-selection-and-failure-behavior">6.4 Selection and failure behavior<a class="headerlink" href="#64-selection-and-failure-behavior" title="Permanent link">&para;</a></h3>
+<p>A client selects entries by exact <code>profile</code> and <code>version</code>. It MUST NOT select
+an entry solely from its endpoint path. If no supported entry exists, the
+client MUST treat the origin as not offering this protocol.</p>
+<p>Malformed JSON, a missing required member, a duplicate entry, an invalid URL,
+or an unrecognized required version MUST make the affected document or entry
+unusable. A client SHOULD continue considering other independently valid
+entries when possible.</p>
+<h3 id="65-caching">6.5 Caching<a class="headerlink" href="#65-caching" title="Permanent link">&para;</a></h3>
+<p>Discovery responses SHOULD provide <code>ETag</code>, <code>Last-Modified</code>, and an explicit
+<code>Cache-Control</code> policy. Clients MAY cache them according to HTTP semantics and
+SHOULD revalidate before assuming that a previously advertised endpoint has
+been permanently removed.</p>
+<h2 id="7-catalogue-https-endpoint">7. Catalogue HTTPS endpoint<a class="headerlink" href="#7-catalogue-https-endpoint" title="Permanent link">&para;</a></h2>
+<h3 id="71-retrieval">7.1 Retrieval<a class="headerlink" href="#71-retrieval" title="Permanent link">&para;</a></h3>
+<p>A Catalogue endpoint MUST support:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>GET &lt;catalogue-endpoint&gt;
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>HEAD &lt;catalogue-endpoint&gt;
+</span></code></pre></div>
+<p><code>GET</code> MUST return <code>200 OK</code> and the Catalogue Representation. <code>HEAD</code> MUST
+return the same representation headers without a body.</p>
+<p>The endpoint MUST be public and MUST NOT require credentials, cookies, tokens,
+or prior DSP negotiation.</p>
+<h3 id="72-media-type">7.2 Media type<a class="headerlink" href="#72-media-type" title="Permanent link">&para;</a></h3>
+<p>The successful response MUST use:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>application/ld+json; profile="https://semiceu.github.io/DCAT-AP/releases/3.0.1/"
+</span></code></pre></div>
+<p>The profile parameter is a DCAT-AP 3.0.1 conformance claim. A response that has
+not passed Section 12 validation MUST NOT use it.</p>
+<p>The response SHOULD also contain:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Link: &lt;tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0&gt;; rel="profile"
+</span></code></pre></div>
+<h3 id="73-request-headers-and-status-codes">7.3 Request headers and status codes<a class="headerlink" href="#73-request-headers-and-status-codes" title="Permanent link">&para;</a></h3>
+<p>A client SHOULD send <code>Accept: application/ld+json</code>. A Provider MAY return
+<code>406 Not Acceptable</code> when the request explicitly excludes JSON-LD.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Status</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;"><code>200 OK</code></td>
+<td>Successful retrieval</td>
+</tr>
+<tr>
+<td style="text-align: right;"><code>304 Not Modified</code></td>
+<td>Conditional request matched cached representation</td>
+</tr>
+<tr>
+<td style="text-align: right;"><code>406 Not Acceptable</code></td>
+<td>Requested representations exclude JSON-LD</td>
+</tr>
+<tr>
+<td style="text-align: right;"><code>500 Internal Server Error</code></td>
+<td>No valid snapshot can be emitted</td>
+</tr>
+<tr>
+<td style="text-align: right;"><code>503 Service Unavailable</code></td>
+<td>Catalogue temporarily unavailable</td>
+</tr>
+</tbody>
+</table>
+<p>The endpoint MUST NOT return <code>401</code> or <code>403</code> merely because authorization is
+absent.</p>
+<h3 id="74-caching-and-cors">7.4 Caching and CORS<a class="headerlink" href="#74-caching-and-cors" title="Permanent link">&para;</a></h3>
+<p>The response SHOULD provide <code>ETag</code>, <code>Last-Modified</code>, and <code>Cache-Control</code>, and
+SHOULD honor <code>If-None-Match</code> and <code>If-Modified-Since</code>. It MUST send
+<code>Access-Control-Allow-Origin: *</code>.</p>
+<h2 id="8-rdf-and-json-ld-representation">8. RDF and JSON-LD representation<a class="headerlink" href="#8-rdf-and-json-ld-representation" title="Permanent link">&para;</a></h2>
+<h3 id="81-normative-graph">8.1 Normative graph<a class="headerlink" href="#81-normative-graph" title="Permanent link">&para;</a></h3>
+<p>The expanded RDF graph is normative. JSON object ordering, RDF-irrelevant
+array ordering, blank-node labels, whitespace, and compact versus expanded IRI
+spelling are not normative.</p>
+<p>The response MUST:</p>
+<ul>
+<li>be valid UTF-8 JSON;</li>
+<li>be valid JSON-LD 1.1;</li>
+<li>expand without network-dependent context ambiguity;</li>
+<li>parse as an RDF graph; and</li>
+<li>contain the graph defined in Sections 9 through 11.</li>
+</ul>
+<h3 id="82-context">8.2 Context<a class="headerlink" href="#82-context" title="Permanent link">&para;</a></h3>
+<p>The document SHOULD use an inline, provider-owned, <code>@protected</code> context
+covering every compact term it uses. A remote context MAY be used only when it
+is stable, HTTPS, and available for offline pinning. Undefined compact prefixes
+MUST NOT be used.</p>
+<p>IRI-valued DCAT properties MUST expand as IRIs or blank nodes, never as string
+literals. This requirement especially applies to <code>dcat:endpointURL</code>,
+<code>dcat:accessURL</code>, <code>dcat:downloadURL</code>, <code>dcat:mediaType</code>,
+<code>dcat:accessService</code>, <code>dcat:servesDataset</code>, and <code>dct:conformsTo</code>.</p>
+<h3 id="83-snapshot-consistency">8.3 Snapshot consistency<a class="headerlink" href="#83-snapshot-consistency" title="Permanent link">&para;</a></h3>
+<p>One response MUST describe one internally consistent snapshot. Identifiers
+MUST be unique in their applicable resource family. References MUST resolve to
+nodes in the graph when this profile requires those nodes to be present.</p>
+<h2 id="9-catalogue-publisher-and-datasets">9. Catalogue, publisher, and datasets<a class="headerlink" href="#9-catalogue-publisher-and-datasets" title="Permanent link">&para;</a></h2>
+<h3 id="91-catalogue">9.1 Catalogue<a class="headerlink" href="#91-catalogue" title="Permanent link">&para;</a></h3>
+<p>The graph MUST contain exactly one primary catalogue node with:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th style="text-align: right;">Cardinality</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rdf:type</code></td>
+<td style="text-align: right;"><code>1..*</code></td>
+<td>Includes <code>dcat:Catalog</code></td>
+</tr>
+<tr>
+<td><code>dct:title</code></td>
+<td style="text-align: right;"><code>1..*</code></td>
+<td>At least one non-empty literal</td>
+</tr>
+<tr>
+<td><code>dct:description</code></td>
+<td style="text-align: right;"><code>1..*</code></td>
+<td>At least one non-empty literal</td>
+</tr>
+<tr>
+<td><code>dct:publisher</code></td>
+<td style="text-align: right;"><code>1</code></td>
+<td>Publisher Agent in Section 9.2</td>
+</tr>
+<tr>
+<td><code>dcat:dataset</code></td>
+<td style="text-align: right;"><code>1..*</code></td>
+<td>Every Tier 0 dataset</td>
+</tr>
+<tr>
+<td><code>dcat:service</code></td>
+<td style="text-align: right;"><code>1..*</code></td>
+<td>Catalogue service and companion services</td>
+</tr>
+<tr>
+<td><code>dct:conformsTo</code></td>
+<td style="text-align: right;"><code>2..*</code></td>
+<td>Both Tier 0 and DCAT-AP profile IRIs</td>
+</tr>
+</tbody>
+</table>
+<p>Its IRI MUST equal the discovery entry's <code>catalogueId</code>. These requirements
+specialize DCAT
+<a href="https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/#Class:Catalog">Catalog</a>
+and DCAT-AP
+<a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/#Catalogue">Catalogue</a>.</p>
+<p><code>dct:conformsTo</code> MUST include:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>https://semiceu.github.io/DCAT-AP/releases/3.0.1/
+</span></code></pre></div>
+<p>Each referenced conformance resource MUST be asserted as a <code>dct:Standard</code> in
+the graph.</p>
+<h3 id="92-publisher-agent">9.2 Publisher Agent<a class="headerlink" href="#92-publisher-agent" title="Permanent link">&para;</a></h3>
+<p>The publisher MUST have a stable absolute IRI, type <code>foaf:Agent</code>, and at least
+one non-empty <code>foaf:name</code>, satisfying
+<a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/#Agent">DCAT-AP Agent</a>.</p>
+<p>Every dataset MUST use the same <code>dct:publisher</code> Agent. Additional creators or
+contributors MAY differ.</p>
+<h3 id="93-dataset">9.3 Dataset<a class="headerlink" href="#93-dataset" title="Permanent link">&para;</a></h3>
+<p>Each dataset MUST have:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th style="text-align: right;">Cardinality</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rdf:type</code></td>
+<td style="text-align: right;"><code>1..*</code></td>
+<td>Includes <code>dcat:Dataset</code></td>
+</tr>
+<tr>
+<td><code>dct:title</code></td>
+<td style="text-align: right;"><code>1..*</code></td>
+<td>Non-empty literal</td>
+</tr>
+<tr>
+<td><code>dct:description</code></td>
+<td style="text-align: right;"><code>1..*</code></td>
+<td>Non-empty literal</td>
+</tr>
+<tr>
+<td><code>dct:publisher</code></td>
+<td style="text-align: right;"><code>1</code></td>
+<td>Catalogue publisher</td>
+</tr>
+<tr>
+<td><code>odrl:hasPolicy</code></td>
+<td style="text-align: right;"><code>0..1</code></td>
+<td>Optional Section 9.4 public-use offer</td>
+</tr>
+<tr>
+<td><code>dcat:distribution</code></td>
+<td style="text-align: right;"><code>1..*</code></td>
+<td>One or more Section 10 distributions</td>
+</tr>
+</tbody>
+</table>
+<p>Dataset IRIs MUST be unique. This specializes DCAT
+<a href="https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/#Class:Dataset">Dataset</a>
+and DCAT-AP
+<a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/#Dataset">Dataset</a>.</p>
+<h3 id="94-optional-public-use-odrl-offer">9.4 Optional public-use ODRL offer<a class="headerlink" href="#94-optional-public-use-odrl-offer" title="Permanent link">&para;</a></h3>
+<p>A dataset MAY link to at most one <code>odrl:Offer</code>. If present, the offer MUST NOT
+contain more than one permission; if a permission is present, its action MUST
+be <code>odrl:use</code>. The offer MUST NOT contain constraints, duties, prohibitions,
+remedies, or a target conflicting with the dataset.</p>
+<p>The offer is optional because nothing in this protocol consumes it. An ODRL
+policy travels with contract negotiation, and this protocol has none, so no
+contract request can reference the offer's <code>@id</code>. DCAT-AP places
+<a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/#Distribution.haspolicy"><code>odrl:hasPolicy</code> on Distribution with cardinality <code>0..1</code></a>,
+"the policy expressing the rights associated with the distribution", and does
+not define it on Dataset at all. Carrying it on a Dataset is an extension under
+Section 16 rather than DCAT-AP usage, which is a further reason not to require
+it.</p>
+<p>The rights statement is carried by <code>dct:license</code>, REQUIRED by Section 10.1. An
+offer expresses unconditional technical access only; it does not replace
+licence, copyright, attribution, citation, or ethical-use metadata.</p>
+<p>A Provider that also exposes a Materials Commons DSP Tier 1 companion carries
+an offer regardless, and that offer carries a <code>use</code> permission, because the DSP
+JSON Schema requires <code>hasPolicy</code> on every Dataset and requires every Offer to
+carry a rule. Section 14 then applies and the two representations MUST agree.</p>
+<h2 id="10-distribution-and-file-metadata">10. Distribution and file metadata<a class="headerlink" href="#10-distribution-and-file-metadata" title="Permanent link">&para;</a></h2>
+<h3 id="101-distribution">10.1 Distribution<a class="headerlink" href="#101-distribution" title="Permanent link">&para;</a></h3>
+<p>Each Tier 0 dataset MUST have one or more distributions, each with:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th style="text-align: right;">Cardinality</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rdf:type</code></td>
+<td style="text-align: right;"><code>1..*</code></td>
+<td>Includes <code>dcat:Distribution</code></td>
+</tr>
+<tr>
+<td><code>dct:format</code></td>
+<td style="text-align: right;"><code>1</code></td>
+<td>EU File Type concept IRI typed <code>dct:MediaTypeOrExtent</code></td>
+</tr>
+<tr>
+<td><code>dcat:mediaType</code></td>
+<td style="text-align: right;"><code>1</code></td>
+<td>IANA media-type IRI typed <code>dct:MediaType</code></td>
+</tr>
+<tr>
+<td><code>dcat:accessURL</code></td>
+<td style="text-align: right;"><code>1</code></td>
+<td>Direct public HTTPS URL</td>
+</tr>
+<tr>
+<td><code>dcat:downloadURL</code></td>
+<td style="text-align: right;"><code>1</code></td>
+<td>Same direct public HTTPS URL</td>
+</tr>
+<tr>
+<td><code>dct:license</code></td>
+<td style="text-align: right;"><code>1</code></td>
+<td>IRI of a published licence, typed <code>dct:LicenseDocument</code></td>
+</tr>
+<tr>
+<td><code>dcat:accessService</code></td>
+<td style="text-align: right;"><code>0..1</code></td>
+<td>Data service that actually supplies access</td>
+</tr>
+<tr>
+<td><code>dcat:byteSize</code></td>
+<td style="text-align: right;"><code>0..1</code></td>
+<td>Non-negative integer</td>
+</tr>
+<tr>
+<td><code>spdx:checksum</code></td>
+<td style="text-align: right;"><code>0..1</code></td>
+<td>Section 10.3 checksum</td>
+</tr>
+</tbody>
+</table>
+<p>These specialize the DCAT
+<a href="https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/#Class:Distribution">Distribution</a>,
+<a href="https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/#Property:distribution_access_url">access URL</a>,
+<a href="https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/#Property:distribution_download_url">download URL</a>,
+<a href="https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/#Property:distribution_media_type">media type</a>,
+<a href="https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/#Property:distribution_format">format</a>,
+and <a href="https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/#Property:distribution_size">byte size</a>,
+and the DCAT-AP
+<a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/#Distribution">Distribution</a>.</p>
+<p><code>dcat:accessService</code>, when present, MUST reference a <code>dcat:DataService</code> in the
+graph that genuinely provides access to the distribution. The Catalogue
+service MUST NOT be used merely because it describes the distribution.</p>
+<h3 id="102-controlled-format-and-media-type">10.2 Controlled format and media type<a class="headerlink" href="#102-controlled-format-and-media-type" title="Permanent link">&para;</a></h3>
+<p>The mandatory DCAT-AP
+<a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/#properties-with-controlled-vocabularies-that-must-be-used-for-the-listed-properties">controlled-vocabulary rules</a>
+apply.</p>
+<table>
+<thead>
+<tr>
+<th>Representation</th>
+<th><code>dct:format</code></th>
+<th><code>dcat:mediaType</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CSV</td>
+<td><code>http://publications.europa.eu/resource/authority/file-type/CSV</code></td>
+<td><code>https://www.iana.org/assignments/media-types/text/csv</code></td>
+</tr>
+<tr>
+<td>JSON</td>
+<td><code>http://publications.europa.eu/resource/authority/file-type/JSON</code></td>
+<td><code>https://www.iana.org/assignments/media-types/application/json</code></td>
+</tr>
+</tbody>
+</table>
+<p>Another representation MAY be used only when both an applicable EU File Type
+concept and IANA media-type IRI are supplied.</p>
+<p>Distributions of one dataset MUST have distinct <code>dct:format</code> values, so that a
+consumer can select between them. This matches Materials Commons DSP Tier 1,
+where the DSP <code>format</code> selects the distribution during a transfer.</p>
+<p>The graph MUST explicitly assert the selected format resource as a
+<code>dct:MediaTypeOrExtent</code> and the selected media-type resource as a
+<code>dct:MediaType</code>. Loading a controlled-vocabulary document during validation
+does not replace these assertions in the published graph.</p>
+<h3 id="103-byte-size-and-checksum">10.3 Byte size and checksum<a class="headerlink" href="#103-byte-size-and-checksum" title="Permanent link">&para;</a></h3>
+<p>Byte size and checksum are independently OPTIONAL. When present:</p>
+<ul>
+<li><code>dcat:byteSize</code> MUST be the number of octets at <code>dcat:downloadURL</code>;</li>
+<li>the checksum node MUST have type <code>spdx:Checksum</code>;</li>
+<li>it MUST have exactly one <code>spdx:algorithm</code>, equal to the normative SHA-256
+  algorithm IRI; and</li>
+<li>it MUST have exactly one <code>spdx:checksumValue</code>, a 64-character lower-case
+  hexadecimal value typed as <code>xsd:hexBinary</code>.</li>
+</ul>
+<p>This follows DCAT
+<a href="https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/#Property:distribution_checksum">checksum</a>
+and DCAT-AP
+<a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/#Checksum">Checksum</a>.</p>
+<p>The values are publisher assertions and MUST NOT knowingly be stale or false.
+They need not be recomputed during each request.</p>
+<h2 id="11-data-services-and-cross-protocol-discovery">11. Data services and cross-protocol discovery<a class="headerlink" href="#11-data-services-and-cross-protocol-discovery" title="Permanent link">&para;</a></h2>
+<h3 id="111-catalogue-service">11.1 Catalogue service<a class="headerlink" href="#111-catalogue-service" title="Permanent link">&para;</a></h3>
+<p>The graph MUST contain exactly one Catalogue service whose IRI equals the
+discovery entry's <code>serviceId</code>. It MUST have:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th style="text-align: right;">Cardinality</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rdf:type</code></td>
+<td style="text-align: right;"><code>1..*</code></td>
+<td>Includes <code>dcat:DataService</code></td>
+</tr>
+<tr>
+<td><code>dct:title</code></td>
+<td style="text-align: right;"><code>1..*</code></td>
+<td>Non-empty literal</td>
+</tr>
+<tr>
+<td><code>dcat:endpointURL</code></td>
+<td style="text-align: right;"><code>1</code></td>
+<td>Catalogue endpoint as an IRI</td>
+</tr>
+<tr>
+<td><code>dct:conformsTo</code></td>
+<td style="text-align: right;"><code>2..*</code></td>
+<td>Tier 0 and DCAT-AP profile IRIs</td>
+</tr>
+<tr>
+<td><code>dcat:servesDataset</code></td>
+<td style="text-align: right;"><code>1..*</code></td>
+<td>Every dataset in the catalogue</td>
+</tr>
+</tbody>
+</table>
+<p>The endpoint URL MUST be an RDF IRI, not a literal. These requirements
+specialize DCAT
+<a href="https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/#Class:Data_Service">Data Service</a>
+and DCAT-AP
+<a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/#DataService">Data Service</a>.</p>
+<p>Every <code>dct:conformsTo</code> value MUST be asserted as a <code>dct:Standard</code>.</p>
+<h3 id="112-other-public-services">11.2 Other public services<a class="headerlink" href="#112-other-public-services" title="Permanent link">&para;</a></h3>
+<p>The catalogue MAY describe additional public data services. Each MUST have a
+stable IRI, type <code>dcat:DataService</code>, title, at least one IRI-valued endpoint
+URL, at least one standards IRI in <code>dct:conformsTo</code>, and at least one known
+dataset in <code>dcat:servesDataset</code>. An optional <code>dcat:endpointDescription</code> SHOULD
+identify a machine-readable API description.</p>
+<p>Each standards IRI used by such a service MUST be asserted as a
+<code>dct:Standard</code>.</p>
+<h3 id="113-materials-commons-dsp-tier-1-companion">11.3 Materials Commons DSP Tier 1 companion<a class="headerlink" href="#113-materials-commons-dsp-tier-1-companion" title="Permanent link">&para;</a></h3>
+<p>When a DSP companion exists:</p>
+<ul>
+<li>the well-known discovery entry SHOULD contain <code>dspVersionDiscovery</code>;</li>
+<li>the catalogue MUST include the DSP access service as a <code>dcat:DataService</code>;</li>
+<li>that service's <code>dct:conformsTo</code> MUST include the Materials Commons DSP Tier 1
+  profile IRI and
+  <code>https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/</code>,
+  with both resources asserted as <code>dct:Standard</code>;</li>
+<li>its <code>dcat:endpointURL</code> MUST be the discovered DSP version base as an RDF IRI;
+  and</li>
+<li><code>dcat:servesDataset</code> MUST identify the datasets available through DSP.</li>
+</ul>
+<p>The DSP catalogue reciprocally advertises this Catalogue service using the
+mechanism in <strong>Materials Commons DSP Tier 1, Section 9</strong>.</p>
+<p>The DCAT-AP graph MUST use an IRI-valued <code>dcat:endpointURL</code>, even though the DSP
+serialization of its own DataService uses a JSON string. This independent
+serialization is the purpose of the companion protocol split.</p>
+<h2 id="12-validation">12. Validation<a class="headerlink" href="#12-validation" title="Permanent link">&para;</a></h2>
+<h3 id="121-required-validation">12.1 Required validation<a class="headerlink" href="#121-required-validation" title="Permanent link">&para;</a></h3>
+<p>Every emitted Catalogue Representation MUST pass:</p>
+<ol>
+<li>UTF-8 and JSON parsing;</li>
+<li>JSON-LD 1.1 expansion;</li>
+<li>RDF graph parsing;</li>
+<li>DCAT-AP 3.0.1 mandatory-property validation;</li>
+<li>DCAT-AP 3.0.1 range validation;</li>
+<li>DCAT-AP 3.0.1 controlled-vocabulary validation; and</li>
+<li>all Tier 0 cardinality, datatype, identity, and consistency rules in this
+   document.</li>
+</ol>
+<p>DCAT-AP validation is described in
+<a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/#validation">Section 17.3</a>
+and
+<a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/#validation-of-dcat-ap">Section 18</a>.</p>
+<h3 id="122-offline-validation">12.2 Offline validation<a class="headerlink" href="#122-offline-validation" title="Permanent link">&para;</a></h3>
+<p>Providers SHOULD validate with pinned copies of the official DCAT-AP shapes,
+range constraints, controlled-vocabulary material, and SPDX checksum
+vocabulary. Runtime conformance MUST NOT depend on the availability or mutable
+content of a remote vocabulary server.</p>
+<p>Pinned material MUST retain provenance, source URLs, retrieval dates, licences,
+and integrity hashes.</p>
+<h3 id="123-failure-behavior">12.3 Failure behavior<a class="headerlink" href="#123-failure-behavior" title="Permanent link">&para;</a></h3>
+<p>A Provider MUST NOT emit a knowingly invalid graph with the DCAT-AP profile
+media type. If no valid snapshot is available, it MUST fail the request with
+<code>500</code> or <code>503</code> rather than weaken or omit mandatory validation.</p>
+<h2 id="13-public-distribution-behavior">13. Public distribution behavior<a class="headerlink" href="#13-public-distribution-behavior" title="Permanent link">&para;</a></h2>
+<p>The direct <code>dcat:downloadURL</code>:</p>
+<ul>
+<li>MUST support unauthenticated <code>GET</code>;</li>
+<li>MUST support <code>HEAD</code> with matching metadata and no body;</li>
+<li>MUST return the advertised media type;</li>
+<li>MUST return <code>Content-Length</code> when known;</li>
+<li>SHOULD support byte ranges;</li>
+<li>SHOULD provide <code>ETag</code>, <code>Last-Modified</code>, or both; and</li>
+<li>MUST return ordinary HTTP errors when unavailable.</li>
+</ul>
+<p>Replacing a representation does not automatically update publisher-supplied
+size or checksum metadata. The Provider SHOULD update the catalogue promptly.</p>
+<h2 id="14-synchronization-with-a-dsp-companion">14. Synchronization with a DSP companion<a class="headerlink" href="#14-synchronization-with-a-dsp-companion" title="Permanent link">&para;</a></h2>
+<p>When the same publication is offered through both Materials Commons protocols,
+the following MUST agree for the same snapshot:</p>
+<ul>
+<li>catalogue identifier;</li>
+<li>publisher identifier and name;</li>
+<li>dataset identifiers, titles, and descriptions;</li>
+<li>distribution identifiers;</li>
+<li>offers and their policies, where present;</li>
+<li>public access and download URLs;</li>
+<li>EU File Type and IANA media-type IRIs;</li>
+<li>byte size and checksum when supplied; and</li>
+<li>dataset membership of each shared service.</li>
+</ul>
+<p>Where the companion is advertised through Materials Commons DSP Tier 1, that
+profile's Section 9.5 governs, and it requires the two representations to share
+one Common catalogue value. This section states the fields that MUST agree in
+every case, including where no DSP companion is advertised and Section 9.5
+therefore does not apply.</p>
+<p>The two endpoints need not complete requests atomically. Short-lived
+differences between snapshots SHOULD be minimized, and contradictory metadata
+MUST NOT be deliberately published.</p>
+<h2 id="15-security-and-privacy">15. Security and privacy<a class="headerlink" href="#15-security-and-privacy" title="Permanent link">&para;</a></h2>
+<p>Discovery, catalogue, and distributions are public. A Provider MUST NOT vary
+their membership or content by caller identity or credentials.</p>
+<p>All traffic MUST use HTTPS with certificate and hostname validation. Responses
+MUST NOT expose local paths, database identifiers, private network addresses,
+credentials, access tokens, stack traces, or private participant data.</p>
+<p>Clients MUST treat all discovered endpoints and RDF IRIs as untrusted input.
+Automatic dereferencing SHOULD enforce HTTPS, redirect limits, response-size
+limits, timeouts, and protections against access to non-public network
+addresses.</p>
+<h2 id="16-extensibility">16. Extensibility<a class="headerlink" href="#16-extensibility" title="Permanent link">&para;</a></h2>
+<p>Discovery documents MAY contain unknown members, and RDF graphs MAY contain
+additional DCAT-AP-conformant properties and classes. Clients MUST ignore
+unknown discovery members unless a future specification marks them required.</p>
+<p>Additional catalogue metadata MAY include language variants, licences, themes,
+keywords, provenance, temporal or spatial coverage, documentation, dataset
+series, catalogue records, and identifiers.</p>
+<p>Extensions MUST NOT:</p>
+<ul>
+<li>change the meaning of a required member;</li>
+<li>make public retrieval conditional;</li>
+<li>replace a direct download URL with a landing page;</li>
+<li>violate DCAT-AP cardinality, range, or controlled-vocabulary rules;</li>
+<li>use the Tier 0 profile IRI for a different protocol version; or</li>
+<li>contradict an advertised DSP companion.</li>
+</ul>
+<h2 id="17-conformance-checklist">17. Conformance checklist<a class="headerlink" href="#17-conformance-checklist" title="Permanent link">&para;</a></h2>
+<h3 id="171-discovery">17.1 Discovery<a class="headerlink" href="#171-discovery" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <code>GET &lt;origin&gt;/.well-known/mc-dcat-ap</code> is public and returns JSON.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <code>HEAD</code> and wildcard CORS are supported.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Every entry has exact version and profile values.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Endpoint, catalogue ID, and service ID are absolute and valid.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Endpoint paths are discovered, not constructed.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Optional DSP discovery URLs end in <code>/.well-known/dspace-version</code>.</li>
+</ul>
+<h3 id="172-catalogue-endpoint">17.2 Catalogue endpoint<a class="headerlink" href="#172-catalogue-endpoint" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <code>GET</code> and <code>HEAD</code> are unauthenticated.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Successful <code>GET</code> uses the exact profiled JSON-LD media type.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> The response is valid JSON-LD and RDF.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Cache validators and wildcard CORS are provided.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Invalid graphs are not served under the conformance media type.</li>
+</ul>
+<h3 id="173-rdf-graph">17.3 RDF graph<a class="headerlink" href="#173-rdf-graph" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Exactly one primary Catalogue has title, description, publisher,
+      datasets, services, and conformance IRIs.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> The publisher is one named Agent shared by all datasets.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> At least one Dataset has title, description and at least one
+      Distribution, and carries at most one public-use offer.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Every Distribution has EU format, IANA media type, a licence, and equal
+      direct access and download URLs.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Distributions of one dataset have distinct formats.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Optional sizes and checksums use the required values and datatypes.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> The Catalogue service endpoint is an RDF IRI and matches discovery.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Every service has known served datasets and standards identifiers.</li>
+</ul>
+<h3 id="174-validation-and-companion-consistency">17.4 Validation and companion consistency<a class="headerlink" href="#174-validation-and-companion-consistency" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Mandatory, range, and controlled-vocabulary validation passes.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Validation can use pinned offline standards material.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Public distribution URLs support required HTTP behavior.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> If DSP is advertised, the reciprocal service advertisements exist.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Shared identifiers and metadata agree across protocols.</li>
+</ul>
+<h2 id="appendix-a-minimal-json-ld-example-non-normative">Appendix A. Minimal JSON-LD example (non-normative)<a class="headerlink" href="#appendix-a-minimal-json-ld-example-non-normative" title="Permanent link">&para;</a></h2>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">"@context"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="nt">"@version"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.1</span><span class="p">,</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="nt">"@protected"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="nt">"dcat"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://www.w3.org/ns/dcat#"</span><span class="p">,</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="nt">"dct"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://purl.org/dc/terms/"</span><span class="p">,</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="nt">"foaf"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://xmlns.com/foaf/0.1/"</span><span class="p">,</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="nt">"odrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://www.w3.org/ns/odrl/2/"</span><span class="p">,</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="nt">"spdx"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://spdx.org/rdf/terms#"</span><span class="p">,</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="nt">"xsd"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://www.w3.org/2001/XMLSchema#"</span><span class="p">,</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="nt">"Catalog"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dcat:Catalog"</span><span class="p">,</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="nt">"Dataset"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dcat:Dataset"</span><span class="p">,</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">    </span><span class="nt">"Distribution"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dcat:Distribution"</span><span class="p">,</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">    </span><span class="nt">"DataService"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dcat:DataService"</span><span class="p">,</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">    </span><span class="nt">"Agent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"foaf:Agent"</span><span class="p">,</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">    </span><span class="nt">"Standard"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:Standard"</span><span class="p">,</span>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="w">    </span><span class="nt">"MediaType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:MediaType"</span><span class="p">,</span>
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="w">    </span><span class="nt">"MediaTypeOrExtent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:MediaTypeOrExtent"</span><span class="p">,</span>
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="w">    </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:title"</span><span class="p">,</span>
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="w">    </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:description"</span><span class="p">,</span>
+</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="w">    </span><span class="nt">"publisher"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:publisher"</span><span class="p">,</span><span class="w"> </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@id"</span><span class="p">},</span>
+</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="w">    </span><span class="nt">"dataset"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dcat:dataset"</span><span class="p">,</span><span class="w"> </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@id"</span><span class="p">,</span><span class="w"> </span><span class="nt">"@container"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@set"</span><span class="p">},</span>
+</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="w">    </span><span class="nt">"distribution"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dcat:distribution"</span><span class="p">,</span><span class="w"> </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@id"</span><span class="p">},</span>
+</span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a><span class="w">    </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dcat:service"</span><span class="p">,</span><span class="w"> </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@id"</span><span class="p">,</span><span class="w"> </span><span class="nt">"@container"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@set"</span><span class="p">},</span>
+</span><span id="__span-9-25"><a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a><span class="w">    </span><span class="nt">"format"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:format"</span><span class="p">,</span><span class="w"> </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@id"</span><span class="p">},</span>
+</span><span id="__span-9-26"><a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a><span class="w">    </span><span class="nt">"mediaType"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dcat:mediaType"</span><span class="p">,</span><span class="w"> </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@id"</span><span class="p">},</span>
+</span><span id="__span-9-27"><a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a><span class="w">    </span><span class="nt">"accessURL"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dcat:accessURL"</span><span class="p">,</span><span class="w"> </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@id"</span><span class="p">},</span>
+</span><span id="__span-9-28"><a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a><span class="w">    </span><span class="nt">"downloadURL"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dcat:downloadURL"</span><span class="p">,</span><span class="w"> </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@id"</span><span class="p">},</span>
+</span><span id="__span-9-29"><a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a><span class="w">    </span><span class="nt">"license"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:license"</span><span class="p">,</span><span class="w"> </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@id"</span><span class="p">},</span>
+</span><span id="__span-9-30"><a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a><span class="w">    </span><span class="nt">"LicenseDocument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:LicenseDocument"</span><span class="p">,</span>
+</span><span id="__span-9-31"><a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a><span class="w">    </span><span class="nt">"endpointURL"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dcat:endpointURL"</span><span class="p">,</span><span class="w"> </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@id"</span><span class="p">},</span>
+</span><span id="__span-9-32"><a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a><span class="w">    </span><span class="nt">"servesDataset"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dcat:servesDataset"</span><span class="p">,</span><span class="w"> </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@id"</span><span class="p">,</span><span class="w"> </span><span class="nt">"@container"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@set"</span><span class="p">},</span>
+</span><span id="__span-9-33"><a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a><span class="w">    </span><span class="nt">"conformsTo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dct:conformsTo"</span><span class="p">,</span><span class="w"> </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@id"</span><span class="p">,</span><span class="w"> </span><span class="nt">"@container"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@set"</span><span class="p">},</span>
+</span><span id="__span-9-34"><a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a><span class="w">    </span><span class="nt">"hasPolicy"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"odrl:hasPolicy"</span><span class="p">,</span><span class="w"> </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@id"</span><span class="p">},</span>
+</span><span id="__span-9-35"><a id="__codelineno-9-35" name="__codelineno-9-35" href="#__codelineno-9-35"></a><span class="w">    </span><span class="nt">"permission"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"odrl:permission"</span><span class="p">,</span><span class="w"> </span><span class="nt">"@container"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@set"</span><span class="p">},</span>
+</span><span id="__span-9-36"><a id="__codelineno-9-36" name="__codelineno-9-36" href="#__codelineno-9-36"></a><span class="w">    </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"odrl:action"</span><span class="p">,</span><span class="w"> </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@id"</span><span class="p">}</span>
+</span><span id="__span-9-37"><a id="__codelineno-9-37" name="__codelineno-9-37" href="#__codelineno-9-37"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-9-38"><a id="__codelineno-9-38" name="__codelineno-9-38" href="#__codelineno-9-38"></a><span class="w">  </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/catalogues/public"</span><span class="p">,</span>
+</span><span id="__span-9-39"><a id="__codelineno-9-39" name="__codelineno-9-39" href="#__codelineno-9-39"></a><span class="w">  </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Catalog"</span><span class="p">,</span>
+</span><span id="__span-9-40"><a id="__codelineno-9-40" name="__codelineno-9-40" href="#__codelineno-9-40"></a><span class="w">  </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Public materials catalogue"</span><span class="p">,</span>
+</span><span id="__span-9-41"><a id="__codelineno-9-41" name="__codelineno-9-41" href="#__codelineno-9-41"></a><span class="w">  </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Public datasets and services."</span><span class="p">,</span>
+</span><span id="__span-9-42"><a id="__codelineno-9-42" name="__codelineno-9-42" href="#__codelineno-9-42"></a><span class="w">  </span><span class="nt">"conformsTo"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-9-43"><a id="__codelineno-9-43" name="__codelineno-9-43" href="#__codelineno-9-43"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-9-44"><a id="__codelineno-9-44" name="__codelineno-9-44" href="#__codelineno-9-44"></a><span class="w">      </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0"</span><span class="p">,</span>
+</span><span id="__span-9-45"><a id="__codelineno-9-45" name="__codelineno-9-45" href="#__codelineno-9-45"></a><span class="w">      </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Standard"</span>
+</span><span id="__span-9-46"><a id="__codelineno-9-46" name="__codelineno-9-46" href="#__codelineno-9-46"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-9-47"><a id="__codelineno-9-47" name="__codelineno-9-47" href="#__codelineno-9-47"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-9-48"><a id="__codelineno-9-48" name="__codelineno-9-48" href="#__codelineno-9-48"></a><span class="w">      </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://semiceu.github.io/DCAT-AP/releases/3.0.1/"</span><span class="p">,</span>
+</span><span id="__span-9-49"><a id="__codelineno-9-49" name="__codelineno-9-49" href="#__codelineno-9-49"></a><span class="w">      </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Standard"</span>
+</span><span id="__span-9-50"><a id="__codelineno-9-50" name="__codelineno-9-50" href="#__codelineno-9-50"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-9-51"><a id="__codelineno-9-51" name="__codelineno-9-51" href="#__codelineno-9-51"></a><span class="w">  </span><span class="p">],</span>
+</span><span id="__span-9-52"><a id="__codelineno-9-52" name="__codelineno-9-52" href="#__codelineno-9-52"></a><span class="w">  </span><span class="nt">"publisher"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-53"><a id="__codelineno-9-53" name="__codelineno-9-53" href="#__codelineno-9-53"></a><span class="w">    </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/participants/provider"</span><span class="p">,</span>
+</span><span id="__span-9-54"><a id="__codelineno-9-54" name="__codelineno-9-54" href="#__codelineno-9-54"></a><span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Agent"</span><span class="p">,</span>
+</span><span id="__span-9-55"><a id="__codelineno-9-55" name="__codelineno-9-55" href="#__codelineno-9-55"></a><span class="w">    </span><span class="nt">"foaf:name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Example Provider"</span>
+</span><span id="__span-9-56"><a id="__codelineno-9-56" name="__codelineno-9-56" href="#__codelineno-9-56"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-9-57"><a id="__codelineno-9-57" name="__codelineno-9-57" href="#__codelineno-9-57"></a><span class="w">  </span><span class="nt">"dataset"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
+</span><span id="__span-9-58"><a id="__codelineno-9-58" name="__codelineno-9-58" href="#__codelineno-9-58"></a><span class="w">    </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/datasets/example"</span><span class="p">,</span>
+</span><span id="__span-9-59"><a id="__codelineno-9-59" name="__codelineno-9-59" href="#__codelineno-9-59"></a><span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dataset"</span><span class="p">,</span>
+</span><span id="__span-9-60"><a id="__codelineno-9-60" name="__codelineno-9-60" href="#__codelineno-9-60"></a><span class="w">    </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Example materials dataset"</span><span class="p">,</span>
+</span><span id="__span-9-61"><a id="__codelineno-9-61" name="__codelineno-9-61" href="#__codelineno-9-61"></a><span class="w">    </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A public example dataset."</span><span class="p">,</span>
+</span><span id="__span-9-62"><a id="__codelineno-9-62" name="__codelineno-9-62" href="#__codelineno-9-62"></a><span class="w">    </span><span class="nt">"publisher"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/participants/provider"</span><span class="p">,</span>
+</span><span id="__span-9-63"><a id="__codelineno-9-63" name="__codelineno-9-63" href="#__codelineno-9-63"></a><span class="w">    </span><span class="nt">"hasPolicy"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-64"><a id="__codelineno-9-64" name="__codelineno-9-64" href="#__codelineno-9-64"></a><span class="w">      </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/datasets/example#offer"</span><span class="p">,</span>
+</span><span id="__span-9-65"><a id="__codelineno-9-65" name="__codelineno-9-65" href="#__codelineno-9-65"></a><span class="w">      </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"odrl:Offer"</span><span class="p">,</span>
+</span><span id="__span-9-66"><a id="__codelineno-9-66" name="__codelineno-9-66" href="#__codelineno-9-66"></a><span class="w">      </span><span class="nt">"permission"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"odrl:use"</span><span class="p">}]</span>
+</span><span id="__span-9-67"><a id="__codelineno-9-67" name="__codelineno-9-67" href="#__codelineno-9-67"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-9-68"><a id="__codelineno-9-68" name="__codelineno-9-68" href="#__codelineno-9-68"></a><span class="w">    </span><span class="nt">"distribution"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-69"><a id="__codelineno-9-69" name="__codelineno-9-69" href="#__codelineno-9-69"></a><span class="w">      </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/datasets/example#distribution"</span><span class="p">,</span>
+</span><span id="__span-9-70"><a id="__codelineno-9-70" name="__codelineno-9-70" href="#__codelineno-9-70"></a><span class="w">      </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Distribution"</span><span class="p">,</span>
+</span><span id="__span-9-71"><a id="__codelineno-9-71" name="__codelineno-9-71" href="#__codelineno-9-71"></a><span class="w">      </span><span class="nt">"format"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-72"><a id="__codelineno-9-72" name="__codelineno-9-72" href="#__codelineno-9-72"></a><span class="w">        </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://publications.europa.eu/resource/authority/file-type/CSV"</span><span class="p">,</span>
+</span><span id="__span-9-73"><a id="__codelineno-9-73" name="__codelineno-9-73" href="#__codelineno-9-73"></a><span class="w">        </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MediaTypeOrExtent"</span>
+</span><span id="__span-9-74"><a id="__codelineno-9-74" name="__codelineno-9-74" href="#__codelineno-9-74"></a><span class="w">      </span><span class="p">},</span>
+</span><span id="__span-9-75"><a id="__codelineno-9-75" name="__codelineno-9-75" href="#__codelineno-9-75"></a><span class="w">      </span><span class="nt">"mediaType"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-76"><a id="__codelineno-9-76" name="__codelineno-9-76" href="#__codelineno-9-76"></a><span class="w">        </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.iana.org/assignments/media-types/text/csv"</span><span class="p">,</span>
+</span><span id="__span-9-77"><a id="__codelineno-9-77" name="__codelineno-9-77" href="#__codelineno-9-77"></a><span class="w">        </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MediaType"</span>
+</span><span id="__span-9-78"><a id="__codelineno-9-78" name="__codelineno-9-78" href="#__codelineno-9-78"></a><span class="w">      </span><span class="p">},</span>
+</span><span id="__span-9-79"><a id="__codelineno-9-79" name="__codelineno-9-79" href="#__codelineno-9-79"></a><span class="w">      </span><span class="nt">"accessURL"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/files/example.csv"</span><span class="p">,</span>
+</span><span id="__span-9-80"><a id="__codelineno-9-80" name="__codelineno-9-80" href="#__codelineno-9-80"></a><span class="w">      </span><span class="nt">"downloadURL"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/files/example.csv"</span><span class="p">,</span>
+</span><span id="__span-9-81"><a id="__codelineno-9-81" name="__codelineno-9-81" href="#__codelineno-9-81"></a><span class="w">      </span><span class="nt">"license"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-82"><a id="__codelineno-9-82" name="__codelineno-9-82" href="#__codelineno-9-82"></a><span class="w">        </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://creativecommons.org/licenses/by/4.0/"</span><span class="p">,</span>
+</span><span id="__span-9-83"><a id="__codelineno-9-83" name="__codelineno-9-83" href="#__codelineno-9-83"></a><span class="w">        </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LicenseDocument"</span>
+</span><span id="__span-9-84"><a id="__codelineno-9-84" name="__codelineno-9-84" href="#__codelineno-9-84"></a><span class="w">      </span><span class="p">}</span>
+</span><span id="__span-9-85"><a id="__codelineno-9-85" name="__codelineno-9-85" href="#__codelineno-9-85"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-9-86"><a id="__codelineno-9-86" name="__codelineno-9-86" href="#__codelineno-9-86"></a><span class="w">  </span><span class="p">}],</span>
+</span><span id="__span-9-87"><a id="__codelineno-9-87" name="__codelineno-9-87" href="#__codelineno-9-87"></a><span class="w">  </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
+</span><span id="__span-9-88"><a id="__codelineno-9-88" name="__codelineno-9-88" href="#__codelineno-9-88"></a><span class="w">    </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/services/mc-dcat-ap"</span><span class="p">,</span>
+</span><span id="__span-9-89"><a id="__codelineno-9-89" name="__codelineno-9-89" href="#__codelineno-9-89"></a><span class="w">    </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DataService"</span><span class="p">,</span>
+</span><span id="__span-9-90"><a id="__codelineno-9-90" name="__codelineno-9-90" href="#__codelineno-9-90"></a><span class="w">    </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Public Materials Commons DCAT-AP catalogue"</span><span class="p">,</span>
+</span><span id="__span-9-91"><a id="__codelineno-9-91" name="__codelineno-9-91" href="#__codelineno-9-91"></a><span class="w">    </span><span class="nt">"endpointURL"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://provider.example/mc-dcat-ap/3.0.1/"</span><span class="p">,</span>
+</span><span id="__span-9-92"><a id="__codelineno-9-92" name="__codelineno-9-92" href="#__codelineno-9-92"></a><span class="w">    </span><span class="nt">"conformsTo"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-9-93"><a id="__codelineno-9-93" name="__codelineno-9-93" href="#__codelineno-9-93"></a><span class="w">      </span><span class="p">{</span>
+</span><span id="__span-9-94"><a id="__codelineno-9-94" name="__codelineno-9-94" href="#__codelineno-9-94"></a><span class="w">        </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0"</span><span class="p">,</span>
+</span><span id="__span-9-95"><a id="__codelineno-9-95" name="__codelineno-9-95" href="#__codelineno-9-95"></a><span class="w">        </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Standard"</span>
+</span><span id="__span-9-96"><a id="__codelineno-9-96" name="__codelineno-9-96" href="#__codelineno-9-96"></a><span class="w">      </span><span class="p">},</span>
+</span><span id="__span-9-97"><a id="__codelineno-9-97" name="__codelineno-9-97" href="#__codelineno-9-97"></a><span class="w">      </span><span class="p">{</span>
+</span><span id="__span-9-98"><a id="__codelineno-9-98" name="__codelineno-9-98" href="#__codelineno-9-98"></a><span class="w">        </span><span class="nt">"@id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://semiceu.github.io/DCAT-AP/releases/3.0.1/"</span><span class="p">,</span>
+</span><span id="__span-9-99"><a id="__codelineno-9-99" name="__codelineno-9-99" href="#__codelineno-9-99"></a><span class="w">        </span><span class="nt">"@type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Standard"</span>
+</span><span id="__span-9-100"><a id="__codelineno-9-100" name="__codelineno-9-100" href="#__codelineno-9-100"></a><span class="w">      </span><span class="p">}</span>
+</span><span id="__span-9-101"><a id="__codelineno-9-101" name="__codelineno-9-101" href="#__codelineno-9-101"></a><span class="w">    </span><span class="p">],</span>
+</span><span id="__span-9-102"><a id="__codelineno-9-102" name="__codelineno-9-102" href="#__codelineno-9-102"></a><span class="w">    </span><span class="nt">"servesDataset"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"https://provider.example/datasets/example"</span><span class="p">]</span>
+</span><span id="__span-9-103"><a id="__codelineno-9-103" name="__codelineno-9-103" href="#__codelineno-9-103"></a><span class="w">  </span><span class="p">}]</span>
+</span><span id="__span-9-104"><a id="__codelineno-9-104" name="__codelineno-9-104" href="#__codelineno-9-104"></a><span class="p">}</span>
+</span></code></pre></div>
+<h2 id="appendix-b-normative-references">Appendix B. Normative references<a class="headerlink" href="#appendix-b-normative-references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>DCAT 3</strong> — <a href="https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/">Data Catalog Vocabulary (DCAT), Version 3, W3C Recommendation 22 August 2024</a>.</li>
+<li><strong>DCAT-AP 3.0.1</strong> — <a href="https://semiceu.github.io/DCAT-AP/releases/3.0.1/">DCAT Application Profile for data portals in Europe, Version 3.0.1</a>.</li>
+<li><strong>JSON-LD 1.1</strong> — <a href="https://www.w3.org/TR/json-ld11/">JSON-LD 1.1</a>.</li>
+<li><strong>ODRL</strong> — <a href="https://www.w3.org/TR/odrl-model/">ODRL Information Model 2.2</a>.</li>
+<li><strong>RFC 2119</strong> — <a href="https://www.rfc-editor.org/rfc/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>.</li>
+<li><strong>RFC 8174</strong> — <a href="https://www.rfc-editor.org/rfc/rfc8174">Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</a>.</li>
+<li><strong>RFC 6906</strong> — <a href="https://www.rfc-editor.org/rfc/rfc6906">The <code>profile</code> Link Relation Type</a>.</li>
+<li><strong>RFC 8615</strong> — <a href="https://www.rfc-editor.org/rfc/rfc8615">Well-Known Uniform Resource Identifiers</a>.</li>
+</ul>
+<h2 id="appendix-c-informative-references">Appendix C. Informative references<a class="headerlink" href="#appendix-c-informative-references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>DSP 2025-1-err1</strong> — <a href="https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/">Dataspace Protocol 2025-1, errata revision 1</a>.</li>
+<li><strong>Materials Commons DSP Tier 1</strong> — <a href="../materials-commons-dsp-tier1/">Companion protocol</a>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-circle-arrow-up" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../tiers/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Tier model">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Tier model
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../materials-commons-dsp-tier1/" class="md-footer__link md-footer__link--next" aria-label="Next: Tier 1 (DSP)">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Tier 1 (DSP)
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Maintained by <a href="https://github.com/MaterialsCommons-Staging">Materials Commons</a>.
+    </div>
+  
+  
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/MaterialsCommons-Staging/mc-dsp-tiers" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M216.5 362.5c-66-8-112.5-55.5-112.5-117 0-25 9-52 24-70-6.5-16.5-5.5-51.5 2-66 20-2.5 47 8 63 22.5 19-6 39-9 63.5-9s44.5 3 62.5 8.5c15.5-14 43-24.5 63-22 7 13.5 8 48.5 1.5 65.5 16 19 24.5 44.5 24.5 70.5 0 61.5-46.5 108-113.5 116.5 17 11 28.5 35 28.5 62.5v52c0 15 12.5 23.5 27.5 17.5C441 459.5 512 369 512 257 512 115.5 397 0 255.5 0S0 115.5 0 257c0 111 70.5 203 165.5 237.5 13.5 5 26.5-4 26.5-17.5v-40c-7 3-16 5-24 5-33 0-52.5-18-66.5-51.5-5.5-13.5-11.5-21.5-23-23-6-.5-8-3-8-6 0-6 10-10.5 20-10.5 14.5 0 27 9 40 27.5 10 14.5 20.5 21 33 21s20.5-4.5 32-16c8.5-8.5 15-16 21-21"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      
+      
+        
+        
+      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["announce.dismiss","content.code.annotate","content.action.edit","content.action.view","content.code.copy","content.code.select","content.footnote.tooltips","content.tabs.link","content.tooltips","navigation.footer","navigation.indexes","navigation.tabs","navigation.instant","navigation.instant.prefetch","navigation.path","navigation.prune","navigation.top","navigation.tracking","search.highlight"],"redirect":null,"search":"../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":{"provider":"mike"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.df5d1f2b.min.js"></script>
+      
+    
+  </body>
+</html>
