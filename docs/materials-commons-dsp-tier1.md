@@ -37,8 +37,8 @@ It provides:
 1. unauthenticated DSP version discovery;
 2. unauthenticated DSP catalogue and individual-dataset discovery, with
    optional catalogue pagination;
-3. one unconditional ODRL `use` offer and one or more public HTTPS-pull
-   distributions for each dataset;
+3. one unconditional ODRL offer, with the `use` permission recommended, and one
+   or more public HTTPS-pull distributions for each dataset;
 4. the provider endpoints required for the selected DSP contract-negotiation
    and transfer-process flows;
 5. a direct, unauthenticated HTTPS data plane that is not protected by the DSP
@@ -197,11 +197,11 @@ Tier 1 includes:
 - retrieval of one dataset description by its exact identifier;
 - one or more public distributions per dataset, with distinct format values;
 - public, finite, consumer-pull transfer over HTTPS;
-- unconditional ODRL permission to perform the `use` action;
+- an unconditional ODRL offer, with the `use` permission recommended;
 - process termination, suspension, resumption, and completion within the
   constrained state transitions defined here;
-- DCAT-AP-compatible publication metadata for formats, media types, direct
-  download URLs, optional byte sizes, and optional SHA-256 checksums;
+- DCAT-AP-compatible publication metadata for formats, media types, licences,
+  direct download URLs, optional byte sizes, and optional SHA-256 checksums;
 - optional discovery of a Materials Commons DCAT-AP Tier 0 service through the
   DSP catalogue; and
 - optional discovery and retrieval of a context-substituted DCAT-AP
@@ -613,6 +613,7 @@ distributions.
 | Publisher identifier and name | `1` | Equal to catalogue publisher |
 | Offer identifier | `1` | Absolute stable IRI; unique |
 | Distribution identifier | `1` per distribution | Absolute stable IRI; unique |
+| Licence | `1` per distribution | IRI of a published licence, typed `dct:LicenseDocument` |
 | Public access URL | `1` per distribution | Absolute HTTPS URL |
 | EU file-type IRI | `1` per distribution | EU File Type concept; distinct within the dataset |
 | IANA media-type IRI | `1` per distribution | Registered media-type IRI |
@@ -638,8 +639,21 @@ Each dataset MUST have exactly one advertised ODRL Offer:
 
 The catalogue form MUST NOT contain `target`, because DSP derives it from the
 enclosing dataset. The offer MUST NOT contain constraints, duties,
-obligations, prohibitions, remedies, or nested targets. It does not replace
-licence, copyright, attribution, citation, or ethical-use metadata.
+obligations, prohibitions, remedies, or nested targets.
+
+The `permission` member is RECOMMENDED but not REQUIRED. The offer MUST NOT
+contain more than one permission. If present, its action MUST be `use`, which
+the official DSP context maps to `odrl:use`.
+
+DSP requires a `hasPolicy` containing an Offer, and requires that Offer to have
+an `@id`, but its rules are optional, so an Offer carrying no rule is a valid
+DSP Offer. A Tier 1 Provider that omits the permission remains conformant; one
+that includes it states explicitly that unconditional `use` is granted, which
+is why it is recommended.
+
+This offer is not the licence. It expresses unconditional technical access,
+and it does not replace copyright, attribution, citation, or ethical-use
+metadata. The licence is carried separately and is REQUIRED by Section 8.5.
 
 In a `ContractRequestMessage`, the same offer MUST have exactly one top-level
 `target` equal to the dataset identifier, following the DSP
@@ -657,8 +671,18 @@ contain:
 - `dcat:accessURL` as an `@id` object containing the public HTTPS URL;
 - `dcat:downloadURL` as an `@id` object containing that same direct URL;
 - `dcat:mediaType` as an `@id` object containing the IANA media-type IRI and
-  `@type` equal to `dct:MediaType`; and
+  `@type` equal to `dct:MediaType`;
+- `dct:license` as an `@id` object containing the IRI of a published licence,
+  typed `dct:LicenseDocument`; and
 - one DSP `accessService` object identifying the root DSP access service.
+
+The licence is REQUIRED, which is stricter than DCAT-AP, where
+[Distribution licence](https://semiceu.github.io/DCAT-AP/releases/3.0.1/#Distribution.licence)
+is only recommended. Publishing a dataset with no licence would leave a
+consumer to infer that nothing is granted, which contradicts the unconditional
+offer in Section 8.4 that accompanies it. A well-known licence IRI, for example
+a Creative Commons one, SHOULD be used in preference to a bespoke document, and
+in preference to modelling the same terms in ODRL.
 
 These requirements specialize the DCAT-AP properties for Distribution
 [format](https://semiceu.github.io/DCAT-AP/releases/3.0.1/#Distribution.format),
@@ -736,6 +760,14 @@ feature IRI and the DCAT-AP 3.0.1 profile IRI, each typed `dct:Standard`.
 Each distribution MUST identify that same service through `accessService`.
 An embedded copy and the root copy, if both contain metadata, MUST be
 identical after RDF node merging.
+
+The prefixed spelling `dcat:servesDataset` is required, and MUST NOT be
+shortened to a bare `servesDataset`. The DSP JSON Schema declares the bare
+property, but the official DSP context defines no term for it, so a bare
+`servesDataset` expands to no triple at all and the served-dataset list is
+silently lost. The `dcat` prefix is defined in that context, so the prefixed
+form expands correctly. Reported upstream as
+[DataspaceProtocol#277](https://github.com/eclipse-dataspace-protocol-base/DataspaceProtocol/issues/277).
 
 `endpointURL` MUST remain the DSP-required JSON string. A Provider MUST NOT
 replace it with a JSON-LD `@id` object in an attempt to make the DSP response
@@ -1092,9 +1124,8 @@ The Provider MUST accept only an offer that:
 1. uses a currently advertised offer `@id`;
 2. has one top-level `target` equal to that offer's dataset;
 3. has `@type` equal to `Offer`;
-4. contains exactly the unconditional `use` permission;
-5. contains no nested target; and
-6. is otherwise structurally equal to the advertised policy.
+4. contains no nested target; and
+5. is otherwise structurally equal to the advertised policy.
 
 Unknown, modified, constrained, or retargeted offers MUST return
 `400 ContractNegotiationError`.
@@ -1140,9 +1171,10 @@ remain applicable.
 
 The Agreement MUST contain a unique `@id`, `@type` equal to `Agreement`, target
 equal to one catalogue dataset, assigner equal to the Provider participant,
-assignee equal to the Consumer process identifier, a UTC XML Schema `dateTime`,
-and the same unconditional permission. Rules inside the Agreement MUST NOT
-have their own targets.
+assignee equal to the Consumer process identifier, and a UTC XML Schema
+`dateTime`. Its `permission` member MUST be structurally equal to that of the
+selected Offer when present, and MUST be omitted when absent from that Offer.
+Rules inside the Agreement MUST NOT have their own targets.
 
 ### 11.6 Status, termination, and callbacks
 
@@ -1344,8 +1376,9 @@ representation is supplied. Extension metadata MUST NOT:
 - [ ] All datasets share one publisher.
 - [ ] Each dataset has one unconditional offer and one or more public
       distributions, with distinct DSP format values within the dataset.
-- [ ] Format, media type, access URL, and direct download URL are present with
-      the required RDF classes and ranges.
+- [ ] Every distribution states a licence.
+- [ ] Format, media type, licence, access URL, and direct download URL are
+      present with the required RDF classes and ranges.
 - [ ] Every format is explicitly typed `dct:MediaTypeOrExtent`.
 - [ ] Every media type is explicitly typed `dct:MediaType`.
 - [ ] Known byte sizes are explicitly typed `xsd:nonNegativeInteger`, and
@@ -1379,7 +1412,8 @@ representation is supplied. Extension metadata MUST NOT:
 
 - [ ] Only the exact advertised unconditional offer is accepted.
 - [ ] Agreement and finalization callbacks are supported.
-- [ ] Agreements have unique ID, target, parties, UTC time, and permission.
+- [ ] Agreements have unique ID, target, parties and UTC time, and mirror the
+      offer's permission, including its absence.
 - [ ] Transfers require a finalized agreement for a current dataset.
 - [ ] Requested format exactly matches one distribution of the target dataset,
       and Start supplies that distribution's public URL.
