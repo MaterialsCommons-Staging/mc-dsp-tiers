@@ -16,7 +16,7 @@ Materials Commons DSP Tier 1 conformance. This document does not relax any DSP
 requirement.
 
 The separately specified
-[Materials Commons DCAT-AP GET Protocol Tier 1](materials-commons-dcat-ap-get-protocol-tier-1.md) provides an optional,
+[Materials Commons DCAT-AP GET Protocol Tier 0](materials-commons-dcat-ap-get-protocol-tier-0.md) provides an optional,
 strict DCAT-AP 3.0.1 representation of the same public catalogue. The two
 representations use the same complete catalogue JSON value except for
 `@context`, after assembling pages when pagination is used; changing that
@@ -45,7 +45,7 @@ It provides:
    control plane;
 6. DCAT-AP 3.0.1-compatible catalogue metadata, with `dcat:endpointURL` as the
    single unavoidable RDF range exception imposed by DSP;
-7. an optional DSP-native advertisement of a Materials Commons DCAT-AP Tier 1
+7. an optional DSP-native advertisement of a Materials Commons DCAT-AP Tier 0
    companion service; and
 8. an optional, discoverable `application/ld+json` representation obtained by
    replacing only the DSP context.
@@ -88,7 +88,7 @@ conforming Provider implements the provider-side HTTPS endpoints, messages,
 resource model, callbacks, state transitions, and public data plane defined by
 this document.
 
-A Provider MAY additionally conform to Materials Commons DCAT-AP Tier 1. That
+A Provider MAY additionally conform to Materials Commons DCAT-AP Tier 0. That
 is an independent conformance claim and MUST NOT be inferred merely because a
 DSP catalogue contains DCAT terms. It MAY be inferred from the exact
 machine-readable service advertisement defined in Section 9.
@@ -167,7 +167,7 @@ language. Requirements such as class membership of an EU File Type concept
 are therefore stated normatively here and asserted explicitly in the payload,
 even though the official DSP context does not enforce them.
 
-The separate **Materials Commons DCAT-AP Tier 1** protocol supplies a
+The separate **Materials Commons DCAT-AP Tier 0** protocol supplies a
 well-known-discoverable `GET` operation for conventional DCAT harvesters. The
 optional content-negotiated representation in Section 9 gives DSP-aware
 clients the same graph without inventing `GET <base>/catalog`.
@@ -202,7 +202,7 @@ Tier 1 includes:
   constrained state transitions defined here;
 - DCAT-AP-compatible publication metadata for formats, media types, direct
   download URLs, optional byte sizes, and optional SHA-256 checksums;
-- optional discovery of a Materials Commons DCAT-AP Tier 1 service through the
+- optional discovery of a Materials Commons DCAT-AP Tier 0 service through the
   DSP catalogue; and
 - optional discovery and retrieval of a context-substituted DCAT-AP
   representation through the DSP catalogue request target.
@@ -249,7 +249,7 @@ For this specification:
 - **DSP access service** means the DSP `DataService` through which negotiation
   and transfer processes are initiated.
 - **DCAT-AP companion service** means an optional service conforming to
-  Materials Commons DCAT-AP Tier 1 and advertised as specified in Section 9.
+  Materials Commons DCAT-AP Tier 0 and advertised as specified in Section 9.
 - **Public distribution** means a distribution whose direct HTTPS URL is usable
   without authentication or authorization.
 - **Catalogue snapshot** means one internally consistent complete catalogue
@@ -270,7 +270,7 @@ For this specification:
 | DSP context | `https://w3id.org/dspace/2025/1/context.jsonld` |
 | DSP 2025-1-err1 specification | `https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/` |
 | Tier 1 DSP profile | (TBD) `tag:materialscommons.eu,2026:dsp/prototype-tier-1` |
-| Tier 1 DCAT-AP companion profile | (TBD) `tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1` |
+| Tier 0 DCAT-AP companion profile | (TBD) `tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0` |
 | Negotiated DCAT-AP feature | (TBD) `tag:materialscommons.eu,2026:dsp/prototype-tier-1#dcat-ap-content-negotiation` |
 | DCAT-AP 3.0.1 profile | `https://semiceu.github.io/DCAT-AP/releases/3.0.1/` |
 | `dcat` | `http://www.w3.org/ns/dcat#` |
@@ -434,7 +434,7 @@ and contain:
 - a stable `participantId`;
 - non-empty `dct:title` and `dct:description` values;
 - a `dct:conformsTo` array containing the Materials Commons DCAT-AP GET
-  Protocol Tier 1 and DCAT-AP 3.0.1 profile IRIs, each represented as a typed
+  Protocol Tier 0 and DCAT-AP 3.0.1 profile IRIs, each represented as a typed
   `dct:Standard` object;
 - `dct:publisher` conforming to Section 8.2;
 - at least one dataset;
@@ -790,18 +790,18 @@ checksum in a DSP response MUST use full IRIs, as follows:
 }
 ```
 
-## 9. Discovery of Materials Commons DCAT-AP Tier 1
+## 9. Discovery of Materials Commons DCAT-AP Tier 0
 
 ### 9.1 Optional capabilities
 
 A Tier 1 Provider MAY expose a strict DCAT-AP catalogue by separately
-conforming to **Materials Commons DCAT-AP Tier 1**. Absence of that service does
+conforming to **Materials Commons DCAT-AP Tier 0**. Absence of that service does
 not affect DSP Tier 1 conformance.
 
 If the companion service is present, it MUST be discoverable both:
 
 1. through the well-known discovery mechanism required by Materials Commons
-   DCAT-AP Tier 1; and
+   DCAT-AP Tier 0; and
 2. through a `DataService` in the root DSP catalogue `service` array as defined
    in Section 9.2.
 
@@ -828,7 +828,7 @@ The companion service advertisement MUST contain:
 `dct:conformsTo` MUST include both:
 
 ```text
-tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1
+tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0
 https://semiceu.github.io/DCAT-AP/releases/3.0.1/
 ```
 
@@ -918,7 +918,7 @@ Vary: Accept
 The response SHOULD also contain:
 
 ```http
-Link: <tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1>; rel="profile"
+Link: <tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0>; rel="profile"
 ```
 
 The response is an additional Materials Commons DCAT-AP representation, not a
@@ -988,7 +988,7 @@ The following is non-normative:
     "endpointURL": "https://provider.example/mc-dcat-ap/3.0.1/",
     "dct:conformsTo": [
       {
-        "@id": "tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1",
+        "@id": "tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0",
         "@type": "dct:Standard"
       },
       {
@@ -1362,7 +1362,7 @@ representation is supplied. Extension metadata MUST NOT:
       DCAT-AP 3.0.1 IRIs.
 - [ ] The advertised endpoint is absolute HTTPS and path-independent.
 - [ ] Served dataset identifiers refer to the current DSP snapshot.
-- [ ] The endpoint also satisfies Materials Commons DCAT-AP Tier 1 well-known
+- [ ] The endpoint also satisfies Materials Commons DCAT-AP Tier 0 well-known
       discovery and conformance requirements.
 - [ ] If negotiated DCAT-AP is supported, the DSP access service contains the
       exact feature and DCAT-AP profile IRIs while retaining `<base>` as its
@@ -1541,4 +1541,4 @@ Accept: application/json
 
 ## Appendix C. Informative references
 
-- **Materials Commons DCAT-AP GET Protocol Tier 1** — [Companion protocol](materials-commons-dcat-ap-get-protocol-tier-1.md).
+- **Materials Commons DCAT-AP GET Protocol Tier 0** — [Companion protocol](materials-commons-dcat-ap-get-protocol-tier-0.md).

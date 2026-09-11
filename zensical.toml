@@ -12,8 +12,11 @@ extra_css = ["stylesheets/extra.css"]
 
 nav = [
     { "Home" = "index.md" },
+    { "Tier model" = "tiers.md" },
     { "DSP Tier 1" = "materials-commons-dsp-tier1.md" },
-    { "DCAT-AP GET Protocol Tier 1" = "materials-commons-dcat-ap-get-protocol-tier-1.md" },
+    { "DSP Tier 2 (outline)" = "materials-commons-dsp-tier2.md" },
+    { "DSP Tier 3 (outline)" = "materials-commons-dsp-tier3.md" },
+    { "DCAT-AP GET Protocol Tier 0" = "materials-commons-dcat-ap-get-protocol-tier-0.md" },
 ]
 
 [project.theme]

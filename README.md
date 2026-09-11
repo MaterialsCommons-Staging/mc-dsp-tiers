@@ -1,9 +1,9 @@
 # Materials Commons DSP Tiers
 
 Tiered profiles of the Dataspace Protocol (DSP), DCAT-3 and DCAT-AP for the
-Materials Commons project. This repository holds two prototype "Tier 1"
+Materials Commons project. This repository holds two prototype entry-level
 specifications for publishing open, publicly readable datasets and services:
-a DSP Tier 1 profile and a DCAT-AP GET protocol Tier 1 profile.
+a DSP Tier 1 profile and a DCAT-AP GET protocol Tier 0 profile.
 
 ## Documentation
 

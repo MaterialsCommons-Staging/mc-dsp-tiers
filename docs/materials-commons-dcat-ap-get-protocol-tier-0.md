@@ -1,8 +1,8 @@
-# PROTOTYPE DRAFT FOR DISCUSSION: Materials Commons DCAT-AP GET Protocol Tier 1 (Public Catalogues)
+# PROTOTYPE DRAFT FOR DISCUSSION: Materials Commons DCAT-AP GET Protocol Tier 0 (Public Catalogues)
 
 ## Status of this document
 
-This document defines **Materials Commons DCAT-AP Get Protocol Tier 1**, an independent
+This document defines **Materials Commons DCAT-AP Get Protocol Tier 0**, an independent
 HTTPS protocol for discovery and retrieval of standards-conformant DCAT-AP
 3.0.1 catalogues of public datasets and services.
 
@@ -20,7 +20,7 @@ conformance.
 
 ## Abstract
 
-Materials Commons DCAT-AP Get Protocol Tier 1 provides basic non-authenticated access to a
+Materials Commons DCAT-AP Get Protocol Tier 0 provides basic non-authenticated access to a
 strict DCAT-AP 3.0.1 catalogue of public datasets and services. It defines:
 
 1. origin-level discovery at `/.well-known/mc-dcat-ap`;
@@ -59,7 +59,7 @@ This specification defines three conformance targets:
 - A **Catalogue Representation** is the DCAT-AP RDF graph and JSON-LD
   serialization in Sections 8 through 12.
 
-A service claiming **Materials Commons DCAT-AP Get Protocol Tier 1 conformance** MUST
+A service claiming **Materials Commons DCAT-AP Get Protocol Tier 0 conformance** MUST
 conform to all three targets.
 
 ### 1.3 Upstream conformance
@@ -72,7 +72,7 @@ and the
 The normative conformance identifier for this profile is:
 
 ```text
-tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1
+tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0
 ```
 
 The identifier names the conformance profile and does not prescribe a
@@ -107,7 +107,7 @@ Materials Commons resolves this standards conflict through two representations:
 
 1. **Materials Commons DSP Tier 1** remains schema-valid DSP and may carry
    useful compatible metadata without claiming DCAT conformance.
-2. **Materials Commons DCAT-AP Get Protocol Tier 1**, defined here, provides a separate RDF
+2. **Materials Commons DCAT-AP Get Protocol Tier 0**, defined here, provides a separate RDF
    graph that is fully validated as DCAT-AP 3.0.1.
 
 The two representations MAY describe the same resources and reference each
@@ -124,14 +124,14 @@ strictly validated JSON-LD representation.
 
 ### 2.2 Included capabilities
 
-Tier 1 includes:
+Tier 0 includes:
 
 - unauthenticated well-known discovery;
 - one or more discoverable catalogue endpoints per HTTPS origin;
 - direct `GET` and `HEAD` retrieval;
 - strict DCAT-AP 3.0.1 JSON-LD;
 - at least one public dataset per catalogue;
-- exactly one public downloadable distribution per Tier 1 dataset;
+- exactly one public downloadable distribution per Tier 0 dataset;
 - EU File Type and IANA media-type identifiers;
 - optional byte size and SHA-256 checksum;
 - descriptions of the catalogue service and companion public data services;
@@ -140,7 +140,7 @@ Tier 1 includes:
 
 ### 2.3 Excluded capabilities
 
-The following are outside Tier 1:
+The following are outside Tier 0:
 
 - authentication and authorization;
 - private, confidential, or caller-specific catalogue views;
@@ -153,7 +153,7 @@ The following are outside Tier 1:
 - DSP negotiation or transfer-process behavior.
 
 A Provider MAY offer such capabilities separately. They MUST NOT be required
-to retrieve a Tier 1 discovery document, catalogue, or distribution.
+to retrieve a Tier 0 discovery document, catalogue, or distribution.
 
 ## 3. Terminology
 
@@ -183,7 +183,7 @@ For this specification:
 
 | Prefix or name | IRI |
 |---|---|
-| Tier 1 DCAT-AP profile | (TBD) `tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1` |
+| Tier 0 DCAT-AP profile | (TBD) `tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0` |
 | Tier 1 DSP profile | (TBD) `tag:materialscommons.eu,2026:dsp/prototype-tier-1` |
 | DSP 2025-1 specification | `https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/` |
 | DCAT-AP 3.0.1 profile | `https://semiceu.github.io/DCAT-AP/releases/3.0.1/` |
@@ -274,7 +274,7 @@ Each service entry MUST contain:
 | Member | Type | Cardinality | Requirement |
 |---|---|---:|---|
 | `version` | string | `1` | Exact value `3.0.1` |
-| `profile` | string | `1` | Exact Tier 1 profile IRI |
+| `profile` | string | `1` | Exact Tier 0 profile IRI |
 | `endpoint` | string | `1` | Absolute HTTPS Catalogue endpoint |
 | `catalogueId` | string | `1` | Absolute IRI of the returned `dcat:Catalog` |
 | `serviceId` | string | `1` | Absolute IRI of its Catalogue service |
@@ -283,7 +283,7 @@ Each service entry MUST contain:
 The exact `profile` value MUST be:
 
 ```text
-tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1
+tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0
 ```
 
 `endpoint` MUST NOT contain user information, a query, or a fragment.
@@ -301,7 +301,7 @@ Unknown entry members MAY be present and MUST be ignored by clients.
   "services": [
     {
       "version": "3.0.1",
-      "profile": "tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1",
+      "profile": "tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0",
       "endpoint": "https://provider.example/mc-dcat-ap/3.0.1/",
       "catalogueId": "https://provider.example/catalogues/public",
       "serviceId": "https://provider.example/services/mc-dcat-ap",
@@ -360,7 +360,7 @@ not passed Section 12 validation MUST NOT use it.
 The response SHOULD also contain:
 
 ```text
-Link: <tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1>; rel="profile"
+Link: <tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0>; rel="profile"
 ```
 
 ### 7.3 Request headers and status codes
@@ -431,9 +431,9 @@ The graph MUST contain exactly one primary catalogue node with:
 | `dct:title` | `1..*` | At least one non-empty literal |
 | `dct:description` | `1..*` | At least one non-empty literal |
 | `dct:publisher` | `1` | Publisher Agent in Section 9.2 |
-| `dcat:dataset` | `1..*` | Every Tier 1 dataset |
+| `dcat:dataset` | `1..*` | Every Tier 0 dataset |
 | `dcat:service` | `1..*` | Catalogue service and companion services |
-| `dct:conformsTo` | `2..*` | Both Tier 1 and DCAT-AP profile IRIs |
+| `dct:conformsTo` | `2..*` | Both Tier 0 and DCAT-AP profile IRIs |
 
 Its IRI MUST equal the discovery entry's `catalogueId`. These requirements
 specialize DCAT
@@ -444,7 +444,7 @@ and DCAT-AP
 `dct:conformsTo` MUST include:
 
 ```text
-tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1
+tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0
 https://semiceu.github.io/DCAT-AP/releases/3.0.1/
 ```
 
@@ -490,7 +490,7 @@ attribution, citation, or ethical-use metadata.
 
 ### 10.1 Distribution
 
-Each Tier 1 dataset MUST have exactly one distribution with:
+Each Tier 0 dataset MUST have exactly one distribution with:
 
 | Property | Cardinality | Requirement |
 |---|---:|---|
@@ -567,7 +567,7 @@ discovery entry's `serviceId`. It MUST have:
 | `rdf:type` | `1..*` | Includes `dcat:DataService` |
 | `dct:title` | `1..*` | Non-empty literal |
 | `dcat:endpointURL` | `1` | Catalogue endpoint as an IRI |
-| `dct:conformsTo` | `2..*` | Tier 1 and DCAT-AP profile IRIs |
+| `dct:conformsTo` | `2..*` | Tier 0 and DCAT-AP profile IRIs |
 | `dcat:servesDataset` | `1..*` | Every dataset in the catalogue |
 
 The endpoint URL MUST be an RDF IRI, not a literal. These requirements
@@ -622,7 +622,7 @@ Every emitted Catalogue Representation MUST pass:
 4. DCAT-AP 3.0.1 mandatory-property validation;
 5. DCAT-AP 3.0.1 range validation;
 6. DCAT-AP 3.0.1 controlled-vocabulary validation; and
-7. all Tier 1 cardinality, datatype, identity, and consistency rules in this
+7. all Tier 0 cardinality, datatype, identity, and consistency rules in this
    document.
 
 DCAT-AP validation is described in
@@ -713,7 +713,7 @@ Extensions MUST NOT:
 - make public retrieval conditional;
 - replace a direct download URL with a landing page;
 - violate DCAT-AP cardinality, range, or controlled-vocabulary rules;
-- use the Tier 1 profile IRI for a different protocol version; or
+- use the Tier 0 profile IRI for a different protocol version; or
 - contradict an advertised DSP companion.
 
 ## 17. Conformance checklist
@@ -800,7 +800,7 @@ Extensions MUST NOT:
   "description": "Public datasets and services.",
   "conformsTo": [
     {
-      "@id": "tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1",
+      "@id": "tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0",
       "@type": "Standard"
     },
     {
@@ -846,7 +846,7 @@ Extensions MUST NOT:
     "endpointURL": "https://provider.example/mc-dcat-ap/3.0.1/",
     "conformsTo": [
       {
-        "@id": "tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-1",
+        "@id": "tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0",
         "@type": "Standard"
       },
       {
