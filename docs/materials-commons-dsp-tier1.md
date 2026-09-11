@@ -1123,7 +1123,11 @@ The Provider MUST accept only an offer that:
 3. has `@type` equal to `Offer`;
 4. contains exactly the unconditional `use` permission;
 5. contains no nested target; and
-6. is otherwise structurally equal to the advertised policy.
+1. uses a currently advertised offer `@id`;
+2. has one top-level `target` equal to that offer's dataset;
+3. has `@type` equal to `Offer`;
+4. contains no nested target; and
+5. is otherwise structurally equal to the advertised policy.
 
 Unknown, modified, constrained, or retargeted offers MUST return
 `400 ContractNegotiationError`.
@@ -1171,7 +1175,12 @@ The Agreement MUST contain a unique `@id`, `@type` equal to `Agreement`, target
 equal to one catalogue dataset, assigner equal to the Provider participant,
 assignee equal to the Consumer process identifier, a UTC XML Schema `dateTime`,
 and the same unconditional permission. Rules inside the Agreement MUST NOT
-have their own targets.
+The Agreement MUST contain a unique `@id`, `@type` equal to `Agreement`, target
+equal to one catalogue dataset, assigner equal to the Provider participant,
+assignee equal to the Consumer process identifier, and a UTC XML Schema `dateTime`.
+Its `permission` member MUST be structurally equal to that of the selected
+Offer when present, and MUST be omitted when absent from that Offer.
+Rules inside the Agreement MUST NOT have their own targets.
 
 ### 11.6 Status, termination, and callbacks
 

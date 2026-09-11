@@ -481,8 +481,7 @@ and DCAT-AP
 
 ### 9.4 Public-use ODRL offer
 
-The dataset MUST link to one `odrl:Offer` with one permission whose action is
-`odrl:use`. The offer MUST NOT contain constraints, duties, prohibitions,
+The dataset MUST link to exactly one `odrl:Offer`. The offer MUST NOT contain more than one permission. Including a permission is RECOMMENDED; if present, its action MUST be `odrl:use`. The offer MUST NOT contain constraints, duties, prohibitions,
 remedies, or a target conflicting with the dataset. The policy expresses
 unconditional technical access; it does not replace copyright, attribution,
 citation, or ethical-use metadata. The licence is carried separately by
