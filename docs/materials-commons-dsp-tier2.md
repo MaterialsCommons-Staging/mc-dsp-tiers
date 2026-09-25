@@ -51,9 +51,16 @@ expected at [Tier 3](materials-commons-dsp-tier3.md).
   a Materials Commons profile has to name one. JSONPath is proposed as the baseline any provider
   can meet, with SPARQL optional where a triple store already exists, and a mechanism for a
   catalogue to advertise which languages it accepts.
-- **Which authentication profile.** OpenID Connect fills the extension point DSP leaves open, and
-  the `auth` object has to carry a concrete `protocol`, `version` and `profile`. The exact values
-  are not chosen.
+- **Which authentication profile.** OAuth 2.0 with signed JWT bearer tokens fills the extension
+  point DSP leaves open, and the `auth` object has to carry a concrete `protocol`, `version` and
+  `profile`. The exact values are not chosen. The profile also has to state what the token must
+  assert, since DSP declares participant identity in the message payload and the authentication
+  protocol in the version metadata without connecting the two: nothing in DSP requires the
+  token's subject to correspond to the `participantId` it acts for.
+- **Authenticating messages sent to a consumer callback.** DSP carries `callbackAddress` as a
+  bare string with no accompanying credential, and specifies no way for a provider to learn what
+  a consumer requires, so an inbound message to a callback endpoint is unauthenticated unless a
+  profile says otherwise.
 - Whether a provider must be able to state that it withholds nothing. That should not be
   expressed through the tier levels themselves.
 

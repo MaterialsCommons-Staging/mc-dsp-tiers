@@ -126,9 +126,15 @@ DSP leaves token semantics unspecified deliberately, and provides two extension 
 `Authorization` header on every endpoint, and the `auth` object in the version response naming
 `protocol`, `version` and `profile`.
 
-OpenID Connect is a legitimate fill for those extension points, not a deviation from DSP.
-Verifiable credentials through the Decentralized Claims Protocol are a different fill for the
-same extension points, and are equally outside DSP.
+OAuth 2.0 with JWT access tokens is a legitimate fill for those extension points, not a deviation
+from DSP. Verifiable credentials through the Decentralized Claims Protocol are a different fill
+for the same extension points, and are equally outside DSP.
+
+Every DSP exchange is machine to machine between participants, so the relevant profile is the
+client credentials grant with signed JWT bearer tokens, validated against the issuing authority's
+public keys. OpenID Connect is a different layer and applies to a hop that is not part of DSP:
+a person signing in to their own participant's services. Conflating the two points an
+implementation at the wrong specifications.
 
 Where the token sits determines whether the deployment is on this ladder at all:
 
