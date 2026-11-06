@@ -77,6 +77,23 @@ decision to make. Their position is that a data space begins where an access dec
 so open data is served by a catalogue vocabulary rather than by the protocol. Merging Tier 0 into
 the DSP catalogue endpoint should therefore not be assumed.
 
+The same constraint applies to the consumer side, which was confirmed in
+[issue 281](https://github.com/eclipse-dataspace-protocol-base/DataspaceProtocol/issues/281).
+A consumer that cannot accept an inbound connection is not a DSP consumer: `callbackAddress` is
+where every provider-initiated transition arrives, including the agreement, finalization, and
+transfer start, suspension, completion and termination. Polling a state resource is not a
+substitute, because transitions can be missed between polls and the offer content never appears
+in the state resource.
+
+So DSP requires a reachable participant agent at both ends. Nothing requires that agent to be the
+same process, machine or operator as the application using it, so a client on a network that
+permits no inbound connections participates through an agent rather than directly.
+
+Two consequences for this tier model. Reachability is not a property that separates one tier from
+another, because every tier that negotiates or transfers needs it, which is why a catalogue-only
+tier has to sit outside the protocol rather than at the bottom of it. And any tier above Tier 0
+has to say what a participant may delegate to an agent operated by somebody else.
+
 ## 4. Why the catalogue-only level was renumbered
 
 The DCAT-AP GET Protocol was originally numbered Tier 1, which meant three different things
@@ -126,9 +143,15 @@ DSP leaves token semantics unspecified deliberately, and provides two extension 
 `Authorization` header on every endpoint, and the `auth` object in the version response naming
 `protocol`, `version` and `profile`.
 
-OpenID Connect is a legitimate fill for those extension points, not a deviation from DSP.
-Verifiable credentials through the Decentralized Claims Protocol are a different fill for the
-same extension points, and are equally outside DSP.
+OAuth 2.0 with JWT access tokens is a legitimate fill for those extension points, not a deviation
+from DSP. Verifiable credentials through the Decentralized Claims Protocol are a different fill
+for the same extension points, and are equally outside DSP.
+
+Every DSP exchange is machine to machine between participants, so the relevant profile is the
+client credentials grant with signed JWT bearer tokens, validated against the issuing authority's
+public keys. OpenID Connect is a different layer and applies to a hop that is not part of DSP:
+a person signing in to their own participant's services. Conflating the two points an
+implementation at the wrong specifications.
 
 Where the token sits determines whether the deployment is on this ladder at all:
 

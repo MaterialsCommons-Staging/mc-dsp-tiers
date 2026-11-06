@@ -51,9 +51,26 @@ expected at [Tier 3](materials-commons-dsp-tier3.md).
   a Materials Commons profile has to name one. JSONPath is proposed as the baseline any provider
   can meet, with SPARQL optional where a triple store already exists, and a mechanism for a
   catalogue to advertise which languages it accepts.
-- **Which authentication profile.** OpenID Connect fills the extension point DSP leaves open, and
-  the `auth` object has to carry a concrete `protocol`, `version` and `profile`. The exact values
-  are not chosen.
+- **Which authentication profile.** OAuth 2.0 with signed JWT bearer tokens fills the extension
+  point DSP leaves open, and the `auth` object has to carry a concrete `protocol`, `version` and
+  `profile`. The exact values are not chosen. The profile also has to state what the token must
+  assert, since DSP declares participant identity in the message payload and the authentication
+  protocol in the version metadata without connecting the two: nothing in DSP requires the
+  token's subject to correspond to the `participantId` it acts for.
+- **Which trust overlay, and it binds the whole data space.** DSP leaves credential semantics to
+  an overlay rather than defining them, in both directions: "All requests to HTTPS endpoints
+  SHOULD use the `Authorization` header", which covers messages a provider sends to a consumer's
+  callback as much as the reverse. The version metadata `auth` object is where a connector
+  declares which overlay it speaks, and the specification's own example shows OAuth 2.0 and the
+  Decentralized Claims Protocol as alternatives on an equal footing. DSP requires neither, and
+  constrains `participantId` no further than a string.
+
+  The two overlays do not interoperate: a token from a shared authorization server and a
+  self-issued token addressed to a decentralized identifier cannot validate each other, and DSP
+  says nothing about token contents that would bridge them. The choice therefore binds a whole
+  data space rather than an individual participant, and it decides which other data spaces a
+  participant can ever exchange with. `protocolVersions` is a list with its own `auth` per entry,
+  so a second endpoint speaking a second overlay remains expressible later.
 - Whether a provider must be able to state that it withholds nothing. That should not be
   expressed through the tier levels themselves.
 
