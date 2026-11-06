@@ -15,6 +15,7 @@
         <link rel="canonical" href="https://materialscommons-staging.github.io/mc-dsp-tiers/dev/tiers/">
       
       
+      
         <link rel="prev" href="./..">
       
       
@@ -25,7 +26,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="zensical-0.0.61">
+      <meta name="generator" content="zensical-0.1.0">
     
     
       
@@ -36,12 +37,12 @@
       
         
       
-      <link rel="stylesheet" href="../assets/stylesheets/modern/main.ce62732f.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/modern/main.4ab2de0c.min.css">
       
         
           
         
-        <link rel="stylesheet" href="../assets/stylesheets/modern/palette.812a03bb.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/modern/palette.b60ce83d.min.css">
       
       
 
@@ -83,14 +84,11 @@
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer" aria-label="Navigation"></label>
+    <label class="md-overlay" for="__drawer" aria-hidden="true"></label>
     <div data-md-component="skip">
-      
-        
-        <a href="#the-tier-model" class="md-skip">
-          Skip to content
-        </a>
-      
+      <a href="#__skip" class="md-skip">
+        Skip to content
+      </a>
     </div>
     <div data-md-component="announce">
       
@@ -111,9 +109,10 @@
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 5v16M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
 
     </a>
-    <label class="md-header__button md-icon" for="__drawer" aria-label="Navigation">
+    <label class="md-header__button md-icon" for="__drawer">
       
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+      <span class="md-visually-hidden">Navigation</span>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -165,9 +164,10 @@
     
       
       
-        <label class="md-header__button md-icon" for="__search" aria-label="Search">
+        <label class="md-header__button md-icon" for="__search">
           
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+          <span class="md-visually-hidden">Search</span>
         </label>
         <div class="md-search" data-md-component="search" role="dialog" aria-label="Search">
   <button type="button" class="md-search__button">
@@ -785,8 +785,10 @@
 
               
               <article class="md-content__inner md-typeset">
+                <a id="__skip" tabindex="-1"></a>
                 
                   
+
   
     <a href="https://github.com/MaterialsCommons-Staging/mc-dsp-tiers/edit/main/docs/tiers.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
@@ -892,6 +894,20 @@ decision at all: the process state, the callbacks and the POST are consequences 
 decision to make. Their position is that a data space begins where an access decision is made,
 so open data is served by a catalogue vocabulary rather than by the protocol. Merging Tier 0 into
 the DSP catalogue endpoint should therefore not be assumed.</p>
+<p>The same constraint applies to the consumer side, which was confirmed in
+<a href="https://github.com/eclipse-dataspace-protocol-base/DataspaceProtocol/issues/281">issue 281</a>.
+A consumer that cannot accept an inbound connection is not a DSP consumer: <code>callbackAddress</code> is
+where every provider-initiated transition arrives, including the agreement, finalization, and
+transfer start, suspension, completion and termination. Polling a state resource is not a
+substitute, because transitions can be missed between polls and the offer content never appears
+in the state resource.</p>
+<p>So DSP requires a reachable participant agent at both ends. Nothing requires that agent to be the
+same process, machine or operator as the application using it, so a client on a network that
+permits no inbound connections participates through an agent rather than directly.</p>
+<p>Two consequences for this tier model. Reachability is not a property that separates one tier from
+another, because every tier that negotiates or transfers needs it, which is why a catalogue-only
+tier has to sit outside the protocol rather than at the bottom of it. And any tier above Tier 0
+has to say what a participant may delegate to an agent operated by somebody else.</p>
 <h2 id="4-why-the-catalogue-only-level-was-renumbered">4. Why the catalogue-only level was renumbered<a class="headerlink" href="#4-why-the-catalogue-only-level-was-renumbered" title="Permanent link">&para;</a></h2>
 <p>The DCAT-AP GET Protocol was originally numbered Tier 1, which meant three different things
 carried that number: the DSP profile, the DCAT-AP GET profile, and the first lane of the feature
@@ -932,9 +948,14 @@ public URL, and DSP places no host constraint on it.</p>
 <p>DSP leaves token semantics unspecified deliberately, and provides two extension points: the
 <code>Authorization</code> header on every endpoint, and the <code>auth</code> object in the version response naming
 <code>protocol</code>, <code>version</code> and <code>profile</code>.</p>
-<p>OpenID Connect is a legitimate fill for those extension points, not a deviation from DSP.
-Verifiable credentials through the Decentralized Claims Protocol are a different fill for the
-same extension points, and are equally outside DSP.</p>
+<p>OAuth 2.0 with JWT access tokens is a legitimate fill for those extension points, not a deviation
+from DSP. Verifiable credentials through the Decentralized Claims Protocol are a different fill
+for the same extension points, and are equally outside DSP.</p>
+<p>Every DSP exchange is machine to machine between participants, so the relevant profile is the
+client credentials grant with signed JWT bearer tokens, validated against the issuing authority's
+public keys. OpenID Connect is a different layer and applies to a hop that is not part of DSP:
+a person signing in to their own participant's services. Conflating the two points an
+implementation at the wrong specifications.</p>
 <p>Where the token sits determines whether the deployment is on this ladder at all:</p>
 <table>
 <thead>
@@ -1082,7 +1103,7 @@ same extension points, and are equally outside DSP.</p>
 </footer>
       
     </div>
-    <div class="md-dialog" data-md-component="dialog">
+    <div class="md-dialog" data-md-component="dialog" role="status" aria-atomic="true">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
@@ -1094,10 +1115,10 @@ same extension points, and are equally outside DSP.</p>
       
         
         
-      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["announce.dismiss","content.code.annotate","content.action.edit","content.action.view","content.code.copy","content.code.select","content.footnote.tooltips","content.tabs.link","content.tooltips","navigation.footer","navigation.indexes","navigation.tabs","navigation.instant","navigation.instant.prefetch","navigation.path","navigation.prune","navigation.top","navigation.tracking","search.highlight"],"redirect":null,"search":"../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":{"provider":"mike"}}</script>
+      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["announce.dismiss","content.code.annotate","content.action.edit","content.action.view","content.code.copy","content.code.select","content.footnote.tooltips","content.tabs.link","content.tooltips","navigation.footer","navigation.indexes","navigation.tabs","navigation.instant","navigation.instant.prefetch","navigation.path","navigation.prune","navigation.top","navigation.tracking","search.highlight"],"redirect":null,"search":"../assets/javascripts/workers/search.719e0d91.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","clipboard.error":"Could not copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":{"provider":"mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.df5d1f2b.min.js"></script>
+      <script src="../assets/javascripts/bundle.d31f0ffa.min.js"></script>
       
     
   </body>

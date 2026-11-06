@@ -15,6 +15,7 @@
         <link rel="canonical" href="https://materialscommons-staging.github.io/mc-dsp-tiers/dev/materials-commons-dsp-tier2/">
       
       
+      
         <link rel="prev" href="../materials-commons-dsp-tier1/">
       
       
@@ -25,7 +26,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="zensical-0.0.61">
+      <meta name="generator" content="zensical-0.1.0">
     
     
       
@@ -36,12 +37,12 @@
       
         
       
-      <link rel="stylesheet" href="../assets/stylesheets/modern/main.ce62732f.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/modern/main.4ab2de0c.min.css">
       
         
           
         
-        <link rel="stylesheet" href="../assets/stylesheets/modern/palette.812a03bb.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/modern/palette.b60ce83d.min.css">
       
       
 
@@ -83,14 +84,11 @@
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer" aria-label="Navigation"></label>
+    <label class="md-overlay" for="__drawer" aria-hidden="true"></label>
     <div data-md-component="skip">
-      
-        
-        <a href="#outline-materials-commons-dsp-tier-2-identified-and-controlled-access" class="md-skip">
-          Skip to content
-        </a>
-      
+      <a href="#__skip" class="md-skip">
+        Skip to content
+      </a>
     </div>
     <div data-md-component="announce">
       
@@ -111,9 +109,10 @@
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 5v16M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
 
     </a>
-    <label class="md-header__button md-icon" for="__drawer" aria-label="Navigation">
+    <label class="md-header__button md-icon" for="__drawer">
       
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+      <span class="md-visually-hidden">Navigation</span>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -165,9 +164,10 @@
     
       
       
-        <label class="md-header__button md-icon" for="__search" aria-label="Search">
+        <label class="md-header__button md-icon" for="__search">
           
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+          <span class="md-visually-hidden">Search</span>
         </label>
         <div class="md-search" data-md-component="search" role="dialog" aria-label="Search">
   <button type="button" class="md-search__button">
@@ -741,8 +741,10 @@
 
               
               <article class="md-content__inner md-typeset">
+                <a id="__skip" tabindex="-1"></a>
                 
                   
+
   
     <a href="https://github.com/MaterialsCommons-Staging/mc-dsp-tiers/edit/main/docs/materials-commons-dsp-tier2.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
@@ -827,12 +829,28 @@ expected at <a href="../materials-commons-dsp-tier3/">Tier 3</a>.</p>
   a Materials Commons profile has to name one. JSONPath is proposed as the baseline any provider
   can meet, with SPARQL optional where a triple store already exists, and a mechanism for a
   catalogue to advertise which languages it accepts.</li>
-<li><strong>Which authentication profile.</strong> OpenID Connect fills the extension point DSP leaves open, and
-  the <code>auth</code> object has to carry a concrete <code>protocol</code>, <code>version</code> and <code>profile</code>. The exact values
-  are not chosen.</li>
-<li>Whether a provider must be able to state that it withholds nothing. That should not be
-  expressed through the tier levels themselves.</li>
+<li><strong>Which authentication profile.</strong> OAuth 2.0 with signed JWT bearer tokens fills the extension
+  point DSP leaves open, and the <code>auth</code> object has to carry a concrete <code>protocol</code>, <code>version</code> and
+  <code>profile</code>. The exact values are not chosen. The profile also has to state what the token must
+  assert, since DSP declares participant identity in the message payload and the authentication
+  protocol in the version metadata without connecting the two: nothing in DSP requires the
+  token's subject to correspond to the <code>participantId</code> it acts for.</li>
+<li><strong>Which trust overlay, and it binds the whole data space.</strong> DSP leaves credential semantics to
+  an overlay rather than defining them, in both directions: "All requests to HTTPS endpoints
+  SHOULD use the <code>Authorization</code> header", which covers messages a provider sends to a consumer's
+  callback as much as the reverse. The version metadata <code>auth</code> object is where a connector
+  declares which overlay it speaks, and the specification's own example shows OAuth 2.0 and the
+  Decentralized Claims Protocol as alternatives on an equal footing. DSP requires neither, and
+  constrains <code>participantId</code> no further than a string.</li>
 </ul>
+<p>The two overlays do not interoperate: a token from a shared authorization server and a
+  self-issued token addressed to a decentralized identifier cannot validate each other, and DSP
+  says nothing about token contents that would bridge them. The choice therefore binds a whole
+  data space rather than an individual participant, and it decides which other data spaces a
+  participant can ever exchange with. <code>protocolVersions</code> is a list with its own <code>auth</code> per entry,
+  so a second endpoint speaking a second overlay remains expressible later.
+- Whether a provider must be able to state that it withholds nothing. That should not be
+  expressed through the tier levels themselves.</p>
 <h2 id="sections-to-write">Sections to write<a class="headerlink" href="#sections-to-write" title="Permanent link">&para;</a></h2>
 <p>Following the structure of the Tier 1 profile: conformance and requirement language; scope;
 terminology; normative namespaces; HTTPS service organization; version discovery including the
@@ -951,7 +969,7 @@ extensibility; conformance checklist.</p>
 </footer>
       
     </div>
-    <div class="md-dialog" data-md-component="dialog">
+    <div class="md-dialog" data-md-component="dialog" role="status" aria-atomic="true">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
@@ -963,10 +981,10 @@ extensibility; conformance checklist.</p>
       
         
         
-      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["announce.dismiss","content.code.annotate","content.action.edit","content.action.view","content.code.copy","content.code.select","content.footnote.tooltips","content.tabs.link","content.tooltips","navigation.footer","navigation.indexes","navigation.tabs","navigation.instant","navigation.instant.prefetch","navigation.path","navigation.prune","navigation.top","navigation.tracking","search.highlight"],"redirect":null,"search":"../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":{"provider":"mike"}}</script>
+      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["announce.dismiss","content.code.annotate","content.action.edit","content.action.view","content.code.copy","content.code.select","content.footnote.tooltips","content.tabs.link","content.tooltips","navigation.footer","navigation.indexes","navigation.tabs","navigation.instant","navigation.instant.prefetch","navigation.path","navigation.prune","navigation.top","navigation.tracking","search.highlight"],"redirect":null,"search":"../assets/javascripts/workers/search.719e0d91.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","clipboard.error":"Could not copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":{"provider":"mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.df5d1f2b.min.js"></script>
+      <script src="../assets/javascripts/bundle.d31f0ffa.min.js"></script>
       
     
   </body>

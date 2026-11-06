@@ -4,9 +4,6 @@
         <loc>https://materialscommons-staging.github.io/mc-dsp-tiers/dev/</loc>
       </url>
       <url>
-        <loc>https://materialscommons-staging.github.io/mc-dsp-tiers/dev/tiers/</loc>
-      </url>
-      <url>
         <loc>https://materialscommons-staging.github.io/mc-dsp-tiers/dev/materials-commons-dcat-ap-get-protocol-tier-0/</loc>
       </url>
       <url>
@@ -17,5 +14,8 @@
       </url>
       <url>
         <loc>https://materialscommons-staging.github.io/mc-dsp-tiers/dev/materials-commons-dsp-tier3/</loc>
+      </url>
+      <url>
+        <loc>https://materialscommons-staging.github.io/mc-dsp-tiers/dev/tiers/</loc>
       </url>
 </urlset>
