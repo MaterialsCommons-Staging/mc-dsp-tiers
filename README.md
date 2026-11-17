@@ -1,16 +1,15 @@
 # Materials Commons DSP Tiers
 
 Tiered profiles of the Dataspace Protocol (DSP), DCAT-3 and DCAT-AP for the
-Materials Commons project, for publishing open, publicly readable datasets and
-services. Published at
+Materials Commons project, for publishing datasets and services. Published at
 <https://materialscommons-staging.github.io/mc-dsp-tiers/>.
 
 | Document | State |
 |---|---|
 | [The tier model](docs/tiers.md) | what a tier is, the ladder, and what is still open |
-| [DCAT-AP GET Protocol Tier 0](docs/materials-commons-dcat-ap-get-protocol-tier-0.md) | prototype draft, DCAT-AP over HTTP GET, not DSP |
-| [DSP Tier 1](docs/materials-commons-dsp-tier1.md) | prototype draft, the first DSP level |
-| [DSP Tier 2](docs/materials-commons-dsp-tier2.md) | outline only |
+| [DCAT-AP GET Protocol Tier 0](docs/materials-commons-dcat-ap-get-protocol-tier-0.md) | prototype draft, DCAT-AP over HTTP GET, outside DSP, optional gated download |
+| [DSP Tier 1](docs/materials-commons-dsp-tier1.md) | prototype draft, the DSP catalogue only, no DSP conformance claim |
+| [DSP Tier 2](docs/materials-commons-dsp-tier2.md) | outline only, contract negotiation and policy |
 | [DSP Tier 3](docs/materials-commons-dsp-tier3.md) | outline only |
 
 ## Documentation
@@ -26,7 +25,7 @@ make check-extensions # verify zensical.toml restates Zensical's default Markdow
 make check            # check extensions + build the site (what CI runs)
 ```
 
-The docs build runs on Python via [uv](https://docs.astral.sh/uv/) — no local
+The docs build runs on Python via [uv](https://docs.astral.sh/uv/), no local
 Python setup is required. Optionally run `uvx pre-commit install` to enable
 the extensions guard as a pre-commit hook.
 

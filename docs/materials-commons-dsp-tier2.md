@@ -1,4 +1,4 @@
-# OUTLINE: Materials Commons DSP Tier 2 (Identified and Controlled Access)
+# OUTLINE: Materials Commons DSP Tier 2 (Contract Negotiation and Policy)
 
 ## Status of this document
 
@@ -10,12 +10,23 @@ See [the tier model](tiers.md) for how the tiers relate.
 
 ## Criterion
 
-Endpoints are authenticated, catalogue content and access decisions may depend on the caller's
-identity or credentials, and policy actually constrains what a consumer may do.
+**Contract negotiation, with an ODRL policy that carries more than an empty condition.** Tier 1
+stops at the catalogue, so Tier 2 is where the Dataspace Protocol is implemented as a protocol:
+the negotiation state machines, the provider-initiated callbacks, the agreement, and the
+transfer process that an agreement leads to. Endpoints are authenticated, and catalogue content
+and access decisions may depend on the caller.
 
-Tier 2 is the first tier at which a contract negotiation can fail for a reason other than a
-malformed message. That single sentence is the test: if every well-formed request still
-succeeds, the deployment is Tier 1 with extra machinery, not Tier 2.
+Tier 2 is the first tier that has a contract negotiation at all, and therefore the first at
+which a request can be refused for a reason other than malformed input. That is the test: if
+every well-formed request still succeeds, the policy carries no condition and the deployment is
+Tier 1 with extra machinery.
+
+The value DSP adds here is the structured, standardised negotiation of terms, including a
+consumer proposing a modification and the provider answering. Geographic restrictions and
+payment modalities are the cases where a licence link does not carry enough. Outside DSP the
+same thing is usually settled by mail or telephone and followed by an account that grants
+access, which is the common practice today and the reason this belongs above the entry tiers
+rather than at them.
 
 ## Included capabilities
 
@@ -23,30 +34,42 @@ Capabilities placed at this tier:
 
 | Capability |
 |---|
+| The DSP contract negotiation protocol: provider endpoints, states, agreements, verification, finalization |
+| Provider-initiated callbacks to a consumer `callbackAddress`, with the reachability that implies on the consumer side |
+| The DSP transfer process, as the thing an agreement leads to, in its finite pull form |
+| ODRL constraints on rules, including logical constraints |
+| Permission rules beyond the fixed `use` permission that Tier 1 carries for schema reasons |
+| Prohibition and obligation rules, and the ODRL profile |
+| Distribution-level offers (`Distribution.hasPolicy`) |
 | Token-based authorization on DSP endpoints, via the `Authorization` header |
 | Advertising authentication and participant identity in the version response (`auth`, `identifierType`) |
-| Nested sub-catalogues |
-| Distribution-level offers (`Distribution.hasPolicy`) |
-| Permission rules beyond the fixed `use` permission that Tier 1 already carries |
-| Prohibition and obligation rules, and the ODRL profile |
-| ODRL constraints on rules, including logical constraints |
-| Catalogue query and filter expressions |
-| Pagination of catalogue responses via HTTP `Link` headers, which Tier 1 allows as an option and this tier may require |
 | Access-controlled catalogues and credential-dependent catalogue content |
+| Nested sub-catalogues |
+| Catalogue query and filter expressions |
 
-The contract negotiation and transfer process capabilities are not yet placed. Expected here:
-policy-based or manual approval of contract requests, and data-plane credentials in
-`endpointProperties`.
+Pagination is not here. It is required at Tier 1, because a catalogue generated from search
+results cannot be served any other way.
 
 ## Excluded
 
 Everything not listed above and not inherited from Tier 1. In particular the capabilities
-expected at [Tier 3](materials-commons-dsp-tier3.md).
+expected at [Tier 3](materials-commons-dsp-tier3.md): provider-initiated negotiation,
+multi-round negotiation with changed terms, push and streaming transfers, catalogue brokers, and
+DID-based discovery.
+
+Tier 2 also does not cover enforcement after access has been granted. A consumer granted access
+for one purpose is not technically prevented from another; the agreement is a statement of terms
+rather than a control.
 
 ## Open questions
 
 - **Prohibitions and duties may belong at Tier 3.** They express usage control after access has
-  been granted, which is beyond the Tier 2 criterion of controlling access.
+  been granted, which is beyond the Tier 2 criterion of agreeing terms.
+- **Consumer reachability is the entry cost of this tier.** Provider-initiated callbacks require
+  the consumer to operate an inbound endpoint, which is the requirement that kept full DSP out
+  of Tier 1. A relay that proxies the bidirectional exchange for a client without one has been
+  deprioritised rather than ruled out, and would be revisited only if a DSP-only data space had
+  to be joined.
 - **The filter language is undefined.** DSP makes filter expressions implementation-specific, so
   a Materials Commons profile has to name one. JSONPath is proposed as the baseline any provider
   can meet, with SPARQL optional where a triple store already exists, and a mechanism for a
@@ -71,6 +94,14 @@ expected at [Tier 3](materials-commons-dsp-tier3.md).
   data space rather than an individual participant, and it decides which other data spaces a
   participant can ever exchange with. `protocolVersions` is a list with its own `auth` per entry,
   so a second endpoint speaking a second overlay remains expressible later.
+
+  The Decentralized Claims Protocol is more viable than this question assumed when it was
+  written. EDC with DCP and a self-hosted issuer has been reported working elsewhere, the
+  components behave, and the same protocols underlie the European identity wallet work. The
+  decision no longer reads as settled in favour of a shared authorization server.
+- **Where a licence sits relative to an ODRL policy.** DCAT-AP places the licence and the policy
+  at different levels of the structure, and Tier 1 already requires a licence per distribution
+  while carrying a policy per dataset.
 - Whether a provider must be able to state that it withholds nothing. That should not be
   expressed through the tier levels themselves.
 
@@ -82,3 +113,7 @@ terminology; normative namespaces; HTTPS service organization; version discovery
 publication model including conditional offers; negotiation with policy evaluation; transfer with
 data-plane credentials; errors and status codes; security and privacy; state and lifecycle;
 extensibility; conformance checklist.
+
+Sections 11 and 12 of the Tier 1 profile are the starting text for the negotiation and transfer
+sections. They specify those flows against an unconditional offer, which is the degenerate case
+of what this tier has to cover.

@@ -6,24 +6,28 @@ Non-normative. This page explains how the Materials Commons tiers relate to each
 Dataspace Protocol, and to the profiles that specify them. It records what has been settled and
 what has not.
 
-Sections marked **proposed** have not been decided. They are written down so they can be argued
-against rather than rediscovered.
+The ladder was reopened once Tier 1 had been checked against the Dataspace Protocol in detail,
+and the result is below. Items that are still open are collected in Section 8 so they can be
+argued against rather than rediscovered.
 
 ## 1. What a tier is
 
-A tier is a **subset of the Dataspace Protocol** that a Materials Commons participant implements.
-It is not a security level, a trust level, or a statement about the data.
+A tier is a **publication level** that a Materials Commons participant implements, described by
+how much of the Dataspace Protocol it uses. Tier 0 uses none of it, Tier 1 uses the catalogue
+schema and the catalogue interaction, and from Tier 2 upward the protocol itself is implemented.
+A tier is not a security level, a trust level, or a statement about the data.
 
 Two properties, both agreed:
 
 1. **A tier is a minimum feature set.** A provider that implements more than its tier requires
    does not lose the tier. An implementation claiming Tier 1 may also support authentication;
    consumers simply cannot rely on it.
-2. **Claiming a tier means the DSP functionality of every tier below it is available too.**
-   Two things do not carry upward. The Tier 0 DCAT-AP GET protocol is a separate conformance
-   claim and stays optional at every higher tier. Tier 1's guarantee that every advertised
-   dataset is retrievable without credentials is a property of Tier 1, not an obligation on
-   Tier 2, whose whole purpose is to make access depend on the caller.
+2. **Claiming a tier means the functionality of every tier below it is available too.**
+   Three things do not carry upward. The Tier 0 DCAT-AP GET protocol is a separate conformance
+   claim and stays optional at every higher tier. The gated download that Tier 0 permits has no
+   counterpart at Tier 1, where every endpoint and every distribution is unauthenticated. And the
+   Tier 1 guarantee that every advertised dataset is retrievable without credentials binds Tier 1
+   alone; Tier 2 exists to make access depend on the caller.
 
 The consequence is that a tier is a promise to a consumer about the *least* it can expect, not a
 description of the provider's deployment.
@@ -36,17 +40,43 @@ naming is to be revisited before a release version.
 
 Tier 0 and Tier 1 have specification text. Tier 2 and Tier 3 have outlines only.
 
-| Tier | Criterion | Specification |
-|---|---|---|
-| **0** | Static DCAT-AP catalogue with direct download URLs. Conformant to DCAT-AP, not to DSP. | [DCAT-AP GET Protocol Tier 0](materials-commons-dcat-ap-get-protocol-tier-0.md) |
-| **1** | Public read. No authentication, no policy evaluation, no caller-dependent content. Every advertised dataset is retrievable by any consumer. | [DSP Tier 1](materials-commons-dsp-tier1.md) |
-| **2** | Identified and controlled access. Endpoints are authenticated, catalogue content and access decisions may depend on the caller, and policy constrains what a consumer may do. | [DSP Tier 2](materials-commons-dsp-tier2.md), outline |
-| **3** | Full protocol. The remaining optional DSP capabilities. | [DSP Tier 3](materials-commons-dsp-tier3.md), outline |
+| Tier | Criterion | Adds over the tier below | Specification |
+|---|---|---|---|
+| **0** | Static DCAT-AP catalogue with direct download URLs. Conformant to DCAT-AP, outside DSP. The download may be gated behind a bearer token. | Entry level. A catalogue document a harvester can read and distributions it can fetch. The catalogue is a static file; a gated download is not, because it has to check a token. | [DCAT-AP GET Protocol Tier 0](materials-commons-dcat-ap-get-protocol-tier-0.md) |
+| **1** | The DSP catalogue schema, catalogue pagination, and the DSP catalogue interaction. No contract negotiation and no transfer process, so no DSP conformance claim. | A catalogue request endpoint in place of a fixed document, so a catalogue too large to pre-compute can be generated per request and paged. DCAT-AP from the same endpoint by profile content negotiation. Public read throughout. | [DSP Tier 1](materials-commons-dsp-tier1.md) |
+| **2** | Contract negotiation, with ODRL policy that carries more than an empty condition. Endpoints are authenticated, and catalogue content and access decisions may depend on the caller. | The DSP control plane: negotiation state machines, provider-initiated callbacks, agreements, the transfer process, and a policy evaluation that can refuse a well-formed request. | [DSP Tier 2](materials-commons-dsp-tier2.md), outline |
+| **3** | Full protocol. The remaining optional DSP capabilities. | Provider-initiated and multi-round negotiation, push and streaming transfers, catalogue brokers, DID-based service discovery. | [DSP Tier 3](materials-commons-dsp-tier3.md), outline |
 
-Tier 2 is the first tier at which a negotiation can fail for a reason other than a malformed
-message.
+Tier 2 is the first tier that has a contract negotiation at all, and therefore the first at which
+a request can be refused for a reason other than malformed input.
 
-## 3. Why Tier 0 is not a DSP tier
+The Tier 1 document is titled "Public Datasets and Services" and its file name says `dsp-tier1`.
+Neither matches a catalogue-only scope. The naming is to be decided, and nothing is renamed until
+it is.
+
+## 3. Why Tier 1 does not claim DSP conformance
+
+Tier 1 implements the DSP catalogue schema, the catalogue request and dataset request
+interaction, and catalogue pagination. It implements none of contract negotiation and none of
+the transfer process. A profile that leaves those out cannot claim conformance to DSP, and
+Tier 1 no longer does.
+
+There is also nothing narrower to claim. DSP defines no conformance class for a catalogue alone,
+so "DSP catalogue conformance" is not a statement anyone can make. What a Tier 1 Provider
+conforms to is this profile, and within it the official DSP JSON Schemas and the protected DSP
+JSON-LD context for the catalogue messages it serves.
+
+Two pressures produced the decision. A catalogue of several million datasets with no
+pre-computed form has to be generated from search results per request and paged, which Tier 0
+cannot do and which needs no negotiation. At the other end, full DSP requires the consumer to
+operate a reachable inbound endpoint, which is the requirement that cannot be placed on an
+ordinary participant. Participation was given priority over the conformance claim.
+
+The consequence for consumers is that a Tier 1 `DataService` answers catalogue requests and
+nothing else. A consumer that wants an agreement needs a Tier 2 provider, or a connector
+operated on the publisher's behalf, Section 6.
+
+## 4. Why Tier 0 is not a DSP tier
 
 A static file host cannot be a DSP provider. This is not a consequence of the catalogue request
 being a `POST`, and it would not be fixed by relaxing that:
@@ -57,13 +87,14 @@ being a `POST`, and it would not be fixed by relaxing that:
 - `providerPid` is **minted per process**, and the negotiation and transfer state machines
   require mutation with commit-only-after-`2xx`. No file can be pre-generated for an identifier
   that does not yet exist.
-- Eleven of the fifteen provider endpoints in
-  [DSP Tier 1, Section 5.2](materials-commons-dsp-tier1.md) remain `POST`.
+- Eleven of the fifteen DSP provider endpoints are `POST`, as listed in
+  [DSP Tier 1, Section 5.2](materials-commons-dsp-tier1.md).
 
 The first two are obligations of a DSP **Connector**. The Catalog Protocol names a **Catalog
 Service** as a separate role, so a catalogue-only service is a coherent idea, but DSP defines no
 conformance classes for it and the catalogue must still advertise a `DataService` at which
-negotiation and transfer are initiated.
+negotiation and transfer are initiated. Tier 1 occupies that role and accepts the consequence in
+Section 3: it serves a DSP catalogue without claiming DSP conformance.
 
 Tier 0 therefore exists because a catalogue-only level is structurally necessary, not as a
 placeholder for a future protocol change. It is what lets a research group participate with a
@@ -89,12 +120,13 @@ So DSP requires a reachable participant agent at both ends. Nothing requires tha
 same process, machine or operator as the application using it, so a client on a network that
 permits no inbound connections participates through an agent rather than directly.
 
-Two consequences for this tier model. Reachability is not a property that separates one tier from
-another, because every tier that negotiates or transfers needs it, which is why a catalogue-only
-tier has to sit outside the protocol rather than at the bottom of it. And any tier above Tier 0
-has to say what a participant may delegate to an agent operated by somebody else.
+Two consequences for this tier model. Reachability is what separates the tiers that negotiate
+from the tiers that do not: Tier 0 and Tier 1 need it at neither end, and every tier that
+negotiates or transfers needs it at both. That is why the catalogue-only levels sit below the
+protocol rather than inside it. And any tier that negotiates has to say what a participant may
+delegate to an agent operated by somebody else.
 
-## 4. Why the catalogue-only level was renumbered
+## 5. Why the catalogue-only level was renumbered
 
 The DCAT-AP GET Protocol was originally numbered Tier 1, which meant three different things
 carried that number: the DSP profile, the DCAT-AP GET profile, and the first lane of the feature
@@ -112,32 +144,31 @@ catalogue keeps its identifiers. What the publisher adds is protocol scaffolding
 `accessService` on every distribution, the DSP `format` string alongside the `dct:format` node,
 and the prefixed `dcat:servesDataset` spelling.
 
-## 5. Proposal: splitting the Tier 1 conformance target
+What the publisher also has to add is a running service. Tier 0 is a document; Tier 1 answers a
+`POST` and paginates. That step, rather than the payload, is the cost of moving up.
 
-**Proposed, for decision.** DSP requires every advertised `DataService` to be backed by a working
-connector, but it does not require the catalogue publisher to *operate* that connector. Tier 1
-currently collapses the two by assuming that the provider is the operator.
+## 6. Serving a catalogue for a connector somebody else operates
 
-Splitting them gives:
+Narrowing Tier 1 to the catalogue settled the first half of what used to be proposed here. Tier 1
+is the catalogue-only conformance target, so a participant that serves a catalogue and operates
+no connector now describes exactly one tier rather than half of one.
 
-- **Tier 1 Catalogue** - serves the catalogue and dataset requests and advertises a `DataService`
-  it does not operate.
-- **Tier 1 Connector** - the full provider endpoint set with automatic agreement.
-
-A participant claims either or both. A shared connector, for example one operated by the common
-node, can then perform negotiation and transfer on behalf of catalogue-only publishers. It never
-handles the data: the `DataAddress` in the Transfer Start Message carries the publisher's own
-public URL, and DSP places no host constraint on it.
+What remains open is the other half. DSP requires every advertised `DataService` to be backed by
+a working connector, and Tier 1 does not operate one. A shared connector, for example one run by
+the common node, can perform negotiation and transfer on behalf of catalogue-only publishers. It
+never handles the data: the `DataAddress` in the Transfer Start Message carries the publisher's
+own public URL, and DSP places no host constraint on it.
 
 Known costs, unresolved:
 
 - `Agreement.assigner` would name the shared connector rather than the publisher.
 - `Catalog.participantId` is required, so a broker-served publisher becomes content inside
   another participant's catalogue rather than a participant of its own.
-- The pattern only works while nothing is gated. At Tier 2 the shared connector would need
-  credentials for another participant's data, which is where it must stop.
+- The pattern only works while the data behind the catalogue is ungated, which Tier 1 guarantees.
+  At Tier 2 the shared connector would need credentials for another participant's data, which is
+  where it must stop.
 
-## 6. Where authentication fits
+## 7. Where authentication fits
 
 DSP leaves token semantics unspecified deliberately, and provides two extension points: the
 `Authorization` header on every endpoint, and the `auth` object in the version response naming
@@ -153,24 +184,54 @@ public keys. OpenID Connect is a different layer and applies to a hop that is no
 a person signing in to their own participant's services. Conflating the two points an
 implementation at the wrong specifications.
 
-Where the token sits determines whether the deployment is on this ladder at all:
+Where the token sits determines which tier the deployment is at:
 
 | Token presented at | Tier |
 |---|---|
+| A direct download URL, with no connector | 0, through the optional gated access in the Tier 0 profile. The DSP control plane never sees it. |
 | The DSP endpoints | 2 |
-| A direct download URL, with no connector | Not on the ladder. The data space never sees the authentication. |
 | The `DataAddress` of a Transfer Start Message, minted by the connector | 2 |
 
-## 7. Open decisions
+Gated access at Tier 0 is discovered through RFC 9728 OAuth Protected Resource Metadata, which
+names the authorization server for a download URL. Neither that server nor the host of the bytes
+need belong to the publisher, so a third party holding the files can accept a token carrying a
+claim the publisher controls. A group can therefore be given access without anyone running a
+connector, which was previously assumed to need Tier 2.
+
+Two parts of that stay static: the catalogue and the protected resource metadata are fixed
+files. The gated download is not, because RFC 9728 and RFC 6750 require it to answer an
+unauthorised request with `401` and a `WWW-Authenticate` challenge and then validate a token on
+the retry. Static hosting serves the bytes to anyone holding the URL. The property that keeps
+this at Tier 0 is the absence of a connector rather than the absence of a server.
+
+Tier 1 has no place in this table. Its endpoints and its distributions are unauthenticated
+throughout.
+
+## 8. Open decisions
 
 Still to settle:
 
-- The Tier 1 conformance-target split, Section 5.
-- Which tier the contract negotiation and transfer process capabilities belong to, and the
-  remaining catalogue capabilities. Roughly half of the inventory is still unassigned.
+- How a Tier 1 catalogue advertises a connector operated by somebody else, Section 6.
+- Grouping the remaining compliance targets into tiers without ending up with eight of them.
+  Roughly half of the inventory is still unassigned.
 - The filter language a Tier 2 provider must support. JSONPath is proposed as the baseline that
   any provider can meet, with SPARQL optional and a mechanism for advertising more than one.
-- Whether pagination belongs at Tier 1 rather than Tier 2 now that Tier 0 carries the
-  static-hosting case, and whether it is optional or required at whichever tier it lands on. The
-  same question applies to catalogue filter expressions.
-- The name "tier" itself.
+  Whether catalogue filter expressions belong at Tier 1 is open; pagination is settled and is
+  required at Tier 1.
+- The profile parameter value for the Materials DCAT-AP representation, and whether to register
+  a profile URI or a vendor media type for it.
+- Whether current academic repositories can act as an RFC 9728 protected resource against an
+  external authorization server. Unverified. Several gate restricted records through their own
+  access-request and session model, and if that is the general case, a static catalogue paired
+  with third-party gated storage is not satisfiable with present services.
+- Whether DCAT-AP tolerates the Materials DCAT-AP extensions, and where a licence sits relative
+  to an ODRL policy, which DCAT-AP places at different levels of the structure.
+- The trust overlay for Tier 2. The Decentralized Claims Protocol with a self-hosted issuer is
+  more viable than the earlier drafts assumed, which reopens a decision that read as settled in
+  favour of OAuth 2.0 with a shared authorization server.
+- The name "tier" itself, and the name of the Tier 1 document now that its scope has narrowed.
+
+Deprioritised rather than open: a relay server that would let a client without an inbound
+endpoint take part in DSP by proxying the bidirectional exchange. The tiers are designed without
+it, and DSP is introduced at the level where it is needed. The relay is revisited only if a
+DSP-only data space has to be joined.
