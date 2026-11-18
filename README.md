@@ -1,17 +1,21 @@
-# Materials Commons DSP Tiers
+# Materials Commons Tiers
 
-Tiered profiles of the Dataspace Protocol (DSP), DCAT-3 and DCAT-AP for the
-Materials Commons project, for publishing open, publicly readable datasets and
+Four levels of participation in the Materials Commons data space, built on
+DCAT-AP, DCAT-3 and the Dataspace Protocol (DSP), for publishing datasets and
 services. Published at
 <https://materialscommons-staging.github.io/mc-dsp-tiers/>.
 
 | Document | State |
 |---|---|
 | [The tier model](docs/tiers.md) | what a tier is, the ladder, and what is still open |
-| [DCAT-AP GET Protocol Tier 0](docs/materials-commons-dcat-ap-get-protocol-tier-0.md) | prototype draft, DCAT-AP over HTTP GET, not DSP |
-| [DSP Tier 1](docs/materials-commons-dsp-tier1.md) | prototype draft, the first DSP level |
-| [DSP Tier 2](docs/materials-commons-dsp-tier2.md) | outline only |
-| [DSP Tier 3](docs/materials-commons-dsp-tier3.md) | outline only |
+| [Tier 0](docs/materials-commons-dcat-ap-get-protocol-tier-0.md) | early pre-release, DCAT-AP catalogue as a file over HTTP GET, outside DSP |
+| [Tier 1](docs/materials-commons-dsp-tier1.md) | early pre-release, catalogue endpoint with pagination, DSP catalogue only, no DSP conformance claim |
+| [Tier 2](docs/materials-commons-dsp-tier2.md) | outline only, the required DSP feature set |
+| [Tier 3](docs/materials-commons-dsp-tier3.md) | outline only, what DSP leaves optional |
+
+A catalogue or a download may be gated behind a bearer token at any tier.
+Document file names still carry the earlier `dsp` naming so that published URLs
+keep resolving; the tier model records that as open.
 
 ## Documentation
 
@@ -26,7 +30,7 @@ make check-extensions # verify zensical.toml restates Zensical's default Markdow
 make check            # check extensions + build the site (what CI runs)
 ```
 
-The docs build runs on Python via [uv](https://docs.astral.sh/uv/) — no local
+The docs build runs on Python via [uv](https://docs.astral.sh/uv/), no local
 Python setup is required. Optionally run `uvx pre-commit install` to enable
 the extensions guard as a pre-commit hook.
 

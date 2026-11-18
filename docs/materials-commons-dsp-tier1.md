@@ -1,72 +1,84 @@
-# PROTOTYPE DRAFT FOR DISCUSSION: Materials Commons DSP Tier 1 (Public Datasets and Services)
+# Materials Commons Tier 1: Catalogue Endpoint
 
 ## Status of this document
 
-This document defines **Materials Commons DSP Tier 1**, a provider-side
-interoperability profile for basic non-authenticated access to catalogs of
-public datasets and services.
+**Early pre-release.** This document defines **Materials Commons Tier 1**, a
+provider-side interoperability profile for a catalogue served from an endpoint.
+It is the second level of the [Materials Commons tiers](tiers.md) and is stable
+enough to implement against, while remaining open to change until a release
+version.
 
-This document is a normative specification. It profiles the
-[Dataspace Protocol 2025-1, errata revision 1](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/)
+**Tier 1 covers the Dataspace Protocol catalogue only.** It implements the DSP
+catalogue schema, the catalogue request and dataset request interaction, and
+catalogue pagination. It implements no part of contract negotiation and no part
+of the transfer process. **A Tier 1 Provider therefore does not conform to the
+Dataspace Protocol and MUST NOT claim that it does.** Section 1.3 states what it
+does conform to, and Section 2.3 lists what is excluded.
+
+What separates Tier 1 from Tier 0 is the catalogue endpoint and pagination. A
+Tier 0 catalogue is a document; a Tier 1 catalogue is generated to answer a
+request and returned a page at a time. Gating is not part of that boundary: the
+catalogue endpoint and the downloads MAY be gated here exactly as they MAY be
+at Tier 0, per Section 10.3.
+
+This document is a normative specification. It profiles the catalogue part of
+[Dataspace Protocol 2025-1, errata revision 2](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/)
 and uses terms from
 [DCAT 3](https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/)
 and [ODRL 2.2](https://www.w3.org/TR/odrl-model/). Where this document imposes
 a narrower requirement than DSP 2025-1, the narrower requirement applies to
-Materials Commons DSP Tier 1 conformance. This document does not relax any DSP
-requirement.
+Materials Commons Tier 1 conformance. Within the catalogue messages it
+serves, this document relaxes no DSP requirement.
 
-The separately specified
-[Materials Commons DCAT-AP GET Protocol Tier 0](materials-commons-dcat-ap-get-protocol-tier-0.md) provides an optional,
-strict DCAT-AP 3.0.1 representation of the same public catalogue. The two
-representations use the same complete catalogue JSON value except for
+DCAT-AP is served from the same catalogue endpoint, selected by an explicit
+profile parameter, as specified in Section 9. The DSP and DCAT-AP
+representations carry the same complete catalogue JSON value except for
 `@context`, after assembling pages when pagination is used; changing that
 context repairs the one unavoidable RDF literal-versus-IRI conflict imposed by
-DSP. Conformance to the companion protocol is not required for conformance to
+DSP. The separately specified
+[Materials Commons Tier 0](materials-commons-dcat-ap-get-protocol-tier-0.md)
+offers the same graph to conventional harvesters over `GET`. Conformance to
+that protocol is an independent claim and is not required for conformance to
 this document.
 
 ## Abstract
 
-Materials Commons DSP Tier 1 defines a small, deterministic Dataspace
-Protocol provider profile for datasets and services that are already
-public. The profile aims to provide the minimum functionality needed
-to make such datasets accessible to DSP consumers supporting this profile
-without requiring authentication or access control.
+Materials Commons Tier 1 defines a small, deterministic catalogue profile. It
+takes the catalogue schema and the catalogue interaction of the Dataspace
+Protocol and leaves the rest of the protocol out, so that publishing a
+machine-readable catalogue does not require operating a connector.
 
 It provides:
 
 1. unauthenticated DSP version discovery;
-2. unauthenticated DSP catalogue and individual-dataset discovery, with
-   optional catalogue pagination;
-3. one unconditional ODRL `use` offer and one or more public HTTPS-pull
-   distributions for each dataset;
-4. the provider endpoints required for the selected DSP contract-negotiation
-   and transfer-process flows;
-5. a direct, unauthenticated HTTPS data plane that is not protected by the DSP
-   control plane;
+2. DSP catalogue and individual-dataset discovery, with required catalogue
+   pagination;
+3. one unconditional ODRL `use` offer and one or more HTTPS distributions for
+   each dataset;
+4. a direct HTTPS download for every distribution;
+5. optional gating of the catalogue endpoint or of a download, on the same
+   terms as Tier 0;
 6. DCAT-AP 3.0.1-compatible catalogue metadata, with `dcat:endpointURL` as the
    single unavoidable RDF range exception imposed by DSP;
-7. an optional DSP-native advertisement of a Materials Commons DCAT-AP Tier 0
-   companion service; and
-8. an optional, discoverable `application/ld+json` representation obtained by
-   replacing only the DSP context.
+7. a DCAT-AP representation of the same catalogue value, selected at the same
+   endpoint by an explicit profile parameter and obtained by replacing only the
+   DSP context; and
+8. an optional DSP-native advertisement of a Materials Commons Tier 0
+   companion service.
 
-Tier 1 deliberately excludes authentication, authorization, confidential or
-embargoed datasets, negotiated policy constraints, push transfer, catalogue
-filters, proof exchange, and broker replication. The
-DSP `application/json` response does not claim DCAT-AP conformance because its
-official context necessarily expands `dcat:endpointURL` as an RDF literal. An
-optional `application/ld+json` alternate representation can make the complete
+Tier 1 excludes contract negotiation, the transfer process, policy evaluation,
+policy constraints, caller-dependent catalogue content, catalogue filters,
+proof exchange, and broker replication. Because negotiation and transfer are
+out, a Tier 1 Provider makes no Dataspace Protocol conformance claim.
+
+The DSP `application/json` response does not claim DCAT-AP conformance either,
+because its official context necessarily expands `dcat:endpointURL` as an RDF
+literal. The profiled `application/ld+json` representation makes the complete
 DCAT-AP conformance claim without changing the catalogue payload.
 
-Tier 1 deliberately goes beyond implementing the DSP Catalog Protocol
-alone. DSP requires each advertised Distribution to reference a
-DataService whose endpoint is used to initiate Contract Negotiation
-and Transfer Process operations. Consequently, a self-contained
-provider that has no existing DSP Connector must also provide these
-Connector operations for its catalogue to be actionable by
-DSP consumers supporting this profile's format-to-transport mapping. Tier 1
-therefore defines the minimal contract-negotiation and transfer-process flows
-for otherwise directly accessible public datasets.
+Required pagination is what distinguishes this tier from a static catalogue
+document. A catalogue of several million datasets has no pre-computed form; it
+is produced from search results per request and returned a page at a time.
 
 ## 1. Conformance and requirement language
 
@@ -83,21 +95,45 @@ not conformance requirements.
 
 ### 1.2 Conformance target
 
-The conformance target is a **Materials Commons DSP Tier 1 Provider**. A
-conforming Provider implements the provider-side HTTPS endpoints, messages,
-resource model, callbacks, state transitions, and public data plane defined by
-this document.
+The conformance target is a **Materials Commons Tier 1 Provider**. A
+conforming Provider implements the provider-side HTTPS catalogue endpoints,
+catalogue messages, resource model, pagination, representation selection, and
+retrieval behavior defined by this document.
 
-A Provider MAY additionally conform to Materials Commons DCAT-AP Tier 0. That
+A Provider MAY additionally conform to Materials Commons Tier 0. That
 is an independent conformance claim and MUST NOT be inferred merely because a
 DSP catalogue contains DCAT terms. It MAY be inferred from the exact
 machine-readable service advertisement defined in Section 9.
 
 ### 1.3 Relationship to DSP conformance
 
-A Tier 1 Provider MUST satisfy the applicable requirements of the
-[DSP conformance section](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#conformance),
-including the official DSP JSON Schemas and protected JSON-LD context.
+A Tier 1 Provider does **not** conform to the Dataspace Protocol, and MUST NOT
+state or imply that it does. Conformance to DSP covers contract negotiation and
+the transfer process, and Tier 1 implements neither. There is also no narrower
+claim available: DSP defines no conformance class for a catalogue service on
+its own, so "DSP catalogue conformance" is not a statement that can be made
+against the specification.
+
+What a Tier 1 Provider does conform to is this profile. Within it:
+
+1. every catalogue message a Provider sends or accepts MUST validate against
+   the official DSP 2025-1 JSON Schema for its message or resource type;
+2. every such message MUST use the protected official DSP JSON-LD context
+   unchanged; and
+3. the catalogue request, dataset request, error, and pagination behavior MUST
+   follow the DSP Catalog Protocol and its HTTPS binding, as narrowed by this
+   document.
+
+Those three obligations are the reason a DSP-native consumer can read a Tier 1
+catalogue without special handling. They stop at the catalogue. A consumer MUST
+NOT expect a Tier 1 Provider to answer a `ContractRequestMessage` or a
+`TransferRequestMessage`, and MUST NOT treat the absence of those endpoints as
+a protocol error.
+
+The applicable requirements of the
+[DSP conformance section](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#conformance)
+are met for the catalogue messages covered above. The requirements that section
+places on a Connector are out of scope.
 
 The normative conformance identifier for this profile is:
 
@@ -108,9 +144,11 @@ tag:materialscommons.eu,2026:dsp/prototype-tier-1
 This IRI identifies the profile. It does not prescribe the deployment URL of a
 Provider.
 
-The `tag:` URIs in this specification are provisional prototype
-identifiers (RFC 4151), marked (TBD) where they appear in prose, pending
-a working-group decision.
+The `tag:` URIs in this specification (RFC 4151) are marked (TBD) where they
+appear in prose. They still spell `prototype`, which the status of this
+document no longer does. Changing them invalidates every advertisement that
+carries them, so they are settled together with the document file names rather
+than piecemeal.
 
 ### 1.4 Exact relationship to DCAT and DCAT-AP
 
@@ -118,7 +156,7 @@ DSP 2025-1 deliberately reuses DCAT classes and properties through a
 restricted DSP profile. Its catalogue is therefore recognizably DCAT-shaped,
 but the DSP JSON Schema and protected JSON-LD context are authoritative for DSP
 messages. A DSP catalogue is not automatically a conforming DCAT catalogue.
-Materials Commons DSP Tier 1 narrows the permitted DSP catalogue model so that
+Materials Commons Tier 1 narrows the permitted DSP catalogue model so that
 its RDF expansion satisfies DCAT 3 and DCAT-AP 3.0.1 in every respect except
 the one conflict identified below.
 
@@ -128,9 +166,9 @@ context maps that string to `dcat:endpointURL` without IRI coercion, so JSON-LD
 expansion produces an RDF literal. DCAT 3 defines `dcat:endpointURL` as the
 Web-resolvable IRI of the service, and DCAT-AP 3.0.1 requires an IRI or blank
 node. The protected DSP term cannot be redefined by this profile. See the DSP
-[Schemas and Contexts](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#schemas-contexts),
+[Schemas and Contexts](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#schemas-contexts),
 the DSP
-[DataService requirements](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#ack-dataset),
+[DataService requirements](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#ack-dataset),
 the DCAT 3
 [endpoint URL definition](https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/#Property:data_service_endpoint_url),
 and the DCAT-AP
@@ -154,9 +192,9 @@ follows these rules:
    required by Section 7.2 describe the common catalogue value and its
    context-substituted DCAT-AP representation, not the expansion of the DSP
    response itself;
-5. an alternate DCAT-AP representation, when supplied, MUST change only the
-   top-level `@context`, the HTTP representation headers, and serialization
-   details that do not change the JSON value; and
+5. the profiled DCAT-AP representation MUST change only the top-level
+   `@context`, the HTTP representation headers, and serialization details that
+   do not change the JSON value; and
 6. expansion under that alternate context MUST satisfy all applicable
    DCAT-AP 3.0.1 constraints without exception.
 
@@ -170,65 +208,83 @@ language. Requirements such as class membership of an EU File Type concept
 are therefore stated normatively here and asserted explicitly in the payload,
 even though the official DSP context does not enforce them.
 
-The separate **Materials Commons DCAT-AP Tier 0** protocol supplies a
+The separate **Materials Commons Tier 0** protocol supplies a
 well-known-discoverable `GET` operation for conventional DCAT harvesters. The
-optional content-negotiated representation in Section 9 gives DSP-aware
-clients the same graph without inventing `GET <base>/catalog`.
+profiled representation in Section 9 gives DSP-aware clients the same graph
+from the DSP catalogue endpoint, without inventing `GET <base>/catalog`.
 
 ## 2. Scope
 
 ### 2.1 Purpose
 
-Tier 1 is intended for a provider that publishes finite datasets and public
-services for unrestricted discovery and retrieval. A consumer can discover
-and download a Tier 1 dataset without credentials, tokens, proofs, or prior
-authorization.
+Tier 1 is intended for a provider whose catalogue is too large or too dynamic
+to serve as a file: a search index with millions of entries has no pre-computed
+form, so it is generated per request and paged. That, and nothing else, is what
+separates this tier from Tier 0.
 
-At this protocol tier, Contract Negotiation and Transfer Process are
-implemented only at the level needed to allow the standard DSP
-access protocol to give access to all distributions, and cannot
-be used to limit that access.
+Contract Negotiation and Transfer Process are outside this tier. A consumer
+reaches the bytes through the direct download URL that every distribution
+carries.
+
+Gating is available here as it is at Tier 0, per Section 10.3, and it marks no
+tier boundary. A Provider is never obliged to gate anything. What Tier 1 fixes
+is the exchange a Consumer has to be able to follow when it meets a gate.
 
 ### 2.2 Included capabilities
 
 Tier 1 includes:
 
-- DSP 2025-1 version discovery over HTTPS;
-- provider-side DSP catalogue, negotiation, and transfer endpoints;
-- complete-catalogue retrieval without server-side filtering, optionally
-  across pages using DSP HTTP `Link` pagination;
+- DSP 2025-1 version discovery over HTTPS, unauthenticated;
+- the provider-side DSP catalogue endpoints, meaning the catalogue request and
+  the dataset request;
+- complete-catalogue retrieval without server-side filtering, across pages
+  using DSP HTTP `Link` pagination, which is required at this tier;
 - retrieval of one dataset description by its exact identifier;
-- one or more public distributions per dataset, with distinct format values;
-- public, finite, consumer-pull transfer over HTTPS;
-- an unconditional ODRL permission to perform the `use` action;
-- process termination, suspension, resumption, and completion within the
-  constrained state transitions defined here;
+- one or more distributions per dataset, with distinct format values;
+- a direct HTTPS download for every distribution;
+- optional gating of the catalogue endpoint or of a download, per Section 10.3;
+- an unconditional ODRL permission to perform the `use` action, carried because
+  the DSP catalogue schema requires a policy on every dataset;
 - DCAT-AP-compatible publication metadata for formats, media types, licences,
-  direct download URLs, optional byte sizes, and optional SHA-256 checksums;
-- optional discovery of a Materials Commons DCAT-AP Tier 0 service through the
-  DSP catalogue; and
-- optional discovery and retrieval of a context-substituted DCAT-AP
-  representation through the DSP catalogue request target.
+  direct download URLs, access rights, optional byte sizes, and optional
+  SHA-256 checksums;
+- retrieval of a context-substituted DCAT-AP representation from the DSP
+  catalogue request target, selected by an explicit profile parameter; and
+- optional discovery of a Materials Commons Tier 0 service through the
+  DSP catalogue.
 
 ### 2.3 Excluded capabilities
 
 The following are outside Tier 1:
 
-- authentication and authorization requirements;
-- access tokens in DSP messages or data addresses;
-- restricted, confidential, embargoed, or participant-specific catalogues;
+- contract negotiation in every form, including the provider negotiation
+  endpoints, agreements, and the negotiation state machine;
+- the transfer process in every form, including the provider transfer
+  endpoints, `TransferStartMessage`, `DataAddress`, and the transfer state
+  machine;
+- any obligation to initiate an HTTP request to a consumer `callbackAddress`;
+- policy evaluation, and any access decision beyond admitting or refusing a
+  token at a gate;
+- catalogue content that depends on the caller, so that every caller a Provider
+  admits receives the same snapshot;
+- access tokens carried inside DSP messages or data addresses, as distinct from
+  the `Authorization` header of Section 10.3;
 - ODRL constraints, duties, obligations, and prohibitions;
-- push transfer and consumer-supplied data addresses;
-- non-finite streams;
 - server-side catalogue filtering or query languages;
 - catalogue proof-metadata endpoints;
 - DID-based service discovery requirements;
 - catalogue brokers and catalogue replication;
-- data-plane protocols other than HTTPS pull; and
+- a Dataspace Protocol conformance claim, per Section 1.3; and
 - a DCAT 3 or DCAT-AP conformance claim for the RDF graph obtained by expanding
   the DSP `application/json` response under the official DSP context. The
   catalogue still carries the `dct:conformsTo` values of Section 7.2, which
   describe the common catalogue value rather than that expansion.
+
+The first three exclusions are the substantive change from earlier drafts of
+this profile, which required the full provider endpoint set. The requirements
+those drafts stated are retained as Sections 11 and 12, where they now apply
+only to a Provider that chooses to implement the flows on top of Tier 1, and
+they are expected to move to the Tier 2 profile.
 
 An implementation MAY provide excluded capabilities in another profile or
 tier. They MUST NOT be required to access a Tier 1 dataset or alter the
@@ -237,7 +293,7 @@ semantics of a Tier 1 endpoint.
 ## 3. Terminology
 
 Terms defined by the
-[DSP terms and definitions](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#terminology)
+[DSP terms and definitions](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#terminology)
 and [DCAT 3 vocabulary](https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/#vocabulary-overview)
 apply.
 
@@ -251,12 +307,17 @@ For this specification:
   may contain a path.
 - **Version base**, written `<base>`, means the URL obtained by concatenating
   `<root>` with the selected DSP version entry's `path`.
-- **DSP access service** means the DSP `DataService` through which negotiation
-  and transfer processes are initiated.
+- **DSP access service** means the DSP `DataService` that answers the catalogue
+  and dataset requests at `<base>`. DSP positions this service as the one at
+  which negotiation and transfer are initiated; a Tier 1 Provider operates its
+  catalogue half only, as stated in Section 8.6.
 - **DCAT-AP companion service** means an optional service conforming to
-  Materials Commons DCAT-AP Tier 0 and advertised as specified in Section 9.
-- **Public distribution** means a distribution whose direct HTTPS URL is usable
-  without authentication or authorization.
+  Materials Commons Tier 0 and advertised as specified in Section 9.
+- **Ungated distribution** means a distribution whose direct HTTPS URL is
+  usable without authentication or authorization.
+- **Gated resource** means the catalogue request target, the dataset request
+  target, or a distribution download URL that requires an OAuth 2.0 bearer
+  token, as specified in Section 10.3.
 - **Catalogue snapshot** means one internally consistent complete catalogue
   and the dataset, offer, distribution, publisher, and service metadata used
   to construct it. A response MAY carry the whole snapshot or one page of it.
@@ -265,31 +326,37 @@ For this specification:
   top-level `@context` member. Object-member order,
   insignificant whitespace, and equivalent JSON number spellings are not
   part of this value.
-- **Negotiated DCAT-AP feature** means the optional Section 9
-  context-substitution operation advertised by the DSP access service.
+- **Negotiated DCAT-AP feature** means the Section 9 context-substitution
+  operation advertised by the DSP access service and selected by an explicit
+  profile parameter.
+- **Representation profile** means the IRI carried in the `profile` media-type
+  parameter that selects one of the representations of a catalogue snapshot.
 
 ## 4. Normative namespaces and identifiers
 
 | Prefix or name | IRI |
 |---|---|
 | DSP context | `https://w3id.org/dspace/2025/1/context.jsonld` |
-| DSP 2025-1-err1 specification | `https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/` |
+| DSP 2025-1-err2 specification | `https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/` |
 | Tier 1 DSP profile | (TBD) `tag:materialscommons.eu,2026:dsp/prototype-tier-1` |
 | Tier 0 DCAT-AP companion profile | (TBD) `tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0` |
 | Negotiated DCAT-AP feature | (TBD) `tag:materialscommons.eu,2026:dsp/prototype-tier-1#dcat-ap-content-negotiation` |
-| DCAT-AP 3.0.1 profile | `https://semiceu.github.io/DCAT-AP/releases/3.0.1/` |
+| DCAT-AP 3.0.1 profile, also the DCAT-AP representation profile | `https://semiceu.github.io/DCAT-AP/releases/3.0.1/` |
+| Materials DCAT-AP representation profile | (TBD) `tag:materialscommons.eu,2026:mc-dcat-ap/materials` |
 | `dcat` | `http://www.w3.org/ns/dcat#` |
 | `dct` | `http://purl.org/dc/terms/` |
 | `foaf` | `http://xmlns.com/foaf/0.1/` |
 | `odrl` | `http://www.w3.org/ns/odrl/2/` |
+| `skos` | `http://www.w3.org/2004/02/skos/core#` |
 | `spdx` | `http://spdx.org/rdf/terms#` |
 | `xsd` | `http://www.w3.org/2001/XMLSchema#` |
 | HTTP endpoint type | `https://w3id.org/idsa/v4.1/HTTP` |
 | EU File Type authority | `http://publications.europa.eu/resource/authority/file-type/` |
+| EU Access Right authority | `http://publications.europa.eu/resource/authority/access-right/` |
 | IANA media-type identifiers | `https://www.iana.org/assignments/media-types/` |
 | SPDX SHA-256 algorithm | `https://spdx.org/rdf/terms#checksumAlgorithm_sha256` |
 
-All identifiers described as IRIs MUST be absolute IRIs. All public network
+All identifiers described as IRIs MUST be absolute IRIs. All network
 URLs, callback URLs, endpoint URLs, access URLs, and download URLs MUST use
 HTTPS.
 
@@ -311,7 +378,7 @@ This specification does not prescribe the path of `<root>` or `<base>`.
 fragment. It MAY include a deployment path.
 
 The DSP version `path` MUST be interpreted according to the DSP
-[HTTPS version-path rule](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#https-binding).
+[HTTPS version-path rule](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#https-binding).
 The Provider and Consumer MUST derive `<base>` from version discovery and MUST
 NOT assume that it ends in `/2025-1`.
 
@@ -327,30 +394,45 @@ The paths `/dsp` and `/2025-1` are convenient but are not required.
 
 ### 5.2 Required provider endpoints
 
-A Tier 1 Provider MUST expose these DSP endpoints:
+A Tier 1 Provider MUST expose these DSP endpoints, and no others are required:
 
 | Method | URL | Function |
 |---|---|---|
 | `GET` | `<root>/.well-known/dspace-version` | DSP version discovery |
 | `POST` | `<base>/catalog/request` | DSP catalogue request |
 | `GET` | `<base>/catalog/datasets/{id}` | DSP dataset request |
-| `GET` | `<base>/negotiations/{providerPid}` | Negotiation state |
-| `POST` | `<base>/negotiations/request` | Initial contract request |
-| `POST` | `<base>/negotiations/{providerPid}/request` | Counter-request |
-| `POST` | `<base>/negotiations/{providerPid}/events` | Negotiation event |
-| `POST` | `<base>/negotiations/{providerPid}/agreement/verification` | Agreement verification |
-| `POST` | `<base>/negotiations/{providerPid}/termination` | Negotiation termination |
-| `GET` | `<base>/transfers/{providerPid}` | Transfer state |
-| `POST` | `<base>/transfers/request` | Initial transfer request |
-| `POST` | `<base>/transfers/{providerPid}/start` | Resume transfer |
-| `POST` | `<base>/transfers/{providerPid}/suspension` | Suspend transfer |
-| `POST` | `<base>/transfers/{providerPid}/completion` | Complete transfer |
-| `POST` | `<base>/transfers/{providerPid}/termination` | Terminate transfer |
 
 These paths follow the DSP
-[catalogue HTTPS binding](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#catalog-http),
-[negotiation provider paths](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#provider-path-bindings),
-and [transfer provider paths](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#provider-path-bindings-0).
+[catalogue HTTPS binding](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#catalog-http).
+
+DSP defines twelve further provider endpoints, ten of them `POST`, which makes
+eleven `POST` endpoints in the full set of fifteen. They are listed here so
+that the boundary of this tier is explicit, and a Tier 1 Provider MUST NOT be
+required to expose any of them:
+
+| Method | URL | Function | Tier 1 |
+|---|---|---|---|
+| `GET` | `<base>/negotiations/{providerPid}` | Negotiation state | Out of scope |
+| `POST` | `<base>/negotiations/request` | Initial contract request | Out of scope |
+| `POST` | `<base>/negotiations/{providerPid}/request` | Counter-request | Out of scope |
+| `POST` | `<base>/negotiations/{providerPid}/events` | Negotiation event | Out of scope |
+| `POST` | `<base>/negotiations/{providerPid}/agreement/verification` | Agreement verification | Out of scope |
+| `POST` | `<base>/negotiations/{providerPid}/termination` | Negotiation termination | Out of scope |
+| `GET` | `<base>/transfers/{providerPid}` | Transfer state | Out of scope |
+| `POST` | `<base>/transfers/request` | Initial transfer request | Out of scope |
+| `POST` | `<base>/transfers/{providerPid}/start` | Resume transfer | Out of scope |
+| `POST` | `<base>/transfers/{providerPid}/suspension` | Suspend transfer | Out of scope |
+| `POST` | `<base>/transfers/{providerPid}/completion` | Complete transfer | Out of scope |
+| `POST` | `<base>/transfers/{providerPid}/termination` | Terminate transfer | Out of scope |
+
+Their paths follow the DSP
+[negotiation provider paths](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#provider-path-bindings)
+and [transfer provider paths](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#provider-path-bindings-0).
+A Provider that chooses to expose them follows Sections 11 and 12.
+
+A Provider that exposes none of them SHOULD return `404 Not Found` on those
+paths. A consumer MUST treat that as the documented Tier 1 behavior rather than
+a fault.
 
 `GET <base>/catalog` is not a DSP 2025-1 endpoint and is not required or defined
 by this specification.
@@ -359,9 +441,9 @@ by this specification.
 
 All DSP request and response bodies MUST use `application/json`, as required by
 the HTTPS bindings for
-[catalogue](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#prerequisites),
-[negotiation](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#prerequisites-0),
-and [transfer](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#prerequisites-3).
+[catalogue](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#prerequisites),
+[negotiation](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#prerequisites-0),
+and [transfer](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#prerequisites-3).
 
 Every contextualized DSP message MUST contain an `@context` array including
 the exact official DSP context and MUST use the required `@type`. Incoming and
@@ -369,17 +451,18 @@ outgoing DSP documents MUST validate against the official DSP 2025-1 JSON
 Schema for their message or resource type. Providers SHOULD validate against
 pinned schemas without live retrieval during request processing.
 
-The optional Section 9 `application/ld+json` representation is not a DSP
-response message. It is an additional HTTP representation selected by an
-explicit request and has its own context and media type. Its availability does
-not alter the required DSP behavior for `application/json` requests and
-responses.
+The Section 9 DCAT-AP representation is not a DSP response message. It is an
+additional HTTP representation selected by an explicit profile parameter and
+has its own context and media-type parameters. Its availability does not alter
+the required DSP behavior for `application/json` requests and responses.
 
 ## 6. DSP version discovery
 
 `GET <root>/.well-known/dspace-version` MUST be unversioned, public, and
 unauthenticated, following DSP
-[Exposure of Versions](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#exposure-of-dataspace-protocol-versions).
+[Exposure of Versions](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#exposure-of-dataspace-protocol-versions).
+It MUST stay ungated even where the catalogue endpoint is gated under
+Section 10.3, so that a Consumer can reach the endpoint that challenges it.
 
 A successful response MUST return `200 OK` and a DSP `VersionResponse` with at
 least one entry having:
@@ -415,9 +498,9 @@ POST <base>/catalog/request
 ```
 
 The request MUST be a DSP `CatalogRequestMessage` as defined by
-[DSP Section 5.2.1](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#catalog-request-message)
+[DSP Section 5.2.1](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#catalog-request-message)
 and its
-[HTTPS endpoint](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#catalog-request-post).
+[HTTPS endpoint](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#catalog-request-post).
 
 `filter` MUST be absent or an empty array. A non-empty filter MUST produce
 `400 Bad Request` with a `CatalogError` whose code identifies an unsupported
@@ -425,12 +508,17 @@ filter.
 
 A successful request MUST return `200 OK` and either the complete current DSP
 catalogue or its first page, with navigation as specified in Section 7.5.
-Pagination is OPTIONAL for Tier 1 Providers.
+Pagination is REQUIRED for Tier 1 Providers.
+
+The catalogue request target MAY be gated under Section 10.3, in which case a
+request without an acceptable token MUST return `401` with the challenge
+specified there instead of a `CatalogError`. A gate decides whether a Consumer
+reaches the catalogue; it never changes what the catalogue contains.
 
 ### 7.2 Catalogue response
 
 The response MUST satisfy the DSP
-[Catalog response requirements](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#ack-catalog)
+[Catalog response requirements](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#ack-catalog)
 and contain:
 
 - the official DSP context;
@@ -447,8 +535,8 @@ and contain:
   every distribution;
 - zero or one DCAT-AP companion-service advertisement conforming to Section 9;
   and
-- an optional negotiated DCAT-AP feature declaration on the DSP access service
-  conforming to Section 9.
+- a negotiated DCAT-AP feature declaration on the DSP access service conforming
+  to Section 9, where the Provider serves a DCAT-AP representation.
 
 The response MUST be internally consistent. Dataset, offer, distribution,
 and service identifiers MUST be unique throughout the complete snapshot,
@@ -467,7 +555,7 @@ DSP serialization removes that exception.
 ### 7.3 Dataset entries
 
 Each dataset MUST satisfy the DSP
-[Dataset response requirements](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#ack-dataset)
+[Dataset response requirements](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#ack-dataset)
 and contain:
 
 - an absolute, unique `@id`;
@@ -490,9 +578,9 @@ GET <base>/catalog/datasets/{id}
 
 The identifier MUST be matched exactly after normal HTTP path decoding. This
 is the binding of the DSP
-[Dataset Request Message](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#dataset-request-message)
+[Dataset Request Message](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#dataset-request-message)
 defined by
-[DSP Section 6.2.2](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#catalog-datasets-get).
+[DSP Section 6.2.2](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#catalog-datasets-get).
 
 A known identifier MUST return `200 OK` and the same dataset metadata as the
 catalogue, with the DSP context at the document root. An unknown identifier
@@ -502,23 +590,34 @@ MUST return `404 Not Found` with `CatalogError`.
 
 Tier 1 defines no filter language. Consumers MUST filter the returned
 catalogue locally, consistent with DSP
-[Queries and Filter Expressions](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#queries-and-filter-expressions).
+[Queries and Filter Expressions](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#queries-and-filter-expressions).
 
-Providers MAY paginate catalogue responses following DSP
-[Pagination](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#pagination).
-An unpaginated response MUST contain the complete snapshot. If pagination is
-used, navigation MUST use the HTTP `Link` header with `next` and `previous`
-relations for adjacent pages where they exist. The last page MUST omit `next`
-and the first MUST omit `previous`. Consumers retrieving the complete catalogue
-MUST follow `next` links until no next page remains.
+Providers MUST support pagination of catalogue responses following DSP
+[Pagination](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#pagination).
+This is a requirement on the Provider rather than on an individual response: a
+snapshot that fits in one response MUST still be returned as a single page,
+which is a complete snapshot carrying neither a `next` nor a `previous` link.
+
+Navigation MUST use the HTTP `Link` header with `next` and `previous` relations
+for adjacent pages where they exist. The last page MUST omit `next` and the
+first MUST omit `previous`. Consumers retrieving the complete catalogue MUST
+follow `next` links until no next page remains, and MUST NOT assume that one
+response carries the whole catalogue.
+
+Pagination is required because a Tier 1 catalogue is not assumed to exist
+before the request. A provider holding millions of datasets produces the
+catalogue from search results per request, and a profile that let it answer
+with the complete snapshot would exclude exactly the providers this tier is
+meant to admit. The page size is the Provider's choice.
 
 For this profile, page links MUST be absolute HTTPS URLs accepting `POST`
 with the same `CatalogRequestMessage` body and representation selection as
 the initial request. Their query parameters are implementation-defined and
-MUST be treated as opaque by Consumers. Page retrieval MUST remain
-unauthenticated and satisfy the same response and error requirements as the
-initial request. An expired or unknown page reference MUST return
-`404 CatalogError`; a Consumer MAY restart from the initial catalogue request.
+MUST be treated as opaque by Consumers. Page retrieval MUST carry the same
+access condition as the initial request, gated or ungated alike, and MUST
+satisfy the same response and error requirements. An expired or unknown page
+reference MUST return `404 CatalogError`; a Consumer MAY restart from the
+initial catalogue request.
 
 Each page MUST be a schema-conforming Catalog containing complete dataset
 entries. Only the top-level `dataset` array varies across pages of a snapshot;
@@ -571,9 +670,9 @@ failure. Validation warnings that are not DCAT-AP conformance violations
 SHOULD be reported and reviewed but do not by themselves make the Provider
 non-conforming.
 
-When a Section 9 alternate representation is generated, its context MUST
-coerce every `endpointURL` value to an RDF IRI. The resulting graph MUST pass
-the same validation without the exception above.
+When a Section 9 DCAT-AP representation is generated, its context MUST coerce
+every `endpointURL` value to an RDF IRI. The resulting graph MUST pass the same
+validation without the exception above.
 
 ## 8. Tier 1 publication model
 
@@ -589,10 +688,10 @@ One catalogue snapshot MUST define:
 | Participant identifier | `1` | Absolute stable IRI |
 | Conformance | `2..*` | Tier 0 and DCAT-AP 3.0.1 profile IRIs, typed `dct:Standard`, per Section 7.2 |
 | Publisher | `1` | One shared Agent identifier and name |
-| DSP access service | `1` | Root service with stable ID, title, `<base>` endpoint, conformance, and served datasets |
+| DSP access service | `1` | Root catalogue service with stable ID, title, `<base>` endpoint, conformance, and served datasets |
 | Dataset | `1..*` | At least one Tier 1 dataset |
 | DCAT-AP companion service | `0..1` | Optional Section 9 advertisement |
-| Negotiated DCAT-AP feature | `0..1` | Optional Section 9 declaration on the DSP access service |
+| Negotiated DCAT-AP feature | `0..1` | Section 9 declaration on the DSP access service; REQUIRED where a DCAT-AP representation is served |
 
 ### 8.2 Publisher
 
@@ -620,16 +719,17 @@ distributions.
 | Offer identifier | `1` | Absolute stable IRI; unique |
 | Distribution identifier | `1` per distribution | Absolute stable IRI; unique |
 | Licence | `1` per distribution | IRI of a published licence, typed `dct:LicenseDocument` |
-| Public access URL | `1` per distribution | Absolute HTTPS URL |
+| Access URL | `1` per distribution | Absolute HTTPS URL |
 | EU file-type IRI | `1` per distribution | EU File Type concept; distinct within the dataset |
 | IANA media-type IRI | `1` per distribution | Registered media-type IRI |
+| Access rights | `0..1` | EU Access Right concept, typed `skos:Concept`; REQUIRED and equal to `RESTRICTED` when any distribution is gated under Section 10.3 |
 | Byte size | `0..1` per distribution | Non-negative integer |
 | SHA-256 digest | `0..1` per distribution | 64 lower-case hexadecimal characters |
 
 Values beginning with `/` MAY be accepted as publication configuration and
-resolved against the Provider's public HTTPS origin before serialization. A
-serialized DSP access or download URL MUST be absolute. Other relative forms
-MUST NOT be serialized.
+resolved against the Provider's HTTPS origin before serialization. A serialized
+DSP access or download URL MUST be absolute. Other relative forms MUST NOT be
+serialized.
 
 ### 8.4 Unconditional ODRL offer
 
@@ -665,9 +765,12 @@ This offer is not the licence. It expresses unconditional technical access,
 and it does not replace copyright, attribution, citation, or ethical-use
 metadata. The licence is carried separately and is REQUIRED by Section 8.5.
 
-In a `ContractRequestMessage`, the same offer MUST have exactly one top-level
-`target` equal to the dataset identifier, following the DSP
-[Contract Request Message](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#contract-request-message).
+Tier 1 never receives this offer back. Nothing at this tier consumes it, and no
+`ContractRequestMessage` reaches a Tier 1 Provider. It is carried because the
+DSP catalogue schema requires `hasPolicy` on every Dataset, which is also why
+Section 2.3 can exclude negotiation without the catalogue ceasing to validate.
+Section 11.2 states the form the same offer takes for a Provider that
+implements the optional negotiation flow.
 
 ### 8.5 Distribution and DCAT-AP-aligned metadata
 
@@ -678,13 +781,21 @@ contain:
 - `format` equal to the full EU File Type IRI;
 - an explicit `dct:format` node with that same `@id` and `@type` equal to
   `dct:MediaTypeOrExtent`;
-- `dcat:accessURL` as an `@id` object containing the public HTTPS URL;
+- `dcat:accessURL` as an `@id` object containing the direct HTTPS URL;
 - `dcat:downloadURL` as an `@id` object containing that same direct URL;
 - `dcat:mediaType` as an `@id` object containing the IANA media-type IRI and
   `@type` equal to `dct:MediaType`;
 - `dct:license` as an `@id` object containing the IRI of a published licence,
   typed `dct:LicenseDocument`; and
 - one DSP `accessService` object identifying the root DSP access service.
+
+Where the download is gated under Section 10.3, the dataset MUST additionally
+carry `dct:accessRights` equal to the EU Access Right `RESTRICTED` concept,
+typed `skos:Concept`, as
+[Materials Commons Tier 0, Section 9.3](materials-commons-dcat-ap-get-protocol-tier-0.md)
+specifies. The DSP context defines neither `skos` nor `dct:accessRights`, so
+both MUST use full IRIs in a DSP response, in the manner of the checksum in
+Section 8.7.
 
 The licence is REQUIRED, which is stricter than DCAT-AP, where
 [Distribution licence](https://semiceu.github.io/DCAT-AP/releases/3.0.1/#Distribution.licence)
@@ -739,37 +850,65 @@ CSV and JSON MUST use these exact mappings:
 Another representation MAY be published only with explicitly supplied EU File
 Type and IANA media-type IRIs.
 
-Distributions within one dataset MUST have distinct DSP `format` values.
-`TransferRequestMessage.format` MUST exactly match one advertised distribution
-of the Agreement's target dataset. The Provider MUST select that distribution
-and reject an unknown format. This permits, for example, CSV and JSON
-representations of the same dataset under its single unconditional offer.
+Distributions within one dataset MUST have distinct DSP `format` values, so
+that a Consumer can tell them apart and pick one. This permits, for example,
+CSV and JSON representations of the same dataset under its single unconditional
+offer.
 
-Within this profile, every advertised format value selects HTTPS consumer-pull
-behavior. This mapping is a Materials Commons profile convention; DSP alone
-does not define EU file-type IRIs as transport selections. Consumers using
-the DSP transfer flow MUST support this mapping. Direct public downloads
-remain available without DSP negotiation or transfer.
+At Tier 1 a Consumer selects a distribution and retrieves it from the
+`dcat:downloadURL` directly. The format value is a description of the bytes.
+Section 12 gives it a second role, selecting the transport, for a Provider that
+implements the optional transfer flow; that role carries no weight here.
 
 ### 8.6 DSP access service
 
+DSP requires every advertised Distribution to reference a `DataService`, and
+positions that service as the one at which contract negotiation and the
+transfer process are initiated. A Tier 1 Provider operates its catalogue half
+and nothing else. The service is therefore the catalogue service: the endpoint
+that answers the catalogue and dataset requests of Section 7.
+
+What this changes against earlier drafts of this profile is stated here rather
+than removed quietly:
+
+- The service is still REQUIRED, and every distribution MUST still reference
+  it. The DSP schema gives no alternative.
+- The requirement to advertise DSP 2025-1 in `dct:conformsTo` is **withdrawn**.
+  A Tier 1 Provider does not conform to DSP, per Section 1.3, so making that
+  claim in the catalogue would be false. A Provider implementing Tier 1 alone
+  MUST NOT carry the DSP specification IRI in this service's `dct:conformsTo`.
+  A Provider that also implements the flows of Sections 11 and 12, and meets
+  the DSP conformance requirements in full, MAY carry it. That addition is a
+  claim about the deployment and lies outside Tier 1 conformance.
+- The requirement that the service accept negotiation and transfer messages is
+  **withdrawn**. A Consumer MUST NOT infer from the presence of this service
+  that `<base>/negotiations/request` or `<base>/transfers/request` exists.
+
 The DSP access service MUST have a stable absolute `@id`, `@type` equal to
 `DataService`, a non-empty `dct:title`, and `endpointURL` equal to `<base>`. It
-MUST occur in the root catalogue `service` array. It MUST contain
-`dct:conformsTo` values for both the Materials Commons DSP Tier 1 profile and
-DSP 2025-1-err1, expressed as `@id` objects with `@type` equal to
-`dct:Standard`. It MUST contain `dcat:servesDataset` as `@id` objects naming
-every dataset in the snapshot. When pagination is used, this complete list
-and the rest of the service metadata MUST be repeated identically on each
-page; it is not limited to the datasets carried by that page.
+MUST occur in the root catalogue `service` array. It MUST contain a
+`dct:conformsTo` value for the Materials Commons Tier 1 profile, expressed
+as an `@id` object with `@type` equal to `dct:Standard`. That one IRI is what
+tells a Consumer which subset of DSP the endpoint speaks. It MUST contain
+`dcat:servesDataset` as `@id` objects naming every dataset in the snapshot.
+Across the pages of one snapshot, this complete list and the rest of the
+service metadata MUST be repeated identically on each page; it is not limited
+to the datasets carried by that page.
 
 If the Section 9 negotiated DCAT-AP feature is supported, this service's
 `dct:conformsTo` values MUST additionally include the negotiated DCAT-AP
-feature IRI and the DCAT-AP 3.0.1 profile IRI, each typed `dct:Standard`.
+feature IRI and the representation profile IRIs it serves, each typed
+`dct:Standard`.
 
 Each distribution MUST identify that same service through `accessService`.
 An embedded copy and the root copy, if both contain metadata, MUST be
 identical after RDF node merging.
+
+A Provider MAY advertise a second `DataService` for a connector operated by
+somebody else, so that a Consumer wanting an agreement knows where to go. Such
+a service MUST NOT be the `accessService` of a Tier 1 distribution, because
+Tier 1 makes no statement about what it will do. Its specification is left to
+the tier that covers negotiation.
 
 The prefixed spelling `dcat:servesDataset` is required, and MUST NOT be
 shortened to a bare `servesDataset`. The DSP JSON Schema declares the bare
@@ -786,7 +925,7 @@ DCAT-conformant, because doing so violates the DSP JSON Schema.
 ### 8.7 Optional byte size and checksum
 
 When present, byte size MUST be the number of octets in the representation at
-the public download URL. It MUST use an explicit JSON-LD value object whose
+the advertised download URL. It MUST use an explicit JSON-LD value object whose
 `@type` is the full `xsd:nonNegativeInteger` IRI:
 
 ```json
@@ -832,27 +971,42 @@ checksum in a DSP response MUST use full IRIs, as follows:
 }
 ```
 
-## 9. Discovery of Materials Commons DCAT-AP Tier 0
+## 9. Serving DCAT-AP from the catalogue endpoint
 
-### 9.1 Optional capabilities
+### 9.1 How DCAT-AP is served at this tier
 
-A Tier 1 Provider MAY expose a strict DCAT-AP catalogue by separately
-conforming to **Materials Commons DCAT-AP Tier 0**. Absence of that service does
-not affect DSP Tier 1 conformance.
+Sections 9.3 through 9.5 define **the** way a Tier 1 Provider serves DCAT-AP
+from its DSP catalogue endpoint. A Provider that offers any DCAT-AP
+representation of its DSP catalogue MUST offer it this way, and every
+requirement stated for the mechanism is then mandatory and its availability
+MUST be advertised in the DSP catalogue. A Tier 1 Provider SHOULD offer it.
+
+Two things follow from making this the specified mechanism.
+
+First, a Provider MUST NOT serve DCAT-AP-shaped output in response to a request
+that selects no representation profile. An unprofiled catalogue request gets
+the DSP context and a payload that is valid for any DSP-native client. Serving
+something that looks DCAT-AP conformant to a client that asked for DSP would
+put non-conformant output in front of every harvester that finds the endpoint,
+which is the failure this mechanism exists to prevent.
+
+Second, selection MUST key on an explicit profile parameter, per Section 9.4.
+Earlier drafts keyed on a bare `application/ld+json` media range. That breaks
+as soon as DSP itself accepts that media type, because the same request would
+then select two different representations.
+
+The separate `GET` service remains available as well. A Tier 1 Provider MAY
+expose a strict DCAT-AP catalogue by separately conforming to **Materials
+Commons Tier 0**. Absence of that service does not affect Tier 1
+conformance, and its presence is no longer a precondition for the mechanism in
+Sections 9.3 through 9.5.
 
 If the companion service is present, it MUST be discoverable both:
 
 1. through the well-known discovery mechanism required by Materials Commons
-   DCAT-AP Tier 0; and
+   Tier 0; and
 2. through a `DataService` in the root DSP catalogue `service` array as defined
    in Section 9.2.
-
-A Provider exposing that companion service SHOULD also expose the
-content-negotiated representation in Sections 9.3 through 9.5. Support for the
-content-negotiated representation is OPTIONAL for DSP Tier 1 conformance. If
-it is supported, every requirement stated for it in this section is mandatory
-and its availability MUST be advertised in the DSP catalogue. It MUST NOT be
-advertised unless the companion `GET` service is also present.
 
 ### 9.2 Companion `GET` service advertisement
 
@@ -890,32 +1044,41 @@ snapshot. Every DSP dataset MUST be listed.
 
 ### 9.3 Negotiated DCAT-AP feature advertisement
 
-Support for the alternate `application/ld+json` representation MUST be
-advertised on the existing DSP access service from Section 8.6. A Provider
-MUST NOT invent a second distribution access service for this purpose.
+Support for the profiled representations MUST be advertised on the existing
+DSP access service from Section 8.6. A Provider MUST NOT invent a second
+distribution access service for this purpose.
 
 The DSP access service's `dct:conformsTo` array MUST contain typed Standard
-objects for at least these four identifiers:
+objects for the Tier 1 profile, the feature discriminator, and every
+representation profile the Provider serves:
 
 ```text
 tag:materialscommons.eu,2026:dsp/prototype-tier-1
-https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/
 tag:materialscommons.eu,2026:dsp/prototype-tier-1#dcat-ap-content-negotiation
 https://semiceu.github.io/DCAT-AP/releases/3.0.1/
 ```
 
+A Provider that also serves Materials DCAT-AP MUST additionally carry its
+representation profile IRI, currently (TBD)
+`tag:materialscommons.eu,2026:mc-dcat-ap/materials`. The two are advertised and
+requested separately, because Materials DCAT-AP adds properties that plain
+DCAT-AP does not define, and a Consumer that asked for DCAT-AP has to receive
+DCAT-AP.
+
+The DSP specification IRI stays out of this array unless Section 8.6 permits
+it.
+
 Each value MUST be an `@id` object with `@type` equal to `dct:Standard`. The
-third IRI is the machine-readable feature discriminator. A Consumer that
-recognizes it learns the HTTP method, request type, media type, context
+feature IRI is the machine-readable discriminator. A Consumer that recognizes
+it learns the HTTP method, request type, media-type parameter, context
 substitution, and identity invariant from this section; it MUST NOT infer
-support merely from an `application/ld+json` string, service title, or URL
-pattern.
+support from a media type alone, or from a service title or URL pattern.
 
 The DSP access service's `endpointURL` remains `<base>`, as required by DSP.
 The feature operation is the standard DSP catalogue request target obtained by
-appending `/catalog/request`. Advertising a capability of the existing
-Connector through typed extension metadata neither changes the meaning of the
-DSP service nor introduces a non-DSP route.
+appending `/catalog/request`. Advertising a capability of the existing service
+through typed extension metadata neither changes the meaning of that service
+nor introduces a second route.
 
 A compatible Consumer discovers the feature without path guessing:
 
@@ -923,12 +1086,12 @@ A compatible Consumer discovers the feature without path guessing:
    discovery;
 2. request the ordinary DSP catalogue;
 3. locate the root `service` whose `@id` equals that advertised service
-   identifier and verify the exact feature IRI in its `dct:conformsTo` values;
-   and
+   identifier, verify the exact feature IRI in its `dct:conformsTo` values, and
+   read off which representation profiles are listed there; and
 4. repeat the catalogue request at `<base>/catalog/request` using the explicit
-   `Accept` rule in Section 9.4.
+   `Accept` rule in Section 9.4, naming one of those profiles.
 
-### 9.4 Content-negotiated retrieval
+### 9.4 Profile selection and retrieval
 
 A Consumer invokes the advertised operation by sending a valid DSP
 `CatalogRequestMessage` to `<base>/catalog/request`, where `<base>` is the
@@ -936,38 +1099,62 @@ advertised DSP access-service `endpointURL`, using:
 
 ```http
 Content-Type: application/json
-Accept: application/ld+json
+Accept: application/ld+json;profile="https://semiceu.github.io/DCAT-AP/releases/3.0.1/"
 ```
 
-For this feature, an explicit JSON-LD request means an `Accept` field
-containing exactly one acceptable media range, `application/ld+json`, with an
-optional `profile` parameter equal to the DCAT-AP 3.0.1 profile IRI and with no
-quality value other than `1`. An absent `Accept`, `*/*`,
-or an `Accept` field that permits `application/json` but does not meet the
-explicit JSON-LD rule selects the ordinary DSP response. A list containing any
-other media range MUST NOT accidentally select the alternate representation.
-When such a list excludes `application/json`, normal HTTP negotiation MAY
-produce `406 Not Acceptable`.
+The `profile` media-type parameter is what selects the representation. For this
+feature, a valid selection means an `Accept` field containing exactly one
+acceptable media range, `application/ld+json`, carrying exactly one `profile`
+parameter whose value is one representation profile IRI advertised under
+Section 9.3, with no quality value other than `1`.
 
-For a valid explicit JSON-LD request, a Provider advertising this feature MUST
-return `200 OK` with:
+Anything else leaves the representation unselected. In particular:
+
+- an absent `Accept` field, or `*/*`, MUST return the ordinary DSP response;
+- an `Accept` field permitting `application/json` that does not meet the
+  selection rule MUST return the ordinary DSP response;
+- `application/ld+json` with no `profile` parameter, or with a `profile` value
+  the Provider does not serve, MUST NOT select a DCAT-AP representation. The
+  unrecognized profile is ignored, as JSON-LD 1.1 requires, which leaves the
+  request naming no representation the Provider can supply. The Provider then
+  returns the ordinary DSP response if the `Accept` field also permits
+  `application/json`, and `406 Not Acceptable` otherwise.
+
+A bare `application/ld+json` media range therefore selects nothing on its own.
+DSP may accept that media type for its own responses, at which point the bare
+range would identify two representations at once. The profile parameter stays
+unambiguous whatever DSP does with media types.
+
+A list containing any other media range MUST NOT accidentally select a
+profiled representation.
+
+For a valid selection, a Provider advertising this feature MUST return
+`200 OK` with the same profile IRI echoed in the response:
 
 ```http
 Content-Type: application/ld+json; profile="https://semiceu.github.io/DCAT-AP/releases/3.0.1/"
 Vary: Accept
 ```
 
-The response SHOULD also contain:
+The response SHOULD also contain a `Link` header with the same profile IRI and
+relation type `profile`, per
+[RFC 6906](https://www.rfc-editor.org/rfc/rfc6906):
 
 ```http
-Link: <tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0>; rel="profile"
+Link: <https://semiceu.github.io/DCAT-AP/releases/3.0.1/>; rel="profile"
 ```
 
-The response is an additional Materials Commons DCAT-AP representation, not a
-DSP response message. Ordinary DSP catalogue requests and all DSP error
-messages continue to use `application/json` as required by DSP. A Provider
-that does not advertise this feature MAY return `406 Not Acceptable` for a
-request that accepts only `application/ld+json`.
+The `profile` parameter is defined for `application/ld+json` by
+[JSON-LD 1.1](https://www.w3.org/TR/json-ld11/#iana-considerations), which is
+why no new media type is required for this. Registering a vendor media type
+instead remains open; it would be an alternative spelling of the same
+selection, with the same invariant in Section 9.5.
+
+The response is an additional Materials Commons DCAT-AP representation rather
+than a DSP response message. Ordinary DSP catalogue requests and all DSP error
+messages continue to use `application/json` as required by DSP. A Provider that
+does not advertise this feature MAY return `406 Not Acceptable` for a request
+that accepts only `application/ld+json`.
 
 ### 9.5 Common-payload and context-substitution invariant
 
@@ -1013,9 +1200,15 @@ refer to the same snapshot.
 
 The DCAT-AP response MUST NOT add a catalogue-level `dct:conformsTo` assertion
 that is absent from the DSP response. DCAT-AP 3.0.1 does not require that
-property on a Catalogue. Conformance of the alternate representation is
-identified by its media-type profile, `Link` header, discovery record, and the
-typed service-level `dct:conformsTo` statements above.
+property on a Catalogue. Conformance of the profiled representation is
+identified by its media-type profile parameter, `Link` header, discovery
+record, and the typed service-level `dct:conformsTo` statements above.
+
+The invariant holds for every representation profile. A Materials DCAT-AP
+response carries the same Common catalogue value as the DCAT-AP response and
+the DSP response, and differs from them only in `@context`. Whether DCAT-AP
+tolerates the additional Materials DCAT-AP properties is open, which is the
+reason the two profiles are requested separately rather than merged.
 
 ### 9.6 Advertisement example
 
@@ -1026,7 +1219,7 @@ The following is non-normative:
   {
     "@id": "https://provider.example/services/mc-dcat-ap",
     "@type": "DataService",
-    "dct:title": "Public Materials Commons DCAT-AP catalogue",
+    "dct:title": "Materials Commons DCAT-AP catalogue",
     "endpointURL": "https://provider.example/mc-dcat-ap/3.0.1/",
     "dct:conformsTo": [
       {
@@ -1045,15 +1238,11 @@ The following is non-normative:
   {
     "@id": "https://provider.example/services/dsp",
     "@type": "DataService",
-    "dct:title": "Public DSP service",
+    "dct:title": "DSP catalogue service",
     "endpointURL": "https://provider.example/dsp/2025-1",
     "dct:conformsTo": [
       {
         "@id": "tag:materialscommons.eu,2026:dsp/prototype-tier-1",
-        "@type": "dct:Standard"
-      },
-      {
-        "@id": "https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/",
         "@type": "dct:Standard"
       },
       {
@@ -1072,32 +1261,39 @@ The following is non-normative:
 ]
 ```
 
-The example path `/mc-dcat-ap/3.0.1/` is not normative.
+The example path `/mc-dcat-ap/3.0.1/` is not normative. The DSP specification
+IRI is absent from the second service by design, per Section 8.6.
 
 ### 9.7 Consistency with the companion
 
 When both protocols are exposed, their catalogue identifier, publisher,
 dataset identifiers, titles, descriptions, policies, distribution identifiers,
-public download URLs, formats, media types, byte sizes, checksums, and services
-MUST agree for the same snapshot in accordance with Section 9.5.
+download URLs, access rights, formats, media types, byte sizes, checksums, and
+services MUST agree for the same snapshot in accordance with Section 9.5.
 
 Temporary differences caused by independently completed requests SHOULD be
 minimized. A Provider MUST NOT deliberately advertise contradictory values.
 
-## 10. Public HTTPS data plane
+## 10. Retrieval and access
 
-### 10.1 Direct public access
+Sections 10.1 and 10.2 cover the data plane, meaning retrieval of a
+distribution. Section 10.3 covers gated access and applies to the catalogue
+endpoints of Section 7 as well as to a distribution.
+
+### 10.1 Direct access
 
 Every distribution access and download URL MUST resolve to the same direct
-public representation. It MUST be retrievable without negotiation, agreement,
-transfer process, authorization header, cookie, credential, or access token.
+representation. It MUST be retrievable without negotiation, agreement, transfer
+process, cookie, or session. It MUST be retrievable without an `Authorization`
+header too, unless the distribution is gated under Section 10.3.
 
-The DSP negotiation and transfer flow remains available for control-plane
-interoperability but does not gate the public URL.
+This is the only retrieval path Tier 1 defines. A Provider that implements the
+optional transfer flow of Section 12 hands out the same URL in its
+`DataAddress`, so that flow adds steps without changing who gets the bytes.
 
 ### 10.2 HTTP behavior
 
-The public distribution endpoint:
+The distribution endpoint:
 
 - MUST support `GET`;
 - MUST support `HEAD` with the same representation metadata and no body;
@@ -1108,16 +1304,76 @@ The public distribution endpoint:
 - MUST return ordinary HTTP errors, including `404 Not Found`, when absent.
 
 File routing and DSP declarations are independent. The Provider MUST ensure
-that an advertised URL refers to the intended public representation.
+that an advertised URL refers to the intended representation.
 
-## 11. Contract negotiation
+### 10.3 Gated access
+
+A Tier 1 Provider MAY gate the catalogue request target, the dataset request
+target, or any distribution download URL behind an OAuth 2.0 bearer token.
+Gating is available at every tier and distinguishes none of them. Nothing in
+this profile obliges a Provider to gate anything.
+
+The mechanism is the one specified in
+[Materials Commons Tier 0, Section 13.2](materials-commons-dcat-ap-get-protocol-tier-0.md):
+a `401 Unauthorized` carrying a `WWW-Authenticate: Bearer` challenge with the
+RFC 9728 `resource_metadata` parameter, protected resource metadata naming the
+authorization server, and a bearer token on the retry. Where a Tier 1 Provider
+gates a resource, it MUST follow that section. Doing so creates no Tier 0
+conformance obligation.
+
+A **Consumer claiming Tier 1 MUST be able to follow that exchange**, whether or
+not any Provider it currently talks to uses it. This is the point of specifying
+the mechanism: a client that cannot follow a gate cannot read half the
+catalogues in the data space, and a gate that every client can follow is not a
+private arrangement.
+
+Three constraints keep gating inside this tier:
+
+1. **A gate decides access, never content.** A gated catalogue request target
+   MUST return the same snapshot to every Consumer it admits. Varying datasets
+   or metadata by caller is excluded by Section 2.3.
+2. **The token is an HTTP credential.** It travels in the `Authorization`
+   header of the HTTPS request. It MUST NOT appear inside a DSP message, a
+   `DataAddress`, or an `endpointProperties` value, which is where Tier 2 puts
+   credentials minted by a connector.
+3. **Nothing is negotiated.** The gate admits or refuses a token. There is no
+   policy evaluation and no exchange of terms, which is what Tier 2 adds.
+
+The authorization server and the host of the bytes need not belong to the
+Provider, exactly as at Tier 0. A Tier 1 catalogue MAY therefore advertise a
+download URL on another origin, gated by its operator against a token carrying
+a claim the Provider controls.
+
+Version discovery under Section 6 MUST stay ungated, so that a Consumer can
+reach the catalogue endpoint and meet its challenge. Its response carries no
+`auth` member, per Section 6: the token semantics of this tier are an HTTP
+matter rather than a declared DSP authentication profile, which is a Tier 2
+concern.
+
+## 11. Contract negotiation, outside Tier 1
+
+**Contract negotiation is outside the Tier 1 conformance target**, per Section
+2.3. A Tier 1 Provider implements none of this section, exposes none of the
+negotiation endpoints, and remains fully conforming.
+
+This section is retained for two reasons. It records the rules that earlier
+drafts of this profile imposed, so that an implementation built against them
+can see exactly what changed. And it is the starting text for the Tier 2
+profile, where contract negotiation belongs because that is where a policy can
+refuse a request.
+
+Everything below therefore applies only to a Provider that chooses to
+implement the DSP negotiation flow alongside Tier 1. Such a Provider is making
+a claim about its deployment; Section 8.6 states how that claim is advertised
+and how it is kept apart from the Tier 1 claim.
 
 ### 11.1 Applicability and identifiers
 
-Tier 1 retains DSP negotiation for protocol interoperability, not access
-enforcement. The Provider MUST implement the DSP
-[Contract Negotiation Protocol](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#negotiation-protocol)
-for the Section 8.4 offer.
+A Provider implementing this optional flow MUST implement the DSP
+[Contract Negotiation Protocol](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#negotiation-protocol)
+for the Section 8.4 offer. The negotiation carries no access decision: the
+offer is unconditional, and a gated distribution stays gated at its own URL
+whatever the negotiation concludes.
 
 Each process MUST receive a unique `providerPid`. Provider-created process and
 agreement identifiers SHOULD be `urn:uuid:` IRIs.
@@ -1144,7 +1400,7 @@ Unknown, modified, constrained, or retargeted offers MUST return
 ### 11.3 States and direct-agreement flow
 
 The Provider MUST enforce the DSP
-[negotiation states](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#contract-negotiation-states):
+[negotiation states](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#contract-negotiation-states):
 `REQUESTED`, `OFFERED`, `ACCEPTED`, `AGREED`, `VERIFIED`, `FINALIZED`, and
 `TERMINATED`. `FINALIZED` and `TERMINATED` are terminal.
 
@@ -1164,14 +1420,14 @@ The required happy path is:
 8. Provider commits `FINALIZED` only after a `2xx` acknowledgement.
 
 Callback paths follow the DSP
-[Consumer Path Bindings](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#consumer-path-bindings).
+[Consumer Path Bindings](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#consumer-path-bindings).
 
 ### 11.4 Optional offer branch
 
 The Provider MAY send the unchanged offer to the Consumer offers callback and
 commit `OFFERED` after acknowledgement. In `OFFERED`, the Consumer MAY send an
-`ACCEPTED` event or return the exact same offer as a counter-request. Tier 1
-does not permit changed terms.
+`ACCEPTED` event or return the exact same offer as a counter-request. Changed
+terms are not permitted by this flow.
 
 The direct-agreement flow is sufficient for the initial implementation;
 sending offers need only be added when a target Consumer requires this
@@ -1194,20 +1450,39 @@ message process identifiers MUST match. Invalid transitions or mismatches MUST
 return `400` without changing state.
 
 An outbound state MUST NOT be committed before its callback receives `2xx`.
-Retry counts, timing, and backoff are implementation choices; Tier 1 does not
-prescribe a fixed attempt count. Retries MUST preserve message and process
+Retry counts, timing, and backoff are implementation choices; this flow does
+not prescribe a fixed attempt count. Retries MUST preserve message and process
 identity and MUST NOT overwrite a newer acknowledged state. After the
 Provider abandons delivery, it SHOULD attempt termination and MUST NOT report
 the unacknowledged target state. These rules also apply to transfer callbacks.
 
-## 12. Transfer process
+## 12. Transfer process, outside Tier 1
+
+**The transfer process is outside the Tier 1 conformance target**, per Section
+2.3, and is retained on the same terms as Section 11. A Tier 1 Provider
+implements none of it. At Tier 1 a Consumer retrieves bytes from the
+`dcat:downloadURL` of the distribution it picked, as specified in Section 10.
+
+Everything below applies only to a Provider that chooses to implement the DSP
+transfer flow alongside Tier 1, and it presupposes the negotiation flow of
+Section 11, since a transfer needs a finalized Agreement.
 
 ### 12.1 Preconditions and request
 
 A transfer MUST refer to a current Agreement in `FINALIZED` whose target is a
-currently published dataset. The Provider MUST implement DSP
-[Transfer Process Protocol](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#transfer-protocol)
-as finite public HTTPS pull.
+currently published dataset. A Provider implementing this optional flow MUST
+implement DSP
+[Transfer Process Protocol](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#transfer-protocol)
+as finite HTTPS pull. Push transfer, consumer-supplied data addresses,
+non-finite streams, and data-plane protocols other than HTTPS pull stay out of
+scope even for such a Provider.
+
+Within this flow, every advertised format value selects HTTPS consumer-pull
+behavior. That mapping is a Materials Commons profile convention; DSP alone
+does not define EU file-type IRIs as transport selections. A Consumer using the
+flow MUST support it. `TransferRequestMessage.format` MUST exactly match one
+advertised distribution of the Agreement's target dataset, and the Provider
+MUST select that distribution and reject an unknown format.
 
 `POST <base>/transfers/request` MUST accept a `TransferRequestMessage` with the
 official context, correct type, non-empty `consumerPid`, finalized
@@ -1239,22 +1514,24 @@ It MUST include both process identifiers and:
 }
 ```
 
-`endpoint` MUST equal the resolved public access and download URL of the
-distribution selected by the request's `format`.
+`endpoint` MUST equal the resolved access and download URL of the distribution
+selected by the request's `format`.
 `endpointProperties` MUST NOT convey authorization, credentials, cookies, or
-tokens. The Provider commits `STARTED` only after `2xx` acknowledgement. This
-implements DSP
-[pull transfer](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#pull-transfer).
+tokens; where the distribution is gated under Section 10.3, the Consumer
+satisfies that gate itself at the URL. Minting a credential inside the control
+plane is what Tier 2 adds. The Provider commits `STARTED` only after `2xx`
+acknowledgement. This implements DSP
+[pull transfer](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#pull-transfer).
 
 ### 12.4 States and provider endpoints
 
 The Provider MUST enforce DSP
-[transfer states](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#transfer-process-states):
+[transfer states](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#transfer-process-states):
 `REQUESTED`, `STARTED`, `SUSPENDED`, `COMPLETED`, and `TERMINATED`.
 
 | From | Action | To |
 |---|---|---|
-| — | Valid initial request | `REQUESTED` |
+| none | Valid initial request | `REQUESTED` |
 | `REQUESTED` | Start callback acknowledged | `STARTED` |
 | `STARTED` | Suspension acknowledged | `SUSPENDED` |
 | `SUSPENDED` | Start acknowledged | `STARTED` |
@@ -1267,43 +1544,70 @@ transitions and exact process-identifier matching. Invalid operations return
 `400 TransferError` without state change; unknown processes return `404`.
 
 Outbound transfer state is committed only after the corresponding DSP
-[Consumer Callback](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#consumer-callback-path-bindings)
+[Consumer Callback](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#consumer-callback-path-bindings)
 returns `2xx`.
 
 ## 13. Errors and HTTP status codes
 
-Catalogue, negotiation, and transfer errors MUST respectively use
-`CatalogError`, `ContractNegotiationError`, and `TransferError`, with the
-official context and exact type. A safe non-empty reason SHOULD be supplied.
-Known process identifiers MUST be included where the schema requires them.
+Catalogue errors MUST use `CatalogError`, with the official context and exact
+type. A safe non-empty reason SHOULD be supplied. A Provider implementing the
+optional flows of Sections 11 and 12 uses `ContractNegotiationError` and
+`TransferError` on the same terms, and MUST include known process identifiers
+where the schema requires them.
 
-| Status | Use |
-|---:|---|
-| `200 OK` | Successful retrieval or accepted non-creating transition |
-| `201 Created` | New negotiation or transfer process |
-| `400 Bad Request` | Invalid message, unsupported feature, mismatch, or invalid transition |
-| `404 Not Found` | Unknown dataset, negotiation, transfer, or agreement where applicable |
-| `406 Not Acceptable` | No acceptable catalogue representation, including an unsupported JSON-LD-only request |
-| `409 Conflict` | Optional concurrent-transition conflict |
-| `502 Bad Gateway` | Optional failure of a required synchronous callback |
+| Status | Use | Tier 1 |
+|---:|---|---|
+| `200 OK` | Successful retrieval | Yes |
+| `400 Bad Request` | Invalid message, unsupported feature, or mismatch | Yes |
+| `404 Not Found` | Unknown dataset, or an expired page reference | Yes |
+| `406 Not Acceptable` | No acceptable catalogue representation, per Section 9.4 | Yes |
+| `401 Unauthorized` | Gated resource, with the Section 10.3 challenge | Where gating is used |
+| `403 Forbidden` | Valid token without the required authorization | Where gating is used |
+| `201 Created` | New negotiation or transfer process | Optional flows only |
+| `400 Bad Request` | Invalid state transition | Optional flows only |
+| `404 Not Found` | Unknown negotiation, transfer, or agreement | Optional flows only |
+| `409 Conflict` | Optional concurrent-transition conflict | Optional flows only |
+| `502 Bad Gateway` | Optional failure of a required synchronous callback | Optional flows only |
 
-Tier 1 endpoints and public distributions MUST NOT return `401` or `403`
-merely because `Authorization` is absent. Unexpected errors MAY return `500`
-without exposing implementation details.
+A Tier 1 Provider SHOULD return `404 Not Found` for the negotiation and
+transfer paths it does not implement, per Section 5.2.
+
+An ungated Tier 1 endpoint or distribution MUST NOT return `401` or `403`
+merely because `Authorization` is absent. A gated one MUST carry the
+Section 10.3 challenge with its `401`. Version discovery MUST never return
+either, per Section 10.3. Unexpected errors MAY return `500` without exposing
+implementation details.
 
 ## 14. Security and privacy
 
-### 14.1 Public access and TLS
+### 14.1 Access and TLS
 
-Tier 1 selects the unauthenticated option permitted by DSP
-[Authorization](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/#authorization).
-Catalogue content and public data MUST NOT vary by caller identity or
-credentials. All public and callback traffic MUST use HTTPS with certificate
-and hostname validation.
+Tier 1 takes the unauthenticated option permitted by DSP
+[Authorization](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/#authorization)
+for its DSP messages, and adds the HTTP-level gate of Section 10.3 as a
+separate, optional layer. Whatever is gated, catalogue content MUST NOT vary by
+caller identity or credentials. All traffic MUST use HTTPS with certificate and
+hostname validation, and so MUST callback traffic where a Provider implements
+the optional flows.
+
+A gated resource sees a bearer token. Whoever serves it MUST validate the token
+against the keys of the authorization server named in its own protected
+resource metadata, MUST reject a token issued for another resource, MUST NOT
+log the token, and MUST NOT forward it anywhere.
+
+An ungated catalogue states which datasets are restricted and who issues tokens
+for them. A Provider MUST NOT put anything confidential in such a catalogue and
+rely on a download gate to hide it. Gating the catalogue endpoint as well is
+the option available where the metadata itself is sensitive.
 
 ### 14.2 Callback safety
 
-Callback addresses are untrusted outbound destinations. A Provider MUST:
+Callback addresses are relevant only to the optional flows of Sections 11 and
+12. A Tier 1 Provider initiates no outbound request and this subsection does
+not apply to it.
+
+Callback addresses are untrusted outbound destinations. A Provider sending to
+one MUST:
 
 - reject user information, query, fragments, and non-HTTPS schemes;
 - reject loopback, link-local, private, multicast, unspecified, reserved, and
@@ -1328,17 +1632,22 @@ Provider MUST validate identifier uniqueness and shared publisher identity
 before emitting a catalogue or resolving a process.
 
 Metadata MAY change between independent catalogue requests; pages belonging
-to one snapshot MUST follow Section 7.5. Negotiation and transfer operations MUST
-resolve the publication against the current snapshot. A removed dataset MUST
-not silently resolve to another dataset.
+to one snapshot MUST follow Section 7.5. A removed dataset MUST not silently
+resolve to another dataset.
 
-Providers MAY persist negotiation and transfer-process state across restart;
-durable storage does not require a higher tier. Tier 1 does not require such
-persistence. After state loss, an unknown prior process returns `404`; the
-Consumer MAY begin again. Retained processes MUST preserve their identifiers,
-acknowledged states, and idempotency behavior. Transitions MUST be
-concurrency-safe and stale callbacks MUST NOT overwrite newer acknowledged
-state, whether storage is in memory or durable.
+A Tier 1 Provider keeps no process state. Pagination references are the only
+state a catalogue request can create, and Section 7.5 allows a Provider to
+invalidate them.
+
+For a Provider implementing the optional flows of Sections 11 and 12,
+negotiation and transfer operations MUST resolve the publication against the
+current snapshot. Such a Provider MAY persist process state across restart;
+durable storage does not require a higher tier, and it is not required here.
+After state loss, an unknown prior process returns `404`; the Consumer MAY
+begin again. Retained processes MUST preserve their identifiers, acknowledged
+states, and idempotency behavior. Transitions MUST be concurrency-safe and
+stale callbacks MUST NOT overwrite newer acknowledged state, whether storage
+is in memory or durable.
 
 ## 16. Extensibility
 
@@ -1347,13 +1656,14 @@ provided they do not redefine protected terms or alter Tier 1 semantics.
 
 Additional publication metadata MAY use DCAT, DCTERMS, FOAF, SPDX, or another
 vocabulary. Such use does not by itself create a DCAT conformance claim. It
-MUST preserve the Section 9.5 Common catalogue value when an alternate
-representation is supplied. Extension metadata MUST NOT:
+MUST preserve the Section 9.5 Common catalogue value across every
+representation served. Extension metadata MUST NOT:
 
 - require authentication;
 - make the unconditional offer conditional;
-- replace the direct public download with a landing page;
-- introduce push behavior under a Tier 1 format value;
+- replace the direct download with a landing page;
+- gate a resource by any mechanism other than Section 10.3;
+- make catalogue content depend on the caller;
 - weaken checksum or media-type semantics; or
 - contradict the DSP resource carrying it.
 
@@ -1368,6 +1678,10 @@ representation is supplied. Extension metadata MUST NOT:
 - [ ] Consumers can derive `<base>` without assuming its path.
 - [ ] DSP bodies use `application/json`, the official context, and schemas.
 - [ ] No `GET <base>/catalog` endpoint is required for conformance.
+- [ ] No DSP conformance claim is made in the documentation or in the
+      catalogue, unless the deployment also meets the condition in Section 8.6.
+- [ ] The negotiation and transfer paths are either absent, answering `404`, or
+      documented as an addition outside Tier 1.
 - [ ] The complete catalogue output, when expanded for conformance checking,
       passes pinned DCAT-AP mandatory, range, and
       controlled-vocabulary validation except only for literal-valued
@@ -1378,17 +1692,22 @@ representation is supplied. Extension metadata MUST NOT:
 - [ ] `POST <base>/catalog/request` returns the complete catalogue or its first
       page with DSP `Link` navigation.
 - [ ] Non-empty filters return `400 CatalogError`.
-- [ ] At least one dataset is present; pagination support is optional.
-- [ ] If paginated, `next`/`previous` links accept the specified POST request,
-      all pages form one consistent snapshot, and traversal returns every
-      dataset exactly once. Invalidated page references return `404 CatalogError`.
+- [ ] At least one dataset is present, and pagination is supported.
+- [ ] `next`/`previous` links accept the specified POST request, all pages form
+      one consistent snapshot, and traversal returns every dataset exactly once.
+      Invalidated page references return `404 CatalogError`.
+- [ ] A snapshot that fits in one response is returned as a single page with
+      neither link.
 - [ ] Dataset, offer, distribution, and service IDs are stable and unique.
 - [ ] All datasets share one publisher.
 - [ ] The catalogue carries the Tier 0 and DCAT-AP 3.0.1 conformance IRIs as
       typed `dct:Standard` objects.
-- [ ] Each dataset has one unconditional offer and one or more public
-      distributions, with distinct DSP format values within the dataset.
+- [ ] Each dataset has one unconditional offer and one or more distributions,
+      with distinct DSP format values within the dataset.
 - [ ] Every distribution states a licence.
+- [ ] Every dataset with a gated distribution states `RESTRICTED` access
+      rights, and any access-rights value comes from the EU Access Right
+      authority and is typed `skos:Concept`.
 - [ ] Format, media type, licence, access URL, and direct download URL are
       present with the required RDF classes and ranges.
 - [ ] Every format is explicitly typed `dct:MediaTypeOrExtent`.
@@ -1396,60 +1715,86 @@ representation is supplied. Extension metadata MUST NOT:
 - [ ] Known byte sizes are explicitly typed `xsd:nonNegativeInteger`, and
       checksums use the required SPDX and XML Schema types.
 - [ ] The root DSP access service identifies every served dataset and the
-      standards to which it conforms.
+      profiles to which it conforms, and carries no DSP specification IRI.
 - [ ] Individual dataset retrieval returns the same metadata or `404`.
 - [ ] The DSP response makes no DCAT or DCAT-AP conformance claim.
 
-### 17.3 Optional DCAT-AP companion
+### 17.3 DCAT-AP representations and the optional companion
 
-- [ ] If no companion is offered, DSP Tier 1 remains fully conformant.
-- [ ] If offered, root `service` contains the exact companion profile and
-      DCAT-AP 3.0.1 IRIs.
-- [ ] The advertised endpoint is absolute HTTPS and path-independent.
-- [ ] Served dataset identifiers refer to the current DSP snapshot.
-- [ ] The endpoint also satisfies Materials Commons DCAT-AP Tier 0 well-known
-      discovery and conformance requirements.
-- [ ] If negotiated DCAT-AP is supported, the DSP access service contains the
-      exact feature and DCAT-AP profile IRIs while retaining `<base>` as its
+- [ ] If a DCAT-AP representation is served, it is served by profile selection
+      as specified in Section 9 and by no other mechanism.
+- [ ] An unprofiled catalogue request returns the DSP context and a payload
+      valid for a DSP-native client.
+- [ ] A bare `application/ld+json` media range selects no DCAT-AP
+      representation.
+- [ ] The DSP access service contains the exact feature IRI and every
+      representation profile IRI served, while retaining `<base>` as its
       `endpointURL`.
-- [ ] Exact `Accept: application/ld+json` returns the profiled JSON-LD media
-      type and `Vary: Accept`.
-- [ ] The DSP, negotiated, and companion responses have structurally identical
+- [ ] A valid profile selection returns the profiled JSON-LD media type with
+      the same profile IRI echoed, plus `Vary: Accept`.
+- [ ] An unserved profile value returns `406` or the ordinary DSP response, per
+      Section 9.4.
+- [ ] The DSP, profiled, and companion responses have structurally identical
       Common catalogue values for the same complete snapshot after assembling
-      any pages. Negotiated page payloads match their DSP counterparts.
+      pages. Profiled page payloads match their DSP counterparts.
 - [ ] Context substitution changes only literal `dcat:endpointURL` values into
       IRIs, and the substituted graph passes full DCAT-AP validation.
+- [ ] If no `GET` companion is offered, Tier 1 remains fully conformant.
+- [ ] If offered, root `service` contains the exact companion profile and
+      DCAT-AP 3.0.1 IRIs.
+- [ ] The advertised companion endpoint is absolute HTTPS and path-independent.
+- [ ] Served dataset identifiers refer to the current DSP snapshot.
+- [ ] The companion endpoint also satisfies Materials Commons Tier 0
+      well-known discovery and conformance requirements.
 
-### 17.4 Negotiation and transfer
+### 17.4 Gated access, where used
+
+- [ ] Version discovery is ungated.
+- [ ] An untokened request to a gated resource returns `401` with the
+      `WWW-Authenticate: Bearer` challenge of Section 10.3.
+- [ ] Protected resource metadata is reachable, public, and names an
+      authorization server.
+- [ ] A gated catalogue endpoint returns identical content to every admitted
+      caller.
+- [ ] Tokens appear in the `Authorization` header only, never inside a DSP
+      message.
+- [ ] The Consumer implementation can follow the challenge, obtain a token, and
+      retry.
+
+### 17.5 Optional negotiation and transfer, outside Tier 1
+
+These items are not Tier 1 conformance criteria. Use them only to check a
+Provider that chose to implement Sections 11 and 12.
 
 - [ ] Only the exact advertised unconditional offer is accepted.
 - [ ] Agreement and finalization callbacks are supported.
 - [ ] Agreements have unique ID, target, parties, UTC time, and permission.
 - [ ] Transfers require a finalized agreement for a current dataset.
 - [ ] Requested format exactly matches one distribution of the target dataset,
-      and Start supplies that distribution's public URL.
+      and Start supplies that distribution's advertised URL.
 - [ ] Consumer data addresses are rejected.
-- [ ] Start supplies the public HTTPS DataAddress.
+- [ ] Start supplies the HTTPS DataAddress.
 - [ ] Requests are idempotent by `consumerPid`.
 - [ ] Invalid transitions are rejected without state change.
 - [ ] Outbound states commit only after `2xx` callback acknowledgement.
 - [ ] Optional persistence and callback retries preserve identifiers,
       acknowledged states, and idempotency behavior.
 
-### 17.5 Independent consumer interoperability (non-normative)
+### 17.6 Independent consumer interoperability (non-normative)
 
-Before relying on an interoperability claim, exercise the complete flow with
-an independently implemented Consumer: version discovery, catalogue retrieval
-(including pagination when enabled), offer selection, negotiation through
-finalization, transfer start, data download, and completion. Include a dataset
-with two formats when multiple distributions are supported and check that
-each format selects the correct public URL.
+Before relying on an interoperability claim, exercise the Tier 1 flow with an
+independently implemented Consumer: version discovery, catalogue retrieval
+across pages, retrieval of one dataset by identifier, profile selection of the
+DCAT-AP representation, and download from the advertised URL. Include a
+dataset with two formats and check that each resolves to the correct URL.
+Include a gated resource and check that the Consumer follows the challenge
+without manual configuration. Check as well that the Consumer tolerates the
+absence of the negotiation and transfer endpoints.
 
-Record the Consumer implementation and version, any configuration or adapter
-needed for the Section 8.5 format-to-transport mapping, and the observed
-results. Schema validation and a Provider's own test client alone do not
-demonstrate independent interoperability. This is verification guidance, not
-a requirement to implement consumer endpoints in a Tier 1 Provider.
+Record the Consumer implementation and version, any configuration needed, and
+the observed results. Schema validation and a Provider's own test client alone
+do not demonstrate independent interoperability. This is verification guidance
+rather than a requirement to implement consumer endpoints in a Tier 1 Provider.
 
 ## Appendix A. Minimal examples (non-normative)
 
@@ -1511,15 +1856,11 @@ Accept: application/json
     "accessService": {
       "@id": "https://provider.example/services/dsp",
       "@type": "DataService",
-      "dct:title": "Public DSP service",
+      "dct:title": "DSP catalogue service",
       "endpointURL": "https://provider.example/dsp/2025-1",
       "dct:conformsTo": [
         {
           "@id": "tag:materialscommons.eu,2026:dsp/prototype-tier-1",
-          "@type": "dct:Standard"
-        },
-        {
-          "@id": "https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/",
           "@type": "dct:Standard"
         }
       ],
@@ -1531,7 +1872,27 @@ Accept: application/json
 }
 ```
 
-### A.3 Negotiation request
+### A.3 Profiled DCAT-AP catalogue request
+
+```http
+POST /dsp/2025-1/catalog/request HTTP/1.1
+Host: provider.example
+Content-Type: application/json
+Accept: application/ld+json;profile="https://semiceu.github.io/DCAT-AP/releases/3.0.1/"
+
+{
+  "@context": ["https://w3id.org/dspace/2025/1/context.jsonld"],
+  "@type": "CatalogRequestMessage",
+  "filter": []
+}
+```
+
+The response carries the same catalogue value as A.1 with the provider-owned
+DCAT-AP context in place of the DSP one.
+
+### A.4 Negotiation request, optional flow only
+
+The remaining examples belong to Sections 11 and 12 and are outside Tier 1.
 
 ```json
 {
@@ -1548,7 +1909,7 @@ Accept: application/json
 }
 ```
 
-### A.4 Transfer request and start
+### A.5 Transfer request and start, optional flow only
 
 ```json
 {
@@ -1577,17 +1938,19 @@ Accept: application/json
 
 ## Appendix B. Normative references
 
-- **DSP 2025-1-err1** — [Dataspace Protocol 2025-1, errata revision 1](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/).
-- **DCAT 3** — [Data Catalog Vocabulary (DCAT), Version 3](https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/).
-- **DCAT-AP 3.0.1** — [DCAT Application Profile for data portals in Europe, Version 3.0.1](https://semiceu.github.io/DCAT-AP/releases/3.0.1/).
-- **JSON-LD 1.1** — [JSON-LD 1.1](https://www.w3.org/TR/json-ld11/).
-- **ODRL** — [ODRL Information Model 2.2](https://www.w3.org/TR/odrl-model/).
-- **SHACL** — [Shapes Constraint Language](https://www.w3.org/TR/shacl/).
-- **RFC 2119** — [Key words for use in RFCs to Indicate Requirement Levels](https://www.rfc-editor.org/rfc/rfc2119).
-- **RFC 8174** — [Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words](https://www.rfc-editor.org/rfc/rfc8174).
-- **RFC 8615** — [Well-Known Uniform Resource Identifiers](https://www.rfc-editor.org/rfc/rfc8615).
-- **RFC 9110** — [HTTP Semantics](https://www.rfc-editor.org/rfc/rfc9110).
+- **DSP 2025-1-err2** - [Dataspace Protocol 2025-1, errata revision 2](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/).
+- **DCAT 3** - [Data Catalog Vocabulary (DCAT), Version 3](https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/).
+- **DCAT-AP 3.0.1** - [DCAT Application Profile for data portals in Europe, Version 3.0.1](https://semiceu.github.io/DCAT-AP/releases/3.0.1/).
+- **JSON-LD 1.1** - [JSON-LD 1.1](https://www.w3.org/TR/json-ld11/).
+- **ODRL** - [ODRL Information Model 2.2](https://www.w3.org/TR/odrl-model/).
+- **SHACL** - [Shapes Constraint Language](https://www.w3.org/TR/shacl/).
+- **RFC 2119** - [Key words for use in RFCs to Indicate Requirement Levels](https://www.rfc-editor.org/rfc/rfc2119).
+- **RFC 8174** - [Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words](https://www.rfc-editor.org/rfc/rfc8174).
+- **RFC 6906** - [The `profile` Link Relation Type](https://www.rfc-editor.org/rfc/rfc6906).
+- **RFC 8615** - [Well-Known Uniform Resource Identifiers](https://www.rfc-editor.org/rfc/rfc8615).
+- **RFC 9110** - [HTTP Semantics](https://www.rfc-editor.org/rfc/rfc9110).
 
 ## Appendix C. Informative references
 
-- **Materials Commons DCAT-AP GET Protocol Tier 0** — [Companion protocol](materials-commons-dcat-ap-get-protocol-tier-0.md).
+- **Materials Commons Tier 0** - [Companion protocol](materials-commons-dcat-ap-get-protocol-tier-0.md).
+- **The tier model** - [How the tiers relate](tiers.md).
