@@ -1,47 +1,51 @@
-# PROTOTYPE DRAFT FOR DISCUSSION: Materials Commons DCAT-AP GET Protocol Tier 0 (Public Catalogues)
+# Materials Commons Tier 0: Static DCAT-AP Catalogue
 
 ## Status of this document
 
-This document defines **Materials Commons DCAT-AP Get Protocol Tier 0**, an independent
-HTTPS protocol for discovery and retrieval of standards-conformant DCAT-AP
-3.0.1 catalogues of public datasets and services.
+**Early pre-release.** This document defines **Materials Commons Tier 0**, an
+independent HTTPS protocol for discovery and retrieval of standards-conformant
+DCAT-AP 3.0.1 catalogues. It is the entry level of the
+[Materials Commons tiers](tiers.md) and is stable enough to implement against,
+while remaining open to change until a release version.
 
-The discovery document and the catalogue are always public and always
-retrievable from static hosting. A distribution MAY gate its download behind a
-bearer token, as specified in Section 13.2. That option does not change the
-catalogue, which still describes everything it lists and still states where a
-caller obtains a token. It does change where the bytes can live: a gated
-download has to be served by something that validates a token, which static
-hosting cannot do. What it still does not need is a connector.
+Tier 0 is a catalogue served as a file. The well-known discovery document
+locates it, the catalogue describes datasets and services, and every
+distribution carries a direct download URL.
+
+The catalogue and the downloads MAY each be gated behind a bearer token, as
+specified in Section 13. Gating is not a property of this tier: it is available
+at every tier, and it is an expectation placed on clients rather than an
+obligation placed on providers. What marks Tier 0 is that the catalogue is a
+document at a fixed location, with no catalogue endpoint and no pagination.
 
 This document is a normative specification. It profiles
 [DCAT-AP 3.0.1](https://semiceu.github.io/DCAT-AP/releases/3.0.1/), which is an
 application profile of
 [DCAT 3](https://www.w3.org/TR/2024/REC-vocab-dcat-3-20240822/). It also defines
 an HTTPS retrieval operation and a well-known discovery document; neither
-DCAT 3 nor DCAT-AP prescribes those protocol details. Gated download discovery
+DCAT 3 nor DCAT-AP prescribes those protocol details. Gated access discovery
 uses [RFC 9728](https://www.rfc-editor.org/rfc/rfc9728) OAuth 2.0 Protected
 Resource Metadata.
 
 The separately specified
-[Materials Commons DSP Tier 1](materials-commons-dsp-tier1.md) protocol may advertise a
+[Materials Commons Tier 1](materials-commons-dsp-tier1.md) protocol may advertise a
 service conforming to this document. Neither protocol requires the other for
 conformance.
 
 ## Abstract
 
-Materials Commons DCAT-AP Get Protocol Tier 0 provides non-authenticated access to a
-strict DCAT-AP 3.0.1 catalogue of datasets and services. It defines:
+Materials Commons Tier 0 provides discovery and retrieval of a strict
+DCAT-AP 3.0.1 catalogue of datasets and services. It defines:
 
 1. origin-level discovery at `/.well-known/mc-dcat-ap`;
 2. an absolute, implementation-selected HTTPS catalogue endpoint;
 3. a profiled `application/ld+json` response;
 4. a deterministic minimum graph for catalogues, publishers, datasets,
    distributions, checksums, and data services;
-5. public direct-download behavior;
-6. optional gated download behind an OAuth 2.0 bearer token, discovered through
-   RFC 9728 protected resource metadata;
-7. consistency rules for an optional Materials Commons DSP Tier 1 companion;
+5. direct-download behavior;
+6. optional gating of the catalogue or a download behind an OAuth 2.0 bearer
+   token, discovered through RFC 9728 protected resource metadata;
+7. consistency rules for an optional Materials Commons Tier 1 companion;
    and
 8. offline-capable DCAT-AP mandatory, range, and controlled-vocabulary
    validation.
@@ -68,13 +72,13 @@ This specification defines three conformance targets:
 
 - A **Discovery Service** exposes the well-known document in Section 6.
 - A **Catalogue Service** implements the HTTPS behavior in Section 7, the
-  distribution behavior in Section 13, and the transport and disclosure rules in
-  Section 15.
+  retrieval behavior in Section 13 including gated access where it is used, and
+  the transport and disclosure rules in Section 15.
 - A **Catalogue Representation** is the DCAT-AP RDF graph and JSON-LD
   serialization in Sections 8 through 12, and satisfies the companion
   consistency rules in Section 14 when a companion is advertised.
 
-A service claiming **Materials Commons DCAT-AP Get Protocol Tier 0 conformance** MUST
+A service claiming **Materials Commons Tier 0 conformance** MUST
 conform to all three targets.
 
 ### 1.3 Upstream conformance
@@ -93,9 +97,11 @@ tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0
 The identifier names the conformance profile and does not prescribe a
 deployment URL.
 
-The `tag:` URIs in this specification are provisional prototype
-identifiers (RFC 4151), marked (TBD) where they appear in prose, pending
-a working-group decision.
+The `tag:` URIs in this specification (RFC 4151) are marked (TBD) where they
+appear in prose. They still spell `prototype`, which the status of this
+document no longer does. Changing them invalidates every advertisement that
+carries them, so they are settled together with the document file names rather
+than piecemeal.
 
 When this specification is published at a stable public location, the profile
 IRI SHOULD dereference to this document or to authoritative metadata linking
@@ -120,9 +126,9 @@ the DSP JSON Schema, and redefining the protected DSP term is prohibited. See:
 
 Materials Commons resolves this standards conflict through two representations:
 
-1. **Materials Commons DSP Tier 1** remains schema-valid DSP and may carry
+1. **Materials Commons Tier 1** remains schema-valid DSP and may carry
    useful compatible metadata without claiming DCAT conformance.
-2. **Materials Commons DCAT-AP Get Protocol Tier 0**, defined here, provides a separate RDF
+2. **Materials Commons Tier 0**, defined here, provides a separate RDF
    graph that is fully validated as DCAT-AP 3.0.1.
 
 The two representations MAY describe the same resources and reference each
@@ -132,55 +138,62 @@ other, but they have independent conformance and deployment URLs.
 
 ### 2.1 Purpose
 
-This protocol is intended for catalogues whose metadata can be discovered
-without authentication. It gives generic DCAT-AP clients a predictable
-discovery operation and a directly retrievable, strictly validated JSON-LD
-representation.
+This protocol is intended for a publisher whose catalogue can be served as a
+file. It gives generic DCAT-AP clients a predictable discovery operation and a
+directly retrievable, strictly validated JSON-LD representation.
 
-Distributions are public by default. A Provider that has to restrict who
-downloads a file MAY gate the download URL without leaving this tier, as
-specified in Section 13.2, at the cost of needing a host that validates a
-token. The catalogue stays public either way, so the dataset remains findable
-and citable even where its bytes are not open.
+A publisher with one restricted dataset among many should not be pushed up a
+tier for it, so the catalogue and any download MAY be gated, per Section 13.
+A gate is all or nothing: it decides whether a caller gets the resource, and
+never what the resource contains. Catalogue content that varies by caller is a
+Tier 2 capability and stays out of this tier.
+
+The party publishing the catalogue need not be the party hosting the gated
+asset. A Tier 0 catalogue can point at bytes held and gated by somebody else,
+which is what lets a group with no infrastructure of its own share selectively.
 
 ### 2.2 Included capabilities
 
 Tier 0 includes:
 
-- unauthenticated well-known discovery;
+- well-known discovery, unauthenticated;
 - one or more discoverable catalogue endpoints per HTTPS origin;
 - direct `GET` and `HEAD` retrieval;
 - strict DCAT-AP 3.0.1 JSON-LD;
 - at least one dataset per catalogue, with an optional unconditional ODRL
   offer;
 - one or more downloadable distributions per Tier 0 dataset;
-- optional gated download of a distribution, declared with `dct:accessRights`
-  and discovered through RFC 9728 protected resource metadata;
+- optional gating of the catalogue or of a download, declared with
+  `dct:accessRights` and discovered through RFC 9728 protected resource
+  metadata;
 - EU File Type and IANA media-type identifiers;
 - a required licence per distribution;
 - optional byte size and SHA-256 checksum;
 - descriptions of the catalogue service and companion data services;
-- optional linkage to Materials Commons DSP Tier 1; and
+- optional linkage to Materials Commons Tier 1; and
 - normal HTTP caching and conditional requests.
 
 ### 2.3 Excluded capabilities
 
 The following are outside Tier 0:
 
-- authentication of the discovery document or the catalogue;
-- private, confidential, or caller-specific catalogue views;
+- a catalogue endpoint that answers a request, and pagination, which is what
+  [Tier 1](materials-commons-dsp-tier1.md) adds;
+- authentication of the well-known discovery document, which stays public so
+  that the gate itself remains discoverable;
+- caller-specific catalogue views, meaning content that varies with who asks;
 - catalogue mutation;
 - a query or filtering language;
 - required pagination;
 - content negotiation for non-JSON-LD RDF syntaxes;
 - non-HTTPS distribution protocols;
-- any policy evaluation, negotiation of terms, or caller-dependent decision
-  beyond admitting or refusing a token at the download; and
+- any policy evaluation or negotiation of terms, and any caller-dependent
+  decision beyond admitting or refusing a token at the gate; and
 - DSP negotiation or transfer-process behavior.
 
-A Provider MAY offer such capabilities separately. They MUST NOT be required
-to retrieve a Tier 0 discovery document or catalogue, nor to retrieve a
-distribution that is not gated under Section 13.2.
+A Provider MAY offer such capabilities separately. They MUST NOT be required to
+retrieve a Tier 0 discovery document, nor to retrieve a catalogue or
+distribution that is not gated under Section 13.
 
 ## 3. Terminology
 
@@ -201,15 +214,17 @@ For this specification:
   entry. `GET` on that URL returns one Catalogue Representation.
 - **Catalogue service** means the `dcat:DataService` describing the Catalogue
   endpoint itself.
-- **DSP companion** means an optional Materials Commons DSP Tier 1 Provider
+- **DSP companion** means an optional Materials Commons Tier 1 Provider
   describing the same datasets.
 - **Snapshot** means one internally consistent Catalogue Representation and
   the source metadata used to construct it.
-- **Gated distribution** means a distribution whose download URL requires an
-  OAuth 2.0 bearer token, as specified in Section 13.2.
+- **Gated resource** means a Catalogue endpoint or a distribution download URL
+  that requires an OAuth 2.0 bearer token, as specified in Section 13.2.
 - **Authorization server** means the OAuth 2.0 issuer named in the protected
-  resource metadata of a gated distribution. It need not be operated by the
+  resource metadata of a gated resource. It need not be operated by the
   Provider.
+- **Asset host** means whoever serves a gated resource. It need not be the
+  Provider either.
 
 ## 4. Normative namespaces and identifiers
 
@@ -323,7 +338,7 @@ tag:materialscommons.eu,2026:mc-dcat-ap/prototype-tier-0
 
 `endpoint` MUST NOT contain user information, a query, or a fragment.
 `dspVersionDiscovery`, when present, MUST end in
-`/.well-known/dspace-version` and identify a Materials Commons DSP Tier 1
+`/.well-known/dspace-version` and identify a Materials Commons Tier 1
 companion.
 
 Two entries MUST NOT have the same pair of `profile` and `catalogueId`.
@@ -378,8 +393,10 @@ HEAD <catalogue-endpoint>
 `GET` MUST return `200 OK` and the Catalogue Representation. `HEAD` MUST
 return the same representation headers without a body.
 
-The endpoint MUST be public and MUST NOT require credentials, cookies, tokens,
-or prior DSP negotiation.
+The endpoint MUST NOT require cookies, a session, or prior DSP negotiation. It
+MAY require a bearer token, in which case Section 13.2 governs and the `401`
+challenge is what a client follows. Every caller it admits MUST receive the
+same Catalogue Representation.
 
 ### 7.2 Media type
 
@@ -407,12 +424,15 @@ A client SHOULD send `Accept: application/ld+json`. A Provider MAY return
 |---:|---|
 | `200 OK` | Successful retrieval |
 | `304 Not Modified` | Conditional request matched cached representation |
+| `401 Unauthorized` | Gated Catalogue endpoint, with the Section 13.2 challenge |
+| `403 Forbidden` | Valid token without the required authorization |
 | `406 Not Acceptable` | Requested representations exclude JSON-LD |
 | `500 Internal Server Error` | No valid snapshot can be emitted |
 | `503 Service Unavailable` | Catalogue temporarily unavailable |
 
-The Catalogue endpoint MUST NOT return `401` or `403` merely because
-authorization is absent. A gated download may, under Section 13.2.
+An ungated Catalogue endpoint MUST NOT return `401` or `403` merely because
+authorization is absent. A gated one MUST carry the Section 13.2 challenge
+with its `401` so that a client can reach the authorization server.
 
 ### 7.4 Caching and CORS
 
@@ -551,7 +571,7 @@ The rights statement is carried by `dct:license`, REQUIRED by Section 10.1. An
 offer expresses unconditional technical access only; it does not replace
 licence, copyright, attribution, citation, or ethical-use metadata.
 
-A Provider that also exposes a Materials Commons DSP Tier 1 companion carries
+A Provider that also exposes a Materials Commons Tier 1 companion carries
 an offer regardless, and that offer carries a `use` permission, because the DSP
 JSON Schema requires `hasPolicy` on every Dataset and requires every Offer to
 carry a rule. Section 14 then applies and the two representations MUST agree.
@@ -567,11 +587,11 @@ Each Tier 0 dataset MUST have one or more distributions, each with:
 | `rdf:type` | `1..*` | Includes `dcat:Distribution` |
 | `dct:format` | `1` | EU File Type concept IRI typed `dct:MediaTypeOrExtent` |
 | `dcat:mediaType` | `1` | IANA media-type IRI typed `dct:MediaType` |
-| `dcat:accessURL` | `1` | Direct HTTPS URL, public unless gated under Section 13.2 |
+| `dcat:accessURL` | `1` | Direct HTTPS URL, ungated unless Section 13.2 applies |
 | `dcat:downloadURL` | `1` | Same direct HTTPS URL |
 | `dct:license` | `1` | IRI of a published licence, typed `dct:LicenseDocument` |
 | `dcat:accessService` | `0..1` | Data service that actually supplies access |
-| `dct:accessRights` | `0..1` | Section 13.2 marker for a gated download; extension, see below |
+| `dct:accessRights` | `0..1` | Section 13.2 marker for a gated download, extension, see below |
 | `dcat:byteSize` | `0..1` | Non-negative integer |
 | `spdx:checksum` | `0..1` | Section 10.3 checksum |
 
@@ -615,7 +635,7 @@ Another representation MAY be used only when both an applicable EU File Type
 concept and IANA media-type IRI are supplied.
 
 Distributions of one dataset MUST have distinct `dct:format` values, so that a
-consumer can select between them. Materials Commons DSP Tier 1 requires the
+consumer can select between them. Materials Commons Tier 1 requires the
 same of its DSP `format` values.
 
 The graph MUST explicitly assert the selected format resource as a
@@ -676,17 +696,17 @@ identify a machine-readable API description.
 Each standards IRI used by such a service MUST be asserted as a
 `dct:Standard`.
 
-### 11.3 Materials Commons DSP Tier 1 companion
+### 11.3 Materials Commons Tier 1 companion
 
 When a DSP companion exists:
 
 - the well-known discovery entry SHOULD contain `dspVersionDiscovery`;
 - the catalogue MUST include the DSP access service as a `dcat:DataService`;
-- that service's `dct:conformsTo` MUST include the Materials Commons DSP Tier 1
+- that service's `dct:conformsTo` MUST include the Materials Commons Tier 1
   profile IRI, asserted as a `dct:Standard`;
 - that service's `dct:conformsTo` MUST NOT include the DSP specification IRI,
   because a Tier 1 Provider makes no DSP conformance claim. See **Materials
-  Commons DSP Tier 1, Sections 1.3 and 8.6**;
+  Commons Tier 1, Sections 1.3 and 8.6**;
 - its `dcat:endpointURL` MUST be the discovered DSP version base as an RDF IRI;
   and
 - `dcat:servesDataset` MUST identify the datasets available through DSP.
@@ -696,7 +716,7 @@ expect contract negotiation or a transfer process at that endpoint, and MUST
 retrieve the bytes from the distribution's own download URL.
 
 The DSP catalogue reciprocally advertises this Catalogue service using the
-mechanism in **Materials Commons DSP Tier 1, Section 9**.
+mechanism in **Materials Commons Tier 1, Section 9**.
 
 The DCAT-AP graph MUST use an IRI-valued `dcat:endpointURL`, even though the DSP
 serialization of its own DataService uses a JSON string. This independent
@@ -738,48 +758,56 @@ A Provider MUST NOT emit a knowingly invalid graph with the DCAT-AP profile
 media type. If no valid snapshot is available, it MUST fail the request with
 `500` or `503` rather than weaken or omit mandatory validation.
 
-## 13. Distribution behavior
+## 13. Retrieval behavior
 
-### 13.1 Public distributions
+### 13.1 Ungated retrieval
 
-A distribution is public unless it is gated under Section 13.2. The direct
-`dcat:downloadURL` of a public distribution:
+A resource is ungated unless Section 13.2 applies to it. An ungated Catalogue
+endpoint or `dcat:downloadURL`:
 
 - MUST support unauthenticated `GET`;
 - MUST support `HEAD` with matching metadata and no body;
 - MUST return the advertised media type;
 - MUST return `Content-Length` when known;
-- SHOULD support byte ranges;
+- SHOULD support byte ranges, where the resource is a download;
 - SHOULD provide `ETag`, `Last-Modified`, or both; and
 - MUST return ordinary HTTP errors when unavailable.
 
 Replacing a representation does not automatically update publisher-supplied
 size or checksum metadata. The Provider SHOULD update the catalogue promptly.
 
-### 13.2 Gated distributions
+### 13.2 Gated access
 
-A Provider MAY gate the download of a distribution behind an OAuth 2.0 bearer
-token. Gating is a property of the download alone. Three artefacts are
-involved and they do not have the same hosting requirements:
+A Provider MAY gate a Catalogue endpoint, a `dcat:downloadURL`, or both, behind
+an OAuth 2.0 bearer token. Gating is optional at every tier of the
+[Materials Commons tiers](tiers.md) and distinguishes none of them. A Provider
+is never required to gate anything. What this section fixes is the exchange a
+client has to be able to follow when it meets a gate, so that a gate placed by
+one participant does not become a private arrangement another cannot use.
+
+Three artefacts are involved and they do not share hosting requirements:
 
 | Artefact | Static hosting |
 |---|---|
-| The catalogue document and the discovery document | Yes, unchanged by this section |
+| The well-known discovery document | Yes, and it MUST stay ungated |
 | The protected resource metadata described below | Yes, it is a fixed JSON file |
-| The gated download itself | No, it has to answer `401` and validate a token |
+| A gated catalogue or download | No, it has to answer `401` and validate a token |
 
-A publisher choosing `RESTRICTED` therefore needs the bytes behind something
-that checks a token. It does not need a connector, and that is what keeps this
-capability at Tier 0.
+A Provider that gates nothing serves all three statically. A Provider that
+gates something needs that resource behind a token check. Neither case needs a
+connector, which is why gating changes no tier.
 
-A gated distribution MUST satisfy all of the following.
+Gated access MUST satisfy all of the following.
 
-**Declaration.** Its dataset MUST carry `dct:accessRights` equal to
+**Declaration.** A dataset with a gated distribution MUST carry
+`dct:accessRights` equal to
 `http://publications.europa.eu/resource/authority/access-right/RESTRICTED`,
 per Section 9.3. The distribution itself MAY carry the same statement under
-the extension rule in Section 10.1.
+the extension rule in Section 10.1. A gated Catalogue endpoint cannot declare
+itself in a document a caller has yet to obtain, so the `401` challenge below
+is the only declaration available for it.
 
-**Challenge.** A request to the `dcat:downloadURL` without an acceptable token
+**Challenge.** A request to a gated resource without an acceptable token
 MUST return `401 Unauthorized` with a `WWW-Authenticate: Bearer` challenge
 carrying the `resource_metadata` parameter defined in
 [RFC 9728, Section 5.1](https://www.rfc-editor.org/rfc/rfc9728#section-5.1):
@@ -810,19 +838,25 @@ host has to serve a dot-directory for it to be reachable; on GitHub Pages, for
 example, that needs a `.nojekyll` marker. Nothing in this section requires the
 Provider to run an authorization server.
 
-**Download.** A request carrying an acceptable bearer token MUST return the
+**Retrieval.** A request carrying an acceptable bearer token MUST return the
 representation with the same HTTP behavior as Section 13.1. An unacceptable
 token MUST return `401`, and a valid token lacking the required authorization
 MUST return `403 Forbidden`, following
 [RFC 6750](https://www.rfc-editor.org/rfc/rfc6750).
+
+**A gate decides access, never content.** A gated Catalogue endpoint MUST
+return the same Catalogue Representation to every caller it admits. Varying the
+datasets or the metadata by caller identity is a Tier 2 capability and is
+excluded here by Section 2.3.
 
 **Neither the authorization server nor the asset host need belong to the
 publisher.** RFC 9728 names an issuer; it does not require that issuer to be
 operated by whoever holds the bytes. A third party hosting the files can
 therefore accept a token carrying a claim the publisher controls, and the
 publisher decides who is in the group without hosting anything itself. That is
-how a group with no file server of its own publishes restricted data, and it
-is the reason this capability sits at Tier 0 rather than above it.
+how a group with no file server of its own publishes restricted data, and it is
+why restricting one dataset among many moves a publisher no further up the
+ladder.
 
 Whether current academic repositories can act as an RFC 9728 protected
 resource against an external authorization server is **unverified**. Several
@@ -833,16 +867,15 @@ not satisfiable with the service as it stands. This is tracked as an open
 question and no specific service is claimed either way here.
 
 **What gating is not.** Admitting or refusing a token is the only
-caller-dependent decision Tier 0 defines. There is no policy evaluation, no
-negotiation of terms, and no caller-dependent catalogue content. A deployment
-needing any of those is at a higher tier.
+caller-dependent decision Tier 0 defines. There is no policy evaluation and no
+negotiation of terms. A deployment needing either is at a higher tier.
 
-The catalogue MUST describe a gated distribution as completely as a public
+The catalogue MUST describe a gated distribution as completely as an ungated
 one, including its licence, format, media type, and checksum where known. A
 caller who cannot obtain a token still learns that the dataset exists, what it
 contains, and whom to ask.
 
-## 14. Synchronization with a DSP companion
+## 14. Synchronization with a Tier 1 companion
 
 When the same publication is offered through both Materials Commons protocols,
 the following MUST agree for the same snapshot:
@@ -853,21 +886,16 @@ the following MUST agree for the same snapshot:
 - distribution identifiers;
 - offers and their policies, where present;
 - access and download URLs;
+- access rights, where stated;
 - EU File Type and IANA media-type IRIs;
 - byte size and checksum when supplied; and
 - dataset membership of each shared service.
 
-A gated distribution has no DSP Tier 1 counterpart. Materials Commons DSP
-Tier 1 requires every distribution to be retrievable without credentials, and
-its Section 9.5 requires the companion and the DSP catalogue to carry one
-identical catalogue value. A catalogue advertised as a DSP Tier 1 companion
-MUST therefore contain no gated distribution.
+Gated distributions need no special treatment here. Materials Commons Tier 1
+permits gating on the same terms as this document, so one catalogue covers
+gated and ungated datasets together and both protocols describe it identically.
 
-A Provider holding both kinds publishes two catalogues, each with its own
-`catalogueId` and its own discovery entry, as Section 6.2 already permits.
-Only the ungated one is advertised as a DSP companion.
-
-Where the companion is advertised through Materials Commons DSP Tier 1, that
+Where the companion is advertised through Materials Commons Tier 1, that
 profile's Section 9.5 governs, and it requires the two representations to share
 one Common catalogue value. This section states the fields that MUST agree in
 every case, including where no DSP companion is advertised and Section 9.5
@@ -879,20 +907,24 @@ MUST NOT be deliberately published.
 
 ## 15. Security and privacy
 
-Discovery and the catalogue are public. A Provider MUST NOT vary their
-membership or content by caller identity or credentials, whether or not any
-distribution is gated. Distributions are public unless Section 13.2 applies.
+The well-known discovery document is public. The catalogue and the downloads
+are public unless Section 13.2 applies to them. Whatever a Provider gates, it
+MUST NOT vary the membership or the content of a catalogue by caller identity
+or credentials.
 
 All traffic MUST use HTTPS with certificate and hostname validation. Responses
 MUST NOT expose local paths, database identifiers, private network addresses,
 credentials, access tokens, stack traces, or private participant data.
 
-A gated download sees a bearer token. The Provider MUST validate it against
-the keys of the authorization server named in its own protected resource
-metadata, MUST reject a token issued for another resource, MUST NOT log the
-token, and MUST NOT forward it anywhere. Because the catalogue reveals that a
-dataset is restricted and who issues tokens for it, a Provider MUST NOT place
-anything confidential in catalogue metadata and rely on the gate to hide it.
+A gated resource sees a bearer token. Whoever serves it MUST validate the token
+against the keys of the authorization server named in its own protected
+resource metadata, MUST reject a token issued for another resource, MUST NOT
+log the token, and MUST NOT forward it anywhere.
+
+An ungated catalogue reveals that a dataset is restricted and who issues tokens
+for it. A Provider MUST NOT place anything confidential in such a catalogue and
+rely on the download gate to hide it. Gating the catalogue as well is the
+option available where the metadata itself is sensitive.
 
 Clients MUST treat all discovered endpoints and RDF IRIs as untrusted input.
 Automatic dereferencing SHOULD enforce HTTPS, redirect limits, response-size
@@ -912,8 +944,9 @@ series, catalogue records, and identifiers.
 Extensions MUST NOT:
 
 - change the meaning of a required member;
-- make retrieval of the discovery document or the catalogue conditional;
-- gate a download by any mechanism other than Section 13.2;
+- make retrieval of the well-known discovery document conditional;
+- gate a catalogue or a download by any mechanism other than Section 13.2;
+- make catalogue content depend on the caller;
 - replace a direct download URL with a landing page;
 - violate DCAT-AP cardinality, range, or controlled-vocabulary rules;
 - use the Tier 0 profile IRI for a different protocol version; or
@@ -935,9 +968,11 @@ defines for itself. Section 10.1 states its restrictions.
 
 ### 17.2 Catalogue endpoint
 
-- [ ] `GET` and `HEAD` are unauthenticated.
+- [ ] `GET` and `HEAD` are unauthenticated, or gated under Section 13.2 and
+      nothing else.
 - [ ] Successful `GET` uses the exact profiled JSON-LD media type.
 - [ ] The response is valid JSON-LD and RDF.
+- [ ] Every admitted caller receives the same representation.
 - [ ] Cache validators and wildcard CORS are provided.
 - [ ] Invalid graphs are not served under the conformance media type.
 
@@ -957,20 +992,19 @@ defines for itself. Section 10.1 states its restrictions.
 - [ ] Any `dct:accessRights` value comes from the EU Access Right authority,
       is asserted as a `skos:Concept`, and is not `NON_PUBLIC`.
 
-### 17.4 Gated downloads, where used
+### 17.4 Gated access, where used
 
 - [ ] Every dataset with a gated distribution carries `RESTRICTED` on the
       Dataset.
-- [ ] An untokened request to a gated download returns `401` with a
+- [ ] An untokened request to a gated resource returns `401` with a
       `WWW-Authenticate: Bearer` challenge carrying `resource_metadata`.
 - [ ] The named metadata URL is public, is derived from the resource
       identifier per RFC 9728, and carries `resource` and a non-empty
       `authorization_servers`.
 - [ ] A valid token returns the representation; an invalid one returns `401`
       and an insufficient one `403`.
-- [ ] The catalogue and the discovery document remain unauthenticated.
-- [ ] A catalogue advertised as a DSP Tier 1 companion contains no gated
-      distribution.
+- [ ] The well-known discovery document remains unauthenticated.
+- [ ] A gated catalogue returns identical content to every admitted caller.
 
 ### 17.5 Validation and companion consistency
 
@@ -1075,7 +1109,7 @@ defines for itself. Section 10.1 states its restrictions.
   "service": [{
     "@id": "https://provider.example/services/mc-dcat-ap",
     "@type": "DataService",
-    "title": "Public Materials Commons DCAT-AP catalogue",
+    "title": "Materials Commons DCAT-AP catalogue",
     "endpointURL": "https://provider.example/mc-dcat-ap/3.0.1/",
     "conformsTo": [
       {
@@ -1160,5 +1194,5 @@ catalogue share a host or an operator.
 ## Appendix C. Informative references
 
 - **DSP 2025-1-err2** - [Dataspace Protocol 2025-1, errata revision 2](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err2/).
-- **Materials Commons DSP Tier 1** - [Companion protocol](materials-commons-dsp-tier1.md).
+- **Materials Commons Tier 1** - [Companion protocol](materials-commons-dsp-tier1.md).
 - **The tier model** - [How the tiers relate](tiers.md).

@@ -1,8 +1,8 @@
 [project]
-site_name = "Materials Commons DSP Tiers"
+site_name = "Materials Commons Tiers"
 repo_url = "https://github.com/MaterialsCommons-Staging/mc-dsp-tiers"
 site_url = "https://materialscommons-staging.github.io/mc-dsp-tiers/"
-site_description = "Materials Commons tiered profiles of the Dataspace Protocol (DSP), DCAT-3 and DCAT-AP"
+site_description = "Four levels of participation in the Materials Commons data space, built on DCAT-AP, DCAT-3 and the Dataspace Protocol"
 site_author = "Materials Commons Contributors"
 edit_uri = "edit/main/docs/"
 repo_name = "MaterialsCommons-Staging/mc-dsp-tiers"
@@ -13,8 +13,8 @@ extra_css = ["stylesheets/extra.css"]
 nav = [
     { "Home" = "index.md" },
     { "Tier model" = "tiers.md" },
-    { "Tier 0 (DCAT-AP GET)" = "materials-commons-dcat-ap-get-protocol-tier-0.md" },
-    { "Tier 1 (DSP)" = "materials-commons-dsp-tier1.md" },
+    { "Tier 0 (catalogue file)" = "materials-commons-dcat-ap-get-protocol-tier-0.md" },
+    { "Tier 1 (catalogue endpoint)" = "materials-commons-dsp-tier1.md" },
     { "Tier 2 (outline)" = "materials-commons-dsp-tier2.md" },
     { "Tier 3 (outline)" = "materials-commons-dsp-tier3.md" },
 ]
